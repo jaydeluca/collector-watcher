@@ -1,0 +1,83 @@
+name: Monitor Collector Components
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allow manual triggers
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout collector-watcher
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout opentelemetry-collector-contrib
+        uses: actions/checkout@v4
+        with:
+          repository: open-telemetry/opentelemetry-collector-contrib
+          path: opentelemetry-collector-contrib
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Run collector watcher
+        id: scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          uv run python -m collector_watcher.runner \
+            opentelemetry-collector-contrib \
+            data/inventory.yaml \
+            --output-changes=changes.json \
+            --create-issues \
+            --github-repo=${{ github.repository }}
+
+      - name: Check for inventory changes
+        id: check_changes
+        run: |
+          if git diff --quiet data/inventory.yaml; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update component inventory
+          branch: inventory-update-${{ github.run_id }}
+          delete-branch: true
+          title: "Update component inventory"
+          body: |
+            ## Component Inventory Update
+
+            Automated scan detected changes in OpenTelemetry Collector components.
+
+            - GitHub issues have been created for individual changes
+            - Changes artifact available in workflow run
+      - name: Upload changes artifact
+        if: steps.check_changes.outputs.has_changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: component-changes
+          path: changes.json
+          retention-days: 30

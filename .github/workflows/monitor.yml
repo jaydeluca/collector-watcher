@@ -28,14 +28,14 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4
-        with:
-          enable-cache: true
 
       - name: Set up Python
         run: uv python install
+        working-directory: ${{ github.workspace }}
 
       - name: Install dependencies
         run: uv sync
+        working-directory: ${{ github.workspace }}
 
       - name: Run collector watcher
         id: scan
@@ -44,7 +44,7 @@ jobs:
         run: |
           uv run python -m collector_watcher.runner \
             opentelemetry-collector-contrib \
-            data/inventory.yaml \
+            data/inventory \
             --output-changes=changes.json \
             --create-issues \
             --github-repo=${{ github.repository }}
@@ -52,7 +52,7 @@ jobs:
       - name: Check for inventory changes
         id: check_changes
         run: |
-          if git diff --quiet data/inventory.yaml; then
+          if git diff --quiet data/inventory/; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT

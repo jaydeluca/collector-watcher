@@ -14,17 +14,17 @@ from .scanner import ComponentScanner
 class CollectorWatcher:
     """Orchestrates the collector watching workflow."""
 
-    def __init__(self, repo_path: str, inventory_path: str = "data/inventory.yaml"):
+    def __init__(self, repo_path: str, inventory_dir: str = "data/inventory"):
         """
         Initialize the watcher.
 
         Args:
             repo_path: Path to the collector-contrib repository
-            inventory_path: Path to store the inventory
+            inventory_dir: Directory to store inventory files
         """
         self.repo_path = Path(repo_path)
         self.scanner = ComponentScanner(repo_path)
-        self.inventory_manager = InventoryManager(inventory_path)
+        self.inventory_manager = InventoryManager(inventory_dir)
 
     def run_scan(self, detect_changes: bool = True) -> list[Change] | None:
         """
@@ -79,7 +79,7 @@ class CollectorWatcher:
 
         # Save new inventory
         self.inventory_manager.save_inventory(new_inventory)
-        print(f"\nInventory saved to: {self.inventory_manager.inventory_path}")
+        print(f"\nInventory saved to: {self.inventory_manager.inventory_dir}/")
 
         return changes
 
@@ -87,7 +87,7 @@ class CollectorWatcher:
 def main():
     """CLI entry point for the watcher."""
     if len(sys.argv) < 2:
-        print("Usage: python -m collector_watcher.runner <repo_path> [inventory_path] [OPTIONS]")
+        print("Usage: python -m collector_watcher.runner <repo_path> [inventory_dir] [OPTIONS]")
         print("\nOptions:")
         print("  --output-changes=FILE    Write changes to JSON file")
         print(
@@ -106,7 +106,7 @@ def main():
         sys.exit(1)
 
     repo_path = sys.argv[1]
-    inventory_path = "data/inventory.yaml"
+    inventory_dir = "data/inventory"
     output_changes_file = None
     create_issues = False
     github_repo = "jaydeluca/collector-watcher"
@@ -123,10 +123,10 @@ def main():
         elif arg == "--dry-run":
             dry_run = True
         elif not arg.startswith("--"):
-            inventory_path = arg
+            inventory_dir = arg
 
     try:
-        watcher = CollectorWatcher(repo_path, inventory_path)
+        watcher = CollectorWatcher(repo_path, inventory_dir)
         changes = watcher.run_scan(detect_changes=True)
 
         # Write changes to file if requested

@@ -84,35 +84,44 @@ uv run ruff format src/ tests/
 
 ## Inventory Format
 
-The inventory is stored as YAML in `data/inventory.yaml`:
+The inventory is stored as separate YAML files per component type in `data/inventory/`:
+
+```
+data/inventory/
+├── connector.yaml
+├── exporter.yaml
+├── extension.yaml
+├── processor.yaml
+└── receiver.yaml
+```
+
+Each file contains:
 
 ```yaml
 repository: opentelemetry-collector-contrib
+component_type: receiver
 components:
-  connector:
-    - name: countconnector
-      metadata:
-        type: count
-        status:
-          class: connector
-          stability:
-            alpha: [logs_to_metrics, traces_to_metrics]
-  exporter: [...]
-  extension: [...]
-  processor: [...]
-  receiver: [...]
+  - name: otlpreceiver
+    metadata:
+      type: otlp
+      status:
+        stability:
+          stable: [metrics, traces]
 ```
 
-Timestamps and commit SHAs are intentionally excluded so the file only changes when component metadata or existence changes, making git diffs meaningful.
+Timestamps and commit SHAs are intentionally excluded so files only change when component metadata or existence changes, making git diffs meaningful. Splitting by component type keeps file sizes manageable.
 
 ## GitHub Actions
 
-The project includes a CI workflow that runs on all pull requests:
+### CI Workflow
+Runs on all pull requests:
 - Linting with ruff
 - Code formatting checks
 - Type checking with mypy
 - Test suite with coverage reporting
 
-## License
-
-Apache 2.0
+### Monitoring Workflow
+Runs daily to monitor collector-contrib repository:
+- Scans opentelemetry-collector-contrib for changes
+- Creates GitHub issues for detected changes
+- Opens PR with updated inventory files if changes detected

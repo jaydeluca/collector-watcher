@@ -14,7 +14,6 @@ components:
         - traces_to_metrics
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - akats7
@@ -53,7 +52,6 @@ components:
         - traces_to_metrics
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - marctc
@@ -69,11 +67,22 @@ components:
         - traces_to_traces
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - akats7
         - fatsheep9146
+- name: forwardconnector
+  metadata:
+    type: forward
+    status:
+      class: connector
+      stability:
+        beta:
+        - logs_to_logs
+        - metrics_to_metrics
+        - traces_to_traces
+      distributions:
+      - core
 - name: grafanacloudconnector
   metadata:
     type: grafanacloud
@@ -102,7 +111,6 @@ components:
         - logs_to_traces
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - ChrsMark
@@ -120,7 +128,6 @@ components:
         - traces_to_traces
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - bogdandrutu
@@ -136,7 +143,6 @@ components:
         - traces_to_traces
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - mwear
@@ -156,7 +162,6 @@ components:
         - traces_to_metrics
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - mapno
@@ -213,3 +218,17 @@ components:
         - greatestusername
         - shalper2
         - crobert-1
+- name: xconnector
+  metadata:
+    type: xconnector
+    status:
+      class: pkg
+      stability:
+        development:
+        - profiles
+      codeowners:
+        active:
+        - mx-psi
+        - dmathieu
+      distributions:
+      - core

@@ -1,25 +1,33 @@
 # Collector Watcher
 
 Automated monitoring system for OpenTelemetry Collector components. Tracks changes in component structure and metadata
-across the opentelemetry-collector-contrib repository.
+across both the opentelemetry-collector (core) and opentelemetry-collector-contrib repositories.
 
 ## Overview
 
 Collector Watcher scans OpenTelemetry Collector components and detects changes in their metadata. When run, it:
 - Discovers all collector components (connectors, exporters, extensions, processors, receivers)
+- Scans both core and contrib repositories and merges component data
 - Parses component metadata from metadata.yaml files
 - Detects changes from previous scans
-- Optionally creates GitHub issues for detected changes
+- Creates GitHub issues for detected changes
+- Generates documentation pages for opentelemetry.io
 - Maintains historical inventory in YAML format
 
 ## Usage
 
 ### Basic Scan
 
-Run a scan of the collector-contrib repository:
+Run a scan of the collector-contrib repository only:
 
 ```bash
 uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib
+```
+
+Or scan both core and contrib repositories (recommended):
+
+```bash
+uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --core-repo=/path/to/opentelemetry-collector
 ```
 
 ### Export Changes
@@ -27,7 +35,7 @@ uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contr
 Export detected changes to JSON:
 
 ```bash
-uv run python -m collector_watcher.runner /path/to/repo --output-changes=changes.json
+uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --output-changes=changes.json
 ```
 
 ### Create GitHub Issues
@@ -37,10 +45,35 @@ Create GitHub issues for detected changes (requires `GITHUB_TOKEN` environment v
 ```bash
 # Dry-run mode (test without creating issues)
 export GITHUB_TOKEN=your_token
-uv run python -m collector_watcher.runner /path/to/repo --create-issues --dry-run
+uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --create-issues --dry-run
 
 # Create issues for real
-uv run python -m collector_watcher.runner /path/to/repo --create-issues --github-repo=owner/repo
+uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --create-issues --github-repo=owner/repo
+```
+
+### Generate Documentation
+
+Generate documentation pages and create a PR to opentelemetry.io:
+
+```bash
+uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --generate-docs --docs-repo=owner/repo
+```
+
+### Local Documentation Testing
+
+For local testing without creating PRs:
+
+```bash
+# 1. First scan repositories to update inventory
+uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core
+
+# 2. Generate documentation pages locally
+uv run python generate_docs_local.py
+
+# 3. Preview the documentation
+cd /path/to/opentelemetry.io
+hugo server
+# Open http://localhost:1313/docs/collector/components/
 ```
 
 ## Development
@@ -121,7 +154,8 @@ Runs on all pull requests:
 - Test suite with coverage reporting
 
 ### Monitoring Workflow
-Runs daily to monitor collector-contrib repository:
-- Scans opentelemetry-collector-contrib for changes
+Runs daily to monitor both core and contrib repositories:
+- Scans both opentelemetry-collector and opentelemetry-collector-contrib
+- Merges component data and detects changes
 - Creates GitHub issues for detected changes
 - Opens PR with updated inventory files if changes detected

@@ -77,6 +77,25 @@ class ComponentScanner:
         if path.name in ["internal", "testdata"]:
             return False
 
+        # Exclude test helpers, test modules, and experimental modules
+        if path.name.endswith("test"):
+            return False
+        if path.name.endswith("helper"):
+            return False
+
+        # Exclude common infrastructure/utility modules
+        excluded_prefixes = [
+            "encoding",
+            "observer",
+            "storage",
+            "extensionauth",
+            "extensioncapabilities",
+            "extensionmiddleware",
+            "opampcustommessages",
+        ]
+        if path.name in excluded_prefixes:
+            return False
+
         # Check for go.mod or .go files
         has_go_mod = (path / "go.mod").exists()
         has_go_files = any(path.glob("*.go"))

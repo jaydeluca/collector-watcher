@@ -386,6 +386,8 @@ components:
         gauge:
           value_type: int
           input_type: string
+        stability:
+          level: development
       aerospike.namespace.geojson.region_query_cells:
         description: Number of cell coverings for query region queried
         unit: '{cells}'
@@ -395,6 +397,8 @@ components:
           input_type: string
           monotonic: true
           aggregation_temporality: cumulative
+        stability:
+          level: development
       aerospike.namespace.geojson.region_query_false_positive:
         description: Number of points outside the region.
         unit: '{points}'
@@ -404,6 +408,8 @@ components:
           input_type: string
           monotonic: true
           aggregation_temporality: cumulative
+        stability:
+          level: development
       aerospike.namespace.geojson.region_query_points:
         description: Number of points within the region.
         unit: '{points}'
@@ -413,6 +419,8 @@ components:
           input_type: string
           monotonic: true
           aggregation_temporality: cumulative
+        stability:
+          level: development
       aerospike.namespace.geojson.region_query_requests:
         description: Number of geojson queries on the system since the uptime of the
           node.
@@ -423,6 +431,8 @@ components:
           input_type: string
           monotonic: true
           aggregation_temporality: cumulative
+        stability:
+          level: development
       aerospike.namespace.memory.free:
         description: Percentage of the namespace's memory which is still free
         unit: '%'
@@ -430,6 +440,8 @@ components:
         gauge:
           value_type: int
           input_type: string
+        stability:
+          level: development
       aerospike.namespace.memory.usage:
         description: Memory currently used by each component of the namespace
         unit: By
@@ -441,6 +453,8 @@ components:
           aggregation_temporality: cumulative
         attributes:
         - namespace_component
+        stability:
+          level: development
       aerospike.namespace.query.count:
         description: Number of query operations performed on the namespace
         unit: '{queries}'
@@ -454,6 +468,8 @@ components:
         - index_type
         - query_result
         - query_type
+        stability:
+          level: development
       aerospike.namespace.scan.count:
         description: Number of scan operations performed on the namespace
         unit: '{scans}'
@@ -466,6 +482,8 @@ components:
         attributes:
         - scan_result
         - scan_type
+        stability:
+          level: development
       aerospike.namespace.transaction.count:
         description: Number of transactions performed on the namespace
         unit: '{transactions}'
@@ -478,6 +496,8 @@ components:
         attributes:
         - transaction_result
         - transaction_type
+        stability:
+          level: development
       aerospike.node.connection.count:
         description: Number of connections opened and closed to the node
         unit: '{connections}'
@@ -490,6 +510,8 @@ components:
         attributes:
         - connection_op
         - connection_type
+        stability:
+          level: development
       aerospike.node.connection.open:
         description: Current number of open connections to the node
         unit: '{connections}'
@@ -501,6 +523,8 @@ components:
           aggregation_temporality: cumulative
         attributes:
         - connection_type
+        stability:
+          level: development
       aerospike.node.memory.free:
         description: Percentage of the node's memory which is still free
         unit: '%'
@@ -508,6 +532,8 @@ components:
         gauge:
           value_type: int
           input_type: string
+        stability:
+          level: development
       aerospike.node.query.tracked:
         description: Number of queries tracked by the system.
         unit: '{queries}'
@@ -517,6 +543,8 @@ components:
           input_type: string
           monotonic: true
           aggregation_temporality: cumulative
+        stability:
+          level: development
     resource_attributes:
       aerospike.namespace:
         description: Name of the Aerospike namespace
@@ -10731,6 +10759,7 @@ components:
       codeowners:
         active:
         - atoulme
+        - paulojmdias
         seeking_new: true
     metrics:
       ntp.offset:

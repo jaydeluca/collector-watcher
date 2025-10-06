@@ -1,0 +1,512 @@
+[
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.disk.available' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Minimum percentage of contiguous disk space free to the namespace across all devices",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      }
+    },
+    "new_value": {
+      "description": "Minimum percentage of contiguous disk space free to the namespace across all devices",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.disk.available"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.geojson.region_query_cells' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of cell coverings for query region queried",
+      "unit": "{cells}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Number of cell coverings for query region queried",
+      "unit": "{cells}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.geojson.region_query_cells"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.geojson.region_query_false_positive' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of points outside the region.",
+      "unit": "{points}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Number of points outside the region.",
+      "unit": "{points}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.geojson.region_query_false_positive"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.geojson.region_query_points' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of points within the region.",
+      "unit": "{points}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Number of points within the region.",
+      "unit": "{points}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.geojson.region_query_points"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.geojson.region_query_requests' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of geojson queries on the system since the uptime of the node.",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Number of geojson queries on the system since the uptime of the node.",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.geojson.region_query_requests"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.memory.free' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Percentage of the namespace's memory which is still free",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      }
+    },
+    "new_value": {
+      "description": "Percentage of the namespace's memory which is still free",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.memory.free"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.memory.usage' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Memory currently used by each component of the namespace",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "namespace_component"
+      ]
+    },
+    "new_value": {
+      "description": "Memory currently used by each component of the namespace",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "namespace_component"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.memory.usage"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.query.count' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of query operations performed on the namespace",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "index_type",
+        "query_result",
+        "query_type"
+      ]
+    },
+    "new_value": {
+      "description": "Number of query operations performed on the namespace",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "index_type",
+        "query_result",
+        "query_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.query.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.scan.count' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of scan operations performed on the namespace",
+      "unit": "{scans}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "scan_result",
+        "scan_type"
+      ]
+    },
+    "new_value": {
+      "description": "Number of scan operations performed on the namespace",
+      "unit": "{scans}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "scan_result",
+        "scan_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.scan.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.transaction.count' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of transactions performed on the namespace",
+      "unit": "{transactions}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "transaction_result",
+        "transaction_type"
+      ]
+    },
+    "new_value": {
+      "description": "Number of transactions performed on the namespace",
+      "unit": "{transactions}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "transaction_result",
+        "transaction_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.transaction.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.node.connection.count' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of connections opened and closed to the node",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_op",
+        "connection_type"
+      ]
+    },
+    "new_value": {
+      "description": "Number of connections opened and closed to the node",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_op",
+        "connection_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.node.connection.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.node.connection.open' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Current number of open connections to the node",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_type"
+      ]
+    },
+    "new_value": {
+      "description": "Current number of open connections to the node",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.node.connection.open"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.node.memory.free' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Percentage of the node's memory which is still free",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      }
+    },
+    "new_value": {
+      "description": "Percentage of the node's memory which is still free",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.node.memory.free"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.node.query.tracked' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of queries tracked by the system.",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Number of queries tracked by the system.",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.node.query.tracked"
+    }
+  }
+]

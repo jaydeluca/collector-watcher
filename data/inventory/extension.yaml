@@ -11,7 +11,6 @@ components:
         - extension
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - splunkericl
@@ -68,7 +67,6 @@ components:
         - extension
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - frzifus
@@ -86,7 +84,6 @@ components:
         - extension
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - frzifus
@@ -127,16 +124,6 @@ components:
         - dineshg13
         - mx-psi
         - songy23
-- name: encoding
-  metadata:
-    status:
-      codeowners:
-        active:
-        - atoulme
-        - dao-jun
-        - dmitryax
-        - MovieStoreGuy
-        - VihasMakwana
 - name: googleclientauthextension
   metadata:
     type: googleclientauth
@@ -165,7 +152,6 @@ components:
         - extension
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - VihasMakwana
@@ -180,8 +166,6 @@ components:
         - extension
       distributions:
       - contrib
-      - core
-      - k8s
       codeowners:
         active: []
         seeking_new: true
@@ -193,7 +177,8 @@ components:
       stability:
         development:
         - extension
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - mwear
@@ -211,7 +196,6 @@ components:
         - extension
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - atoulme
@@ -242,11 +226,20 @@ components:
         - extension
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - dmitryax
         - rakesh-garimella
+- name: memorylimiterextension
+  metadata:
+    type: memory_limiter
+    status:
+      class: extension
+      stability:
+        development:
+        - extension
+      distributions:
+      - core
 - name: oauth2clientauthextension
   metadata:
     type: oauth2client
@@ -257,21 +250,12 @@ components:
         - extension
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - pavankrish123
         emeritus:
         - jpkrohling
         seeking_new: true
-- name: observer
-  metadata:
-    status:
-      codeowners:
-        active:
-        - dmitryax
-        emeritus:
-        - rmfitzpatrick
 - name: oidcauthextension
   metadata:
     type: oidc
@@ -282,19 +266,12 @@ components:
         - extension
       distributions:
       - contrib
-      - k8s
       codeowners:
         seeking_new: true
         active:
         - asweet-confluent
         emeritus:
         - jpkrohling
-- name: opampcustommessages
-  metadata:
-    status:
-      codeowners:
-        active:
-        - evan-bradley
 - name: opampextension
   metadata:
     type: opamp
@@ -305,7 +282,6 @@ components:
         - extension
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - portertech
@@ -321,8 +297,6 @@ components:
         - extension
       distributions:
       - contrib
-      - core
-      - k8s
       codeowners:
         active:
         - MovieStoreGuy
@@ -334,7 +308,8 @@ components:
       stability:
         development:
         - extension
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - atoulme
@@ -361,22 +336,12 @@ components:
       stability:
         development:
         - extension
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - jerrytfleung
         - cheempz
-- name: storage
-  metadata:
-    status:
-      codeowners:
-        active:
-        - dmitryax
-        - atoulme
-        - swiatekm
-        - VihasMakwana
-        emeritus:
-        - djaglowski
 - name: sumologicextension
   metadata:
     type: sumologic
@@ -385,7 +350,8 @@ components:
       stability:
         alpha:
         - extension
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - rnishtala-sumo
@@ -397,3 +363,24 @@ components:
         - kasia-kujawa
         - mat-rumian
         - sumo-drosiek
+- name: xextension
+  metadata:
+    type: xextension
+    status:
+      class: extension
+      stability:
+        development:
+        - profiles
+      codeowners: null
+      distributions:
+      - core
+- name: zpagesextension
+  metadata:
+    type: zpages
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - core

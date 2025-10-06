@@ -26,6 +26,12 @@ jobs:
           repository: open-telemetry/opentelemetry-collector-contrib
           path: opentelemetry-collector-contrib
 
+      - name: Checkout opentelemetry-collector (core)
+        uses: actions/checkout@v4
+        with:
+          repository: open-telemetry/opentelemetry-collector
+          path: opentelemetry-collector
+
       - name: Install uv
         uses: astral-sh/setup-uv@v4
 
@@ -45,6 +51,7 @@ jobs:
           uv run python -m collector_watcher.runner \
             opentelemetry-collector-contrib \
             data/inventory \
+            --core-repo=opentelemetry-collector \
             --output-changes=changes.json \
             --create-issues \
             --github-repo=${{ github.repository }}

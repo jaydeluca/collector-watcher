@@ -2132,7 +2132,8 @@ components:
       stability:
         development:
         - metrics
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - dmitryax
@@ -4756,7 +4757,6 @@ components:
         - logs
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - andrzej-stencel
@@ -5216,7 +5216,6 @@ components:
         - logs
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - dmitryax
@@ -5436,7 +5435,8 @@ components:
       stability:
         development:
         - traces
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - adrielp
@@ -5913,8 +5913,6 @@ components:
         - logs
       distributions:
       - contrib
-      - core
-      - k8s
       codeowners:
         active:
         - dmitryax
@@ -5929,7 +5927,6 @@ components:
         - metrics
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - codeboten
@@ -6116,7 +6113,8 @@ components:
       stability:
         alpha:
         - metrics
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - heitorganzeli
@@ -6332,8 +6330,6 @@ components:
         - traces
       distributions:
       - contrib
-      - core
-      - k8s
       codeowners:
         active:
         - yurishkuro
@@ -6363,7 +6359,6 @@ components:
         - logs
       distributions:
       - contrib
-      - k8s
       codeowners:
         active: []
         emeritus:
@@ -6384,7 +6379,6 @@ components:
         - logs
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - dmitryax
@@ -6992,7 +6986,6 @@ components:
         - logs
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - dmitryax
@@ -7010,6 +7003,8 @@ components:
         active:
         - h0cheung
         - TylerHelmuth
+      distributions:
+      - contrib
 - name: k8sobjectsreceiver
   metadata:
     type: k8sobjects
@@ -7020,7 +7015,6 @@ components:
         - logs
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - dmitryax
@@ -7253,7 +7247,6 @@ components:
         - profiles
       distributions:
       - contrib
-      - core
       codeowners:
         active:
         - pavolloffay
@@ -7285,7 +7278,6 @@ components:
         - metrics
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - dmitryax
@@ -10585,6 +10577,21 @@ components:
         attributes: []
         stability:
           level: development
+- name: nopreceiver
+  metadata:
+    type: nop
+    status:
+      class: receiver
+      stability:
+        beta:
+        - logs
+        - metrics
+        - traces
+      distributions:
+      - core
+      codeowners:
+        active:
+        - evan-bradley
 - name: nsxtreceiver
   metadata:
     type: nsxt
@@ -11412,6 +11419,8 @@ components:
         active:
         - nslaughter
         - smithclay
+      distributions:
+      - contrib
 - name: otelarrowreceiver
   metadata:
     type: otelarrow
@@ -11424,7 +11433,6 @@ components:
         - traces
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - jmacd
@@ -11447,6 +11455,20 @@ components:
         active:
         - atoulme
         seeking_new: true
+- name: otlpreceiver
+  metadata:
+    type: otlp
+    status:
+      class: receiver
+      stability:
+        development:
+        - profiles
+        stable:
+        - logs
+        - metrics
+        - traces
+      distributions:
+      - core
 - name: podmanreceiver
   metadata:
     type: podman_stats
@@ -12181,7 +12203,8 @@ components:
       stability:
         development:
         - profiles
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - MovieStoreGuy
@@ -12196,8 +12219,6 @@ components:
         - metrics
       distributions:
       - contrib
-      - core
-      - k8s
       codeowners:
         active:
         - Aneurysm9
@@ -12956,7 +12977,6 @@ components:
         - metrics
       distributions:
       - contrib
-      - k8s
       codeowners:
         active:
         - dmitryax
@@ -16290,7 +16310,8 @@ components:
       stability:
         development:
         - metrics
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - atoulme
@@ -17361,6 +17382,20 @@ components:
         - startup_mode
         stability:
           level: development
+- name: xreceiver
+  metadata:
+    type: xreceiver
+    status:
+      class: pkg
+      stability:
+        development:
+        - profiles
+      codeowners:
+        active:
+        - mx-psi
+        - dmathieu
+      distributions:
+      - core
 - name: zipkinreceiver
   metadata:
     type: zipkin
@@ -17371,8 +17406,6 @@ components:
         - traces
       distributions:
       - contrib
-      - core
-      - k8s
       codeowners:
         active:
         - MovieStoreGuy

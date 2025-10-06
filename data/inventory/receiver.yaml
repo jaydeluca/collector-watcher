@@ -10731,6 +10731,7 @@ components:
       codeowners:
         active:
         - atoulme
+        - paulojmdias
         seeking_new: true
     metrics:
       ntp.offset:

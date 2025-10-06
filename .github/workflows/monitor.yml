@@ -71,9 +71,10 @@ jobs:
             ## Component Inventory Update
 
             Automated scan detected changes in OpenTelemetry Collector components.
+          add-paths: |
+            data/inventory/*.yaml
+            changes.json
 
-            - GitHub issues have been created for individual changes
-            - Changes artifact available in workflow run
       - name: Upload changes artifact
         if: steps.check_changes.outputs.has_changes == 'true'
         uses: actions/upload-artifact@v4

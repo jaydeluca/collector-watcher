@@ -216,7 +216,9 @@ def main():
         )
         print("\nOptions:")
         print("  --core-repo=PATH           Path to core collector repository (optional)")
-        print("  --dry-run                  Don't actually create PRs, just show what would be created")
+        print(
+            "  --dry-run                  Don't actually create PRs, just show what would be created"
+        )
         print("\nDocumentation Generation Options:")
         print("  --generate-docs            Generate documentation pages and create PR")
         print("  --docs-repo=OWNER/REPO     Docs repo (default: open-telemetry/opentelemetry.io)")

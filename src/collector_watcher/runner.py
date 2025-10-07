@@ -1,17 +1,14 @@
 """Main runner for collector watcher workflow."""
 
-import json
 import os
 import sys
 import tempfile
 from pathlib import Path
 
-from .detector import Change, ChangeDetector
 from .doc_generator import DocGenerator
 from .inventory import InventoryManager
 from .multi_repo_scanner import MultiRepoScanner
 from .pr_creator import PRCreator, generate_commit_message, generate_pr_body
-from .reporter import IssueReporter
 from .scanner import ComponentScanner
 
 
@@ -50,15 +47,11 @@ class CollectorWatcher:
 
         self.inventory_manager = InventoryManager(inventory_dir)
 
-    def run_scan(self, detect_changes: bool = True) -> list[Change] | None:
+    def run_scan(self) -> None:
         """
         Run a full scan and update inventory.
 
-        Args:
-            detect_changes: Whether to detect changes from previous inventory
-
-        Returns:
-            List of detected changes if detect_changes is True, None otherwise
+        Changes are detected by comparing git diffs of the inventory files.
         """
         if self.is_multi_repo:
             print("Scanning repositories:")
@@ -66,12 +59,6 @@ class CollectorWatcher:
             print(f"  Contrib: {self.repo_path}")
         else:
             print(f"Scanning repository: {self.repo_path}")
-
-        # Load previous inventory if it exists
-        old_inventory = None
-        if detect_changes and self.inventory_manager.inventory_exists():
-            old_inventory = self.inventory_manager.load_inventory()
-            print("Loaded previous inventory for change detection")
 
         # Scan all components
         if self.is_multi_repo:
@@ -93,28 +80,11 @@ class CollectorWatcher:
             else:
                 print(f"  {component_type}: {len(component_list)}")
 
-        # Create new inventory
+        # Create and save inventory
         new_inventory = self.inventory_manager.create_inventory(components)
-
-        # Detect changes if requested
-        changes = None
-        if detect_changes and old_inventory:
-            detector = ChangeDetector(old_inventory, new_inventory)
-            changes = detector.detect_all_changes()
-
-            if changes:
-                print(f"\n🔍 Detected {len(changes)} change(s):")
-                summary = detector.get_changes_summary()
-                for change_type, count in sorted(summary.items()):
-                    print(f"  - {change_type}: {count}")
-            else:
-                print("\n✓ No changes detected")
-
-        # Save new inventory
         self.inventory_manager.save_inventory(new_inventory)
         print(f"\nInventory saved to: {self.inventory_manager.inventory_dir}/")
-
-        return changes
+        print("\nUse 'git diff' to see what changed in the inventory files.")
 
     def generate_docs(
         self,
@@ -246,16 +216,7 @@ def main():
         )
         print("\nOptions:")
         print("  --core-repo=PATH           Path to core collector repository (optional)")
-        print("  --output-changes=FILE      Write changes to JSON file")
-        print(
-            "  --create-issues            Create GitHub issues for changes (requires GITHUB_TOKEN env var)"
-        )
-        print(
-            "  --github-repo=REPO         GitHub repo for issues (default: jaydeluca/collector-watcher)"
-        )
-        print(
-            "  --dry-run                  Don't actually create issues or PRs, just show what would be created"
-        )
+        print("  --dry-run                  Don't actually create PRs, just show what would be created")
         print("\nDocumentation Generation Options:")
         print("  --generate-docs            Generate documentation pages and create PR")
         print("  --docs-repo=OWNER/REPO     Docs repo (default: open-telemetry/opentelemetry.io)")
@@ -267,9 +228,7 @@ def main():
         print("  python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib")
         print("\n  # Scan both core and contrib repos")
         print("  python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core")
-        print("\n  # Scan with options")
-        print("  python -m collector_watcher.runner /path/to/repo --output-changes=changes.json")
-        print("  python -m collector_watcher.runner /path/to/repo --create-issues --dry-run")
+        print("\n  # Generate documentation")
         print(
             "  python -m collector_watcher.runner /path/to/repo --core-repo=/path/to/core --generate-docs"
         )
@@ -278,9 +237,6 @@ def main():
     repo_path = sys.argv[1]
     inventory_dir = "data/inventory"
     core_repo_path = None
-    output_changes_file = None
-    create_issues = False
-    github_repo = "jaydeluca/collector-watcher"
     dry_run = False
     generate_docs = False
     docs_repo = "open-telemetry/opentelemetry.io"
@@ -292,10 +248,6 @@ def main():
     for arg in sys.argv[2:]:
         if arg.startswith("--core-repo="):
             core_repo_path = arg.split("=", 1)[1]
-        elif arg.startswith("--output-changes="):
-            output_changes_file = arg.split("=", 1)[1]
-        elif arg.startswith("--github-repo="):
-            github_repo = arg.split("=", 1)[1]
         elif arg.startswith("--docs-repo="):
             docs_repo = arg.split("=", 1)[1]
         elif arg.startswith("--docs-fork-owner="):
@@ -304,8 +256,6 @@ def main():
             docs_base_branch = arg.split("=", 1)[1]
         elif arg.startswith("--docs-local-path="):
             docs_local_path = arg.split("=", 1)[1]
-        elif arg == "--create-issues":
-            create_issues = True
         elif arg == "--generate-docs":
             generate_docs = True
         elif arg == "--dry-run":
@@ -315,40 +265,7 @@ def main():
 
     try:
         watcher = CollectorWatcher(repo_path, inventory_dir, core_repo_path=core_repo_path)
-        changes = watcher.run_scan(detect_changes=True)
-
-        # Write changes to file if requested
-        if changes and output_changes_file:
-            changes_data = [c.to_dict() for c in changes]
-            with open(output_changes_file, "w") as f:
-                json.dump(changes_data, f, indent=2)
-            print(f"\n📄 Changes written to: {output_changes_file}")
-
-        # Create GitHub issues if requested
-        if changes and create_issues:
-            github_token = os.environ.get("GITHUB_TOKEN")
-            if not github_token:
-                print("\n❌ GITHUB_TOKEN environment variable not set", file=sys.stderr)
-                sys.exit(1)
-
-            print(f"\n📝 Creating GitHub issues{' (DRY RUN)' if dry_run else ''}...")
-            reporter = IssueReporter(github_token, github_repo)
-
-            try:
-                created_issues = reporter.create_issues_for_changes(changes, dry_run=dry_run)
-
-                if created_issues:
-                    print(f"✅ Created {len(created_issues)} issue(s):")
-                    for issue in created_issues:
-                        if dry_run:
-                            print(f"  - [DRY RUN] {issue['title']}")
-                        else:
-                            print(f"  - #{issue['number']}: {issue['title']}")
-                            print(f"    {issue['url']}")
-                else:
-                    print("  No new issues created (all were duplicates)")
-            finally:
-                reporter.close()
+        watcher.run_scan()
 
         # Generate documentation if requested
         if generate_docs:

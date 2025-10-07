@@ -45,15 +45,11 @@ jobs:
 
       - name: Run collector watcher
         id: scan
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           uv run python -m collector_watcher.runner \
             opentelemetry-collector-contrib \
             data/inventory \
-            --core-repo=opentelemetry-collector \
-            --output-changes=changes.json \
-            --github-repo=${{ github.repository }}
+            --core-repo=opentelemetry-collector
 
       - name: Check for inventory changes
         id: check_changes
@@ -77,13 +73,3 @@ jobs:
             ## Component Inventory Update
 
             Automated scan detected changes in OpenTelemetry Collector components.
-
-            - GitHub issues have been created for individual changes
-            - Changes artifact available in workflow run
-      - name: Upload changes artifact
-        if: steps.check_changes.outputs.has_changes == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: component-changes
-          path: changes.json
-          retention-days: 30

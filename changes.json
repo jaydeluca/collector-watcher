@@ -1,0 +1,5602 @@
+[
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.disk.available' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Minimum percentage of contiguous disk space free to the namespace across all devices",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      }
+    },
+    "new_value": {
+      "description": "Minimum percentage of contiguous disk space free to the namespace across all devices",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.disk.available"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.geojson.region_query_cells' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of cell coverings for query region queried",
+      "unit": "{cells}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Number of cell coverings for query region queried",
+      "unit": "{cells}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.geojson.region_query_cells"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.geojson.region_query_false_positive' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of points outside the region.",
+      "unit": "{points}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Number of points outside the region.",
+      "unit": "{points}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.geojson.region_query_false_positive"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.geojson.region_query_points' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of points within the region.",
+      "unit": "{points}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Number of points within the region.",
+      "unit": "{points}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.geojson.region_query_points"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.geojson.region_query_requests' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of geojson queries on the system since the uptime of the node.",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Number of geojson queries on the system since the uptime of the node.",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.geojson.region_query_requests"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.memory.free' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Percentage of the namespace's memory which is still free",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      }
+    },
+    "new_value": {
+      "description": "Percentage of the namespace's memory which is still free",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.memory.free"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.memory.usage' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Memory currently used by each component of the namespace",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "namespace_component"
+      ]
+    },
+    "new_value": {
+      "description": "Memory currently used by each component of the namespace",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "namespace_component"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.memory.usage"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.query.count' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of query operations performed on the namespace",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "index_type",
+        "query_result",
+        "query_type"
+      ]
+    },
+    "new_value": {
+      "description": "Number of query operations performed on the namespace",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "index_type",
+        "query_result",
+        "query_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.query.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.scan.count' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of scan operations performed on the namespace",
+      "unit": "{scans}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "scan_result",
+        "scan_type"
+      ]
+    },
+    "new_value": {
+      "description": "Number of scan operations performed on the namespace",
+      "unit": "{scans}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "scan_result",
+        "scan_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.scan.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.namespace.transaction.count' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of transactions performed on the namespace",
+      "unit": "{transactions}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "transaction_result",
+        "transaction_type"
+      ]
+    },
+    "new_value": {
+      "description": "Number of transactions performed on the namespace",
+      "unit": "{transactions}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "transaction_result",
+        "transaction_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.namespace.transaction.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.node.connection.count' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of connections opened and closed to the node",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_op",
+        "connection_type"
+      ]
+    },
+    "new_value": {
+      "description": "Number of connections opened and closed to the node",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_op",
+        "connection_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.node.connection.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.node.connection.open' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Current number of open connections to the node",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_type"
+      ]
+    },
+    "new_value": {
+      "description": "Current number of open connections to the node",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.node.connection.open"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.node.memory.free' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Percentage of the node's memory which is still free",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      }
+    },
+    "new_value": {
+      "description": "Percentage of the node's memory which is still free",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.node.memory.free"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "aerospikereceiver",
+    "description": "Metric 'aerospike.node.query.tracked' modified in receiver/aerospikereceiver",
+    "old_value": {
+      "description": "Number of queries tracked by the system.",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Number of queries tracked by the system.",
+      "unit": "{queries}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "aerospike.node.query.tracked"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.connections.async' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "The number of connections in different asynchronous states reported by Apache's server-status.",
+      "unit": "{connections}",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "connection_state"
+      ]
+    },
+    "new_value": {
+      "description": "The number of connections in different asynchronous states reported by Apache's server-status.",
+      "unit": "{connections}",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "connection_state"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.connections.async"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.cpu.load' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "Current load of the CPU.",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "Current load of the CPU.",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.cpu.load"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.cpu.time' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "Jiffs used by processes of given category.",
+      "unit": "{jiff}",
+      "enabled": true,
+      "sum": {
+        "value_type": "double",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "cpu_level",
+        "cpu_mode"
+      ]
+    },
+    "new_value": {
+      "description": "Jiffs used by processes of given category.",
+      "unit": "{jiff}",
+      "enabled": true,
+      "sum": {
+        "value_type": "double",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "cpu_level",
+        "cpu_mode"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.cpu.time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.current_connections' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "The number of active connections currently attached to the HTTP server.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The number of active connections currently attached to the HTTP server.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.current_connections"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.load.1' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "The average server load during the last minute.",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The average server load during the last minute.",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.load.1"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.load.15' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "The average server load during the last 15 minutes.",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The average server load during the last 15 minutes.",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.load.15"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.load.5' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "The average server load during the last 5 minutes.",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The average server load during the last 5 minutes.",
+      "unit": "%",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.load.5"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.request.time' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "Total time spent on handling requests.",
+      "unit": "ms",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "Total time spent on handling requests.",
+      "unit": "ms",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.request.time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.requests' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "The number of requests serviced by the HTTP server per second.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The number of requests serviced by the HTTP server per second.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.requests"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.scoreboard' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "The number of workers in each state.",
+      "unit": "{workers}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "scoreboard_state"
+      ]
+    },
+    "new_value": {
+      "description": "The number of workers in each state.",
+      "unit": "{workers}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "scoreboard_state"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.scoreboard"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.traffic' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "Total HTTP server traffic.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "Total HTTP server traffic.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.traffic"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.uptime' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "The amount of time that the server has been running in seconds.",
+      "unit": "s",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The amount of time that the server has been running in seconds.",
+      "unit": "s",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.uptime"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "apachereceiver",
+    "description": "Metric 'apache.workers' modified in receiver/apachereceiver",
+    "old_value": {
+      "description": "The number of workers currently attached to the HTTP server.",
+      "unit": "{workers}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "workers_state"
+      ]
+    },
+    "new_value": {
+      "description": "The number of workers currently attached to the HTTP server.",
+      "unit": "{workers}",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "workers_state"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "apache.workers"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.node.availability' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Availability of the node.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "availability.status"
+      ]
+    },
+    "new_value": {
+      "description": "Availability of the node.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "availability.status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.node.availability"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.node.connection.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Current number of connections to the node.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      }
+    },
+    "new_value": {
+      "description": "Current number of connections to the node.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.node.connection.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.node.data.transmitted' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Amount of data transmitted to and from the node.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ]
+    },
+    "new_value": {
+      "description": "Amount of data transmitted to and from the node.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.node.data.transmitted"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.node.enabled' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Enabled state of of the node.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "enabled.status"
+      ]
+    },
+    "new_value": {
+      "description": "Enabled state of of the node.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "enabled.status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.node.enabled"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.node.packet.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Number of packets transmitted to and from the node.",
+      "unit": "{packets}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ]
+    },
+    "new_value": {
+      "description": "Number of packets transmitted to and from the node.",
+      "unit": "{packets}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.node.packet.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.node.request.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Number of requests to the node.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      }
+    },
+    "new_value": {
+      "description": "Number of requests to the node.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.node.request.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.node.session.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Current number of sessions for the node.",
+      "unit": "{sessions}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      }
+    },
+    "new_value": {
+      "description": "Current number of sessions for the node.",
+      "unit": "{sessions}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.node.session.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool.availability' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Availability of the pool.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "availability.status"
+      ]
+    },
+    "new_value": {
+      "description": "Availability of the pool.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "availability.status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool.availability"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool.connection.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Current number of connections to the pool.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      }
+    },
+    "new_value": {
+      "description": "Current number of connections to the pool.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool.connection.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool.data.transmitted' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Amount of data transmitted to and from the pool.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ]
+    },
+    "new_value": {
+      "description": "Amount of data transmitted to and from the pool.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool.data.transmitted"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool.enabled' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Enabled state of of the pool.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "enabled.status"
+      ]
+    },
+    "new_value": {
+      "description": "Enabled state of of the pool.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "enabled.status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool.enabled"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool.member.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Total number of pool members.",
+      "unit": "{members}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "active.status"
+      ]
+    },
+    "new_value": {
+      "description": "Total number of pool members.",
+      "unit": "{members}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "active.status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool.member.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool.packet.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Number of packets transmitted to and from the pool.",
+      "unit": "{packets}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ]
+    },
+    "new_value": {
+      "description": "Number of packets transmitted to and from the pool.",
+      "unit": "{packets}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool.packet.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool.request.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Number of requests to the pool.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      }
+    },
+    "new_value": {
+      "description": "Number of requests to the pool.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool.request.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool_member.availability' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Availability of the pool member.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "availability.status"
+      ]
+    },
+    "new_value": {
+      "description": "Availability of the pool member.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "availability.status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool_member.availability"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool_member.connection.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Current number of connections to the pool member.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      }
+    },
+    "new_value": {
+      "description": "Current number of connections to the pool member.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool_member.connection.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool_member.data.transmitted' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Amount of data transmitted to and from the pool member.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ]
+    },
+    "new_value": {
+      "description": "Amount of data transmitted to and from the pool member.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool_member.data.transmitted"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool_member.enabled' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Enabled state of of the pool member.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "enabled.status"
+      ]
+    },
+    "new_value": {
+      "description": "Enabled state of of the pool member.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "enabled.status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool_member.enabled"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool_member.packet.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Number of packets transmitted to and from the pool member.",
+      "unit": "{packets}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ]
+    },
+    "new_value": {
+      "description": "Number of packets transmitted to and from the pool member.",
+      "unit": "{packets}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool_member.packet.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool_member.request.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Number of requests to the pool member.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      }
+    },
+    "new_value": {
+      "description": "Number of requests to the pool member.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool_member.request.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.pool_member.session.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Current number of sessions for the pool member.",
+      "unit": "{sessions}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      }
+    },
+    "new_value": {
+      "description": "Current number of sessions for the pool member.",
+      "unit": "{sessions}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.pool_member.session.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.virtual_server.availability' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Availability of the virtual server.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "availability.status"
+      ]
+    },
+    "new_value": {
+      "description": "Availability of the virtual server.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "availability.status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.virtual_server.availability"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.virtual_server.connection.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Current number of connections to the virtual server.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      }
+    },
+    "new_value": {
+      "description": "Current number of connections to the virtual server.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.virtual_server.connection.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.virtual_server.data.transmitted' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Amount of data transmitted to and from the virtual server.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ]
+    },
+    "new_value": {
+      "description": "Amount of data transmitted to and from the virtual server.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.virtual_server.data.transmitted"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.virtual_server.enabled' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Enabled state of of the virtual server.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "enabled.status"
+      ]
+    },
+    "new_value": {
+      "description": "Enabled state of of the virtual server.",
+      "unit": "1",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int"
+      },
+      "attributes": [
+        "enabled.status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.virtual_server.enabled"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.virtual_server.packet.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Number of packets transmitted to and from the virtual server.",
+      "unit": "{packets}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ]
+    },
+    "new_value": {
+      "description": "Number of packets transmitted to and from the virtual server.",
+      "unit": "{packets}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "attributes": [
+        "direction"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.virtual_server.packet.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "bigipreceiver",
+    "description": "Metric 'bigip.virtual_server.request.count' modified in receiver/bigipreceiver",
+    "old_value": {
+      "description": "Number of requests to the virtual server.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      }
+    },
+    "new_value": {
+      "description": "Number of requests to the virtual server.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "bigip.virtual_server.request.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.buffer_pool.data_pages' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of data pages in the InnoDB buffer pool.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "buffer_pool_data"
+      ]
+    },
+    "new_value": {
+      "description": "The number of data pages in the InnoDB buffer pool.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "buffer_pool_data"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.buffer_pool.data_pages"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.buffer_pool.limit' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The configured size of the InnoDB buffer pool.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "The configured size of the InnoDB buffer pool.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.buffer_pool.limit"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.buffer_pool.operations' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of operations on the InnoDB buffer pool.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "buffer_pool_operations"
+      ]
+    },
+    "new_value": {
+      "description": "The number of operations on the InnoDB buffer pool.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "buffer_pool_operations"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.buffer_pool.operations"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.buffer_pool.page_flushes' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of requests to flush pages from the InnoDB buffer pool.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "The number of requests to flush pages from the InnoDB buffer pool.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.buffer_pool.page_flushes"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.buffer_pool.pages' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of pages in the InnoDB buffer pool.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "buffer_pool_pages"
+      ]
+    },
+    "new_value": {
+      "description": "The number of pages in the InnoDB buffer pool.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "buffer_pool_pages"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.buffer_pool.pages"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.buffer_pool.usage' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of bytes in the InnoDB buffer pool.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "buffer_pool_data"
+      ]
+    },
+    "new_value": {
+      "description": "The number of bytes in the InnoDB buffer pool.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "buffer_pool_data"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.buffer_pool.usage"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.client.network.io' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of transmitted bytes between server and clients.",
+      "unit": "By",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "direction"
+      ]
+    },
+    "new_value": {
+      "description": "The number of transmitted bytes between server and clients.",
+      "unit": "By",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "direction"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.client.network.io"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.commands' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of times each type of command has been executed.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "command"
+      ]
+    },
+    "new_value": {
+      "description": "The number of times each type of command has been executed.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "command"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.commands"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.connection.count' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of connection attempts (successful or not) to the MySQL server.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "The number of connection attempts (successful or not) to the MySQL server.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.connection.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.connection.errors' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "Errors that occur during the client connection process.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_error"
+      ]
+    },
+    "new_value": {
+      "description": "Errors that occur during the client connection process.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_error"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.connection.errors"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.double_writes' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of writes to the InnoDB doublewrite buffer.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "double_writes"
+      ]
+    },
+    "new_value": {
+      "description": "The number of writes to the InnoDB doublewrite buffer.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "double_writes"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.double_writes"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.handlers' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of requests to various MySQL handlers.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "handler"
+      ]
+    },
+    "new_value": {
+      "description": "The number of requests to various MySQL handlers.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "handler"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.handlers"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.index.io.wait.count' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The total count of I/O wait events for an index.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "index_name",
+        "io_waits_operations",
+        "schema",
+        "table_name"
+      ]
+    },
+    "new_value": {
+      "description": "The total count of I/O wait events for an index.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "index_name",
+        "io_waits_operations",
+        "schema",
+        "table_name"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.index.io.wait.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.index.io.wait.time' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The total time of I/O wait events for an index.",
+      "unit": "ns",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "index_name",
+        "io_waits_operations",
+        "schema",
+        "table_name"
+      ]
+    },
+    "new_value": {
+      "description": "The total time of I/O wait events for an index.",
+      "unit": "ns",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "index_name",
+        "io_waits_operations",
+        "schema",
+        "table_name"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.index.io.wait.time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.joins' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of joins that perform table scans.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "join_kind"
+      ]
+    },
+    "new_value": {
+      "description": "The number of joins that perform table scans.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "join_kind"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.joins"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.locks' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of MySQL locks.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "locks"
+      ]
+    },
+    "new_value": {
+      "description": "The number of MySQL locks.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "locks"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.locks"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.log_operations' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of InnoDB log operations.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "log_operations"
+      ]
+    },
+    "new_value": {
+      "description": "The number of InnoDB log operations.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "log_operations"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.log_operations"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.max_used_connections' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "Maximum number of connections used simultaneously since the server started.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "Maximum number of connections used simultaneously since the server started.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.max_used_connections"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.mysqlx_connections' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of mysqlx connections.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_status"
+      ]
+    },
+    "new_value": {
+      "description": "The number of mysqlx connections.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "connection_status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.mysqlx_connections"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.mysqlx_worker_threads' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of worker threads available.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "mysqlx_threads"
+      ]
+    },
+    "new_value": {
+      "description": "The number of worker threads available.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "mysqlx_threads"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.mysqlx_worker_threads"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.opened_resources' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of opened resources.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "opened_resources"
+      ]
+    },
+    "new_value": {
+      "description": "The number of opened resources.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "opened_resources"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.opened_resources"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.operations' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of InnoDB operations.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "operations"
+      ]
+    },
+    "new_value": {
+      "description": "The number of InnoDB operations.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "operations"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.operations"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.page_operations' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of InnoDB page operations.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "page_operations"
+      ]
+    },
+    "new_value": {
+      "description": "The number of InnoDB page operations.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "page_operations"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.page_operations"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.page_size' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "InnoDB page size.",
+      "unit": "By",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "InnoDB page size.",
+      "unit": "By",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.page_size"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.prepared_statements' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of times each type of prepared statement command has been issued.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "prepared_statements_command"
+      ]
+    },
+    "new_value": {
+      "description": "The number of times each type of prepared statement command has been issued.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "prepared_statements_command"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.prepared_statements"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.query.client.count' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of statements executed by the server. This includes only statements sent to the server by clients.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "The number of statements executed by the server. This includes only statements sent to the server by clients.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.query.client.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.query.count' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of statements executed by the server.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "The number of statements executed by the server.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.query.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.query.slow.count' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of slow queries.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "The number of slow queries.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.query.slow.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.replica.sql_delay' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of seconds that the replica must lag the source.",
+      "unit": "s",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The number of seconds that the replica must lag the source.",
+      "unit": "s",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.replica.sql_delay"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.replica.time_behind_source' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "This field is an indication of how \u201clate\u201d the replica is.",
+      "unit": "s",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "This field is an indication of how \u201clate\u201d the replica is.",
+      "unit": "s",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.replica.time_behind_source"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.row_locks' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of InnoDB row locks.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "row_locks"
+      ]
+    },
+    "new_value": {
+      "description": "The number of InnoDB row locks.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "row_locks"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.row_locks"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.row_operations' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of InnoDB row operations.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "row_operations"
+      ]
+    },
+    "new_value": {
+      "description": "The number of InnoDB row operations.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "row_operations"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.row_operations"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.sorts' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of MySQL sorts.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "sorts"
+      ]
+    },
+    "new_value": {
+      "description": "The number of MySQL sorts.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "sorts"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.sorts"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.statement_event.count' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "Summary of current and recent statement events.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "digest",
+        "digest_text",
+        "event_state",
+        "schema"
+      ]
+    },
+    "new_value": {
+      "description": "Summary of current and recent statement events.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "digest",
+        "digest_text",
+        "event_state",
+        "schema"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.statement_event.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.statement_event.wait.time' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The total wait time of the summarized timed events.",
+      "unit": "ns",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "digest",
+        "digest_text",
+        "schema"
+      ]
+    },
+    "new_value": {
+      "description": "The total wait time of the summarized timed events.",
+      "unit": "ns",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "digest",
+        "digest_text",
+        "schema"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.statement_event.wait.time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.table.average_row_length' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The average row length in bytes for a given table.",
+      "unit": "By",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "schema",
+        "table_name"
+      ]
+    },
+    "new_value": {
+      "description": "The average row length in bytes for a given table.",
+      "unit": "By",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "schema",
+        "table_name"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.table.average_row_length"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.table.io.wait.count' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The total count of I/O wait events for a table.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "io_waits_operations",
+        "schema",
+        "table_name"
+      ]
+    },
+    "new_value": {
+      "description": "The total count of I/O wait events for a table.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "io_waits_operations",
+        "schema",
+        "table_name"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.table.io.wait.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.table.io.wait.time' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The total time of I/O wait events for a table.",
+      "unit": "ns",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "io_waits_operations",
+        "schema",
+        "table_name"
+      ]
+    },
+    "new_value": {
+      "description": "The total time of I/O wait events for a table.",
+      "unit": "ns",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "io_waits_operations",
+        "schema",
+        "table_name"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.table.io.wait.time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.table.lock_wait.read.count' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The total table lock wait read events.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "read_lock_type",
+        "schema",
+        "table_name"
+      ]
+    },
+    "new_value": {
+      "description": "The total table lock wait read events.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "read_lock_type",
+        "schema",
+        "table_name"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.table.lock_wait.read.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.table.lock_wait.read.time' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The total table lock wait read events times.",
+      "unit": "ns",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "read_lock_type",
+        "schema",
+        "table_name"
+      ]
+    },
+    "new_value": {
+      "description": "The total table lock wait read events times.",
+      "unit": "ns",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "read_lock_type",
+        "schema",
+        "table_name"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.table.lock_wait.read.time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.table.lock_wait.write.count' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The total table lock wait write events.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "schema",
+        "table_name",
+        "write_lock_type"
+      ]
+    },
+    "new_value": {
+      "description": "The total table lock wait write events.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "schema",
+        "table_name",
+        "write_lock_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.table.lock_wait.write.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.table.lock_wait.write.time' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The total table lock wait write events times.",
+      "unit": "ns",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "schema",
+        "table_name",
+        "write_lock_type"
+      ]
+    },
+    "new_value": {
+      "description": "The total table lock wait write events times.",
+      "unit": "ns",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "schema",
+        "table_name",
+        "write_lock_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.table.lock_wait.write.time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.table.rows' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of rows for a given table.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "schema",
+        "table_name"
+      ]
+    },
+    "new_value": {
+      "description": "The number of rows for a given table.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "schema",
+        "table_name"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.table.rows"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.table.size' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The table size in bytes for a given table.",
+      "unit": "By",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "schema",
+        "table_name",
+        "table_size_type"
+      ]
+    },
+    "new_value": {
+      "description": "The table size in bytes for a given table.",
+      "unit": "By",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "schema",
+        "table_name",
+        "table_size_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.table.size"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.table_open_cache' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of hits, misses or overflows for open tables cache lookups.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "cache_status"
+      ]
+    },
+    "new_value": {
+      "description": "The number of hits, misses or overflows for open tables cache lookups.",
+      "unit": "1",
+      "enabled": false,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "cache_status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.table_open_cache"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.threads' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The state of MySQL threads.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "threads"
+      ]
+    },
+    "new_value": {
+      "description": "The state of MySQL threads.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": false,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "threads"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.threads"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.tmp_resources' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of created temporary resources.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "tmp_resource"
+      ]
+    },
+    "new_value": {
+      "description": "The number of created temporary resources.",
+      "unit": "1",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "attributes": [
+        "tmp_resource"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.tmp_resources"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "mysqlreceiver",
+    "description": "Metric 'mysql.uptime' modified in receiver/mysqlreceiver",
+    "old_value": {
+      "description": "The number of seconds that the server has been up.",
+      "unit": "s",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      }
+    },
+    "new_value": {
+      "description": "The number of seconds that the server has been up.",
+      "unit": "s",
+      "enabled": true,
+      "sum": {
+        "value_type": "int",
+        "input_type": "string",
+        "monotonic": true,
+        "aggregation_temporality": "cumulative"
+      },
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "mysql.uptime"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.alert.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "Number of current alerts.",
+      "unit": "{alerts}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "alert_rating"
+      ]
+    },
+    "new_value": {
+      "description": "Number of current alerts.",
+      "unit": "{alerts}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "alert_rating"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.alert.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.backup.latest' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The age of the latest backup by start time.",
+      "unit": "s",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The age of the latest backup by start time.",
+      "unit": "s",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.backup.latest"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.column.memory.used' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The memory used in all columns.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "column_memory_subtype",
+        "column_memory_type"
+      ]
+    },
+    "new_value": {
+      "description": "The memory used in all columns.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "column_memory_subtype",
+        "column_memory_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.column.memory.used"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.component.memory.used' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The memory used in components.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "component"
+      ]
+    },
+    "new_value": {
+      "description": "The memory used in components.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "component"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.component.memory.used"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.connection.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of current connections.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "connection_status"
+      ]
+    },
+    "new_value": {
+      "description": "The number of current connections.",
+      "unit": "{connections}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "connection_status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.connection.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.cpu.used' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "Total CPU time spent.",
+      "unit": "ms",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "cpu_type"
+      ]
+    },
+    "new_value": {
+      "description": "Total CPU time spent.",
+      "unit": "ms",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "cpu_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.cpu.used"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.disk.size.current' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The disk size.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "disk_state_used_free",
+        "disk_usage_type",
+        "path"
+      ]
+    },
+    "new_value": {
+      "description": "The disk size.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "disk_state_used_free",
+        "disk_usage_type",
+        "path"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.disk.size.current"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.host.memory.current' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The amount of physical memory on the host.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "memory_state_used_free"
+      ]
+    },
+    "new_value": {
+      "description": "The amount of physical memory on the host.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "memory_state_used_free"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.host.memory.current"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.host.swap.current' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The amount of swap space on the host.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "host_swap_state"
+      ]
+    },
+    "new_value": {
+      "description": "The amount of swap space on the host.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "host_swap_state"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.host.swap.current"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.instance.code_size' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The instance code size, including shared libraries of SAP HANA processes.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The instance code size, including shared libraries of SAP HANA processes.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.instance.code_size"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.instance.memory.current' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The size of the memory pool for all SAP HANA processes.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "memory_state_used_free"
+      ]
+    },
+    "new_value": {
+      "description": "The size of the memory pool for all SAP HANA processes.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "memory_state_used_free"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.instance.memory.current"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.instance.memory.shared.allocated' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The shared memory size of SAP HANA processes.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The shared memory size of SAP HANA processes.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.instance.memory.shared.allocated"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.instance.memory.used.peak' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The peak memory from the memory pool used by SAP HANA processes since the instance started (this is a sample-based value).",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The peak memory from the memory pool used by SAP HANA processes since the instance started (this is a sample-based value).",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.instance.memory.used.peak"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.license.expiration.time' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The amount of time remaining before license expiration.",
+      "unit": "s",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "product",
+        "system"
+      ]
+    },
+    "new_value": {
+      "description": "The amount of time remaining before license expiration.",
+      "unit": "s",
+      "enabled": true,
+      "gauge": {
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "product",
+        "system"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.license.expiration.time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.license.limit' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The allowed product usage as specified by the license (for example, main memory).",
+      "unit": "{licenses}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "product",
+        "system"
+      ]
+    },
+    "new_value": {
+      "description": "The allowed product usage as specified by the license (for example, main memory).",
+      "unit": "{licenses}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "product",
+        "system"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.license.limit"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.license.peak' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The peak product usage value during last 13 months, measured periodically.",
+      "unit": "{licenses}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "product",
+        "system"
+      ]
+    },
+    "new_value": {
+      "description": "The peak product usage value during last 13 months, measured periodically.",
+      "unit": "{licenses}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "product",
+        "system"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.license.peak"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.network.request.average_time' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The average response time calculated over recent requests",
+      "unit": "ms",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The average response time calculated over recent requests",
+      "unit": "ms",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.network.request.average_time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.network.request.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of active and pending service requests.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "active_pending_request_state"
+      ]
+    },
+    "new_value": {
+      "description": "The number of active and pending service requests.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "active_pending_request_state"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.network.request.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.network.request.finished.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of service requests that have completed.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "internal_external_request_type"
+      ]
+    },
+    "new_value": {
+      "description": "The number of service requests that have completed.",
+      "unit": "{requests}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "internal_external_request_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.network.request.finished.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.replication.average_time' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The average amount of time consumed replicating a log.",
+      "unit": "us",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": [
+        "port",
+        "primary_host",
+        "replication_mode",
+        "secondary_host"
+      ]
+    },
+    "new_value": {
+      "description": "The average amount of time consumed replicating a log.",
+      "unit": "us",
+      "enabled": true,
+      "gauge": {
+        "value_type": "double",
+        "input_type": "string"
+      },
+      "attributes": [
+        "port",
+        "primary_host",
+        "replication_mode",
+        "secondary_host"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.replication.average_time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.replication.backlog.size' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The current replication backlog size.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "port",
+        "primary_host",
+        "replication_mode",
+        "secondary_host"
+      ]
+    },
+    "new_value": {
+      "description": "The current replication backlog size.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "port",
+        "primary_host",
+        "replication_mode",
+        "secondary_host"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.replication.backlog.size"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.replication.backlog.time' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The current replication backlog.",
+      "unit": "us",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "port",
+        "primary_host",
+        "replication_mode",
+        "secondary_host"
+      ]
+    },
+    "new_value": {
+      "description": "The current replication backlog.",
+      "unit": "us",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "port",
+        "primary_host",
+        "replication_mode",
+        "secondary_host"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.replication.backlog.time"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.row_store.memory.used' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The used memory for all row tables.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "row_memory_type"
+      ]
+    },
+    "new_value": {
+      "description": "The used memory for all row tables.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "row_memory_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.row_store.memory.used"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.schema.memory.used.current' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The memory size for all tables in schema.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "schema",
+        "schema_memory_type"
+      ]
+    },
+    "new_value": {
+      "description": "The memory size for all tables in schema.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "schema",
+        "schema_memory_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.schema.memory.used.current"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.schema.memory.used.max' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The estimated maximum memory consumption for all fully loaded tables in schema (data for open transactions is not included).",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "schema"
+      ]
+    },
+    "new_value": {
+      "description": "The estimated maximum memory consumption for all fully loaded tables in schema (data for open transactions is not included).",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "schema"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.schema.memory.used.max"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.schema.operation.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of operations done on all tables in schema.",
+      "unit": "{operations}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "schema",
+        "schema_operation_type"
+      ]
+    },
+    "new_value": {
+      "description": "The number of operations done on all tables in schema.",
+      "unit": "{operations}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "schema",
+        "schema_operation_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.schema.operation.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.schema.record.compressed.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of entries in main during the last optimize compression run for all tables in schema.",
+      "unit": "{records}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "schema"
+      ]
+    },
+    "new_value": {
+      "description": "The number of entries in main during the last optimize compression run for all tables in schema.",
+      "unit": "{records}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "schema"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.schema.record.compressed.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.schema.record.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of records for all tables in schema.",
+      "unit": "{records}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "schema",
+        "schema_record_type"
+      ]
+    },
+    "new_value": {
+      "description": "The number of records for all tables in schema.",
+      "unit": "{records}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "schema",
+        "schema_record_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.schema.record.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.code_size' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The service code size, including shared libraries.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ]
+    },
+    "new_value": {
+      "description": "The service code size, including shared libraries.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.code_size"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of services in a given status.",
+      "unit": "{services}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service_status"
+      ]
+    },
+    "new_value": {
+      "description": "The number of services in a given status.",
+      "unit": "{services}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service_status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.memory.compactors.allocated' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The part of the memory pool that can potentially (if unpinned) be freed during a memory shortage.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ]
+    },
+    "new_value": {
+      "description": "The part of the memory pool that can potentially (if unpinned) be freed during a memory shortage.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.memory.compactors.allocated"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.memory.compactors.freeable' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The memory that can be freed during a memory shortage.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ]
+    },
+    "new_value": {
+      "description": "The memory that can be freed during a memory shortage.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.memory.compactors.freeable"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.memory.effective_limit' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The effective maximum memory pool size, calculated considering the pool sizes of other processes.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ]
+    },
+    "new_value": {
+      "description": "The effective maximum memory pool size, calculated considering the pool sizes of other processes.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.memory.effective_limit"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.memory.heap.current' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The size of the heap portion of the memory pool.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "memory_state_used_free",
+        "service"
+      ]
+    },
+    "new_value": {
+      "description": "The size of the heap portion of the memory pool.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "memory_state_used_free",
+        "service"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.memory.heap.current"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.memory.limit' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The configured maximum memory pool size.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ]
+    },
+    "new_value": {
+      "description": "The configured maximum memory pool size.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.memory.limit"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.memory.shared.current' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The size of the shared portion of the memory pool.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "memory_state_used_free",
+        "service"
+      ]
+    },
+    "new_value": {
+      "description": "The size of the shared portion of the memory pool.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "memory_state_used_free",
+        "service"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.memory.shared.current"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.memory.used' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The used memory from the operating system perspective.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service",
+        "service_memory_used_type"
+      ]
+    },
+    "new_value": {
+      "description": "The used memory from the operating system perspective.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service",
+        "service_memory_used_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.memory.used"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.stack_size' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The service stack size.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ]
+    },
+    "new_value": {
+      "description": "The service stack size.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "service"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.stack_size"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.service.thread.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of service threads in a given status.",
+      "unit": "{threads}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "thread_status"
+      ]
+    },
+    "new_value": {
+      "description": "The number of service threads in a given status.",
+      "unit": "{threads}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "thread_status"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.service.thread.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.transaction.blocked' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of transactions waiting for a lock.",
+      "unit": "{transactions}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": []
+    },
+    "new_value": {
+      "description": "The number of transactions waiting for a lock.",
+      "unit": "{transactions}",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.transaction.blocked"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.transaction.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of transactions.",
+      "unit": "{transactions}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "transaction_type"
+      ]
+    },
+    "new_value": {
+      "description": "The number of transactions.",
+      "unit": "{transactions}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "transaction_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.transaction.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.uptime' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The uptime of the database.",
+      "unit": "s",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "database",
+        "system"
+      ]
+    },
+    "new_value": {
+      "description": "The uptime of the database.",
+      "unit": "s",
+      "enabled": true,
+      "sum": {
+        "monotonic": false,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "database",
+        "system"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.uptime"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.volume.operation.count' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The number of operations executed.",
+      "unit": "{operations}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "disk_usage_type",
+        "path",
+        "volume_operation_type"
+      ]
+    },
+    "new_value": {
+      "description": "The number of operations executed.",
+      "unit": "{operations}",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "disk_usage_type",
+        "path",
+        "volume_operation_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.volume.operation.count"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.volume.operation.size' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The size of operations executed.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "disk_usage_type",
+        "path",
+        "volume_operation_type"
+      ]
+    },
+    "new_value": {
+      "description": "The size of operations executed.",
+      "unit": "By",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "disk_usage_type",
+        "path",
+        "volume_operation_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.volume.operation.size"
+    }
+  },
+  {
+    "change_type": "metric_modified",
+    "component_type": "receiver",
+    "component_name": "saphanareceiver",
+    "description": "Metric 'saphana.volume.operation.time' modified in receiver/saphanareceiver",
+    "old_value": {
+      "description": "The time spent executing operations.",
+      "unit": "ms",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "disk_usage_type",
+        "path",
+        "volume_operation_type"
+      ]
+    },
+    "new_value": {
+      "description": "The time spent executing operations.",
+      "unit": "ms",
+      "enabled": true,
+      "sum": {
+        "monotonic": true,
+        "aggregation_temporality": "cumulative",
+        "value_type": "int",
+        "input_type": "string"
+      },
+      "attributes": [
+        "disk_usage_type",
+        "path",
+        "volume_operation_type"
+      ],
+      "stability": {
+        "level": "development"
+      }
+    },
+    "details": {
+      "metric_name": "saphana.volume.operation.time"
+    }
+  }
+]

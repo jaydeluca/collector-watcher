@@ -69,6 +69,8 @@ jobs:
           branch: inventory-update-${{ github.run_id }}
           delete-branch: true
           title: "Update component inventory"
+          add-paths: |
+            data/inventory/*.yaml
           body: |
             ## Component Inventory Update
 

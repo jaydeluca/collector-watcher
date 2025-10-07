@@ -5,14 +5,13 @@ across both the opentelemetry-collector (core) and opentelemetry-collector-contr
 
 ## Overview
 
-Collector Watcher scans OpenTelemetry Collector components and detects changes in their metadata. When run, it:
+Collector Watcher scans OpenTelemetry Collector components and maintains an inventory. When run, it:
 - Discovers all collector components (connectors, exporters, extensions, processors, receivers)
 - Scans both core and contrib repositories and merges component data
 - Parses component metadata from metadata.yaml files
-- Detects changes from previous scans
-- Creates GitHub issues for detected changes
+- Maintains inventory in YAML format
 - Generates documentation pages for opentelemetry.io
-- Maintains historical inventory in YAML format
+- Changes are detected via git diff of the inventory files
 
 ## Usage
 
@@ -30,26 +29,7 @@ Or scan both core and contrib repositories (recommended):
 uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --core-repo=/path/to/opentelemetry-collector
 ```
 
-### Export Changes
-
-Export detected changes to JSON:
-
-```bash
-uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --output-changes=changes.json
-```
-
-### Create GitHub Issues
-
-Create GitHub issues for detected changes (requires `GITHUB_TOKEN` environment variable):
-
-```bash
-# Dry-run mode (test without creating issues)
-export GITHUB_TOKEN=your_token
-uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --create-issues --dry-run
-
-# Create issues for real
-uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --create-issues --github-repo=owner/repo
-```
+After scanning, use `git diff data/inventory/` to see what changed in the inventory.
 
 ### Generate Documentation
 
@@ -156,6 +136,6 @@ Runs on all pull requests:
 ### Monitoring Workflow
 Runs daily to monitor both core and contrib repositories:
 - Scans both opentelemetry-collector and opentelemetry-collector-contrib
-- Merges component data and detects changes
-- Creates GitHub issues for detected changes
+- Merges component data into inventory files
 - Opens PR with updated inventory files if changes detected
+- Changes are visible via git diff in the PR

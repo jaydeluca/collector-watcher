@@ -45,6 +45,8 @@ htmlcov/
 
 # Cloned repositories
 repos/
+opentelemetry-collector-contrib/
+opentelemetry-collector/
 
 .claude
 

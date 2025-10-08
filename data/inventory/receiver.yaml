@@ -13203,6 +13203,12 @@ components:
         - dmitryax
         - hughesjj
     attributes:
+      cluster_state:
+        description: State of the cluster
+        type: string
+        enum:
+        - fail
+        - ok
       cmd:
         description: Redis command name
         type: string
@@ -13265,6 +13271,111 @@ components:
         description: Longest output list among current client connections
         unit: By
         enabled: true
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.cluster.known_nodes:
+        description: Number of known nodes in the cluster
+        unit: '{node}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.cluster.links_buffer_limit_exceeded.count:
+        description: Total number of times the cluster links buffer limit was exceeded
+        unit: '{count}'
+        enabled: false
+        sum:
+          value_type: int
+          monotonic: true
+          aggregation_temporality: cumulative
+        stability:
+          level: development
+      redis.cluster.node.count:
+        description: Number of master nodes in the cluster
+        unit: '{node}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.cluster.node.uptime:
+        description: The node's current epoch
+        unit: s
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.cluster.slots_assigned:
+        description: Number of slots assigned in the cluster
+        unit: '{slot}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.cluster.slots_fail:
+        description: Number of slots in the cluster that are in a failing state
+        unit: '{slot}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.cluster.slots_ok:
+        description: Number of slots in the cluster that are ok
+        unit: '{slot}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.cluster.slots_pfail:
+        description: Number of slots in the cluster that are in a 'potentially failing'
+          state
+        unit: '{slot}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.cluster.state:
+        description: State of the cluster
+        unit: '{state}'
+        enabled: false
+        gauge:
+          value_type: int
+        attributes:
+        - cluster_state
+        stability:
+          level: development
+      redis.cluster.stats_messages_received:
+        description: Total number of messages received by the cluster
+        unit: '{message}'
+        enabled: false
+        sum:
+          value_type: int
+          monotonic: true
+          aggregation_temporality: cumulative
+        stability:
+          level: development
+      redis.cluster.stats_messages_sent:
+        description: Total number of messages sent by the cluster
+        unit: '{message}'
+        enabled: false
+        sum:
+          value_type: int
+          monotonic: true
+          aggregation_temporality: cumulative
+        stability:
+          level: development
+      redis.cluster.uptime:
+        description: Current epoch of the cluster
+        unit: s
+        enabled: false
         gauge:
           value_type: int
         stability:

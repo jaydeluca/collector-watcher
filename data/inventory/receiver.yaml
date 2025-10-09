@@ -14718,6 +14718,8 @@ components:
           value_type: double
         attributes:
         - service_type
+        stability:
+          level: development
       snowflake.billing.total_credit.total:
         description: Reported total credits used across account over the last 24 hour
           window.
@@ -14727,6 +14729,8 @@ components:
           value_type: double
         attributes:
         - service_type
+        stability:
+          level: development
       snowflake.billing.virtual_warehouse.total:
         description: Reported total credits used by virtual warehouse service over
           the last 24 hour window.
@@ -14736,6 +14740,8 @@ components:
           value_type: double
         attributes:
         - service_type
+        stability:
+          level: development
       snowflake.billing.warehouse.cloud_service.total:
         description: Credits used across cloud service for given warehouse over the
           last 24 hour window.
@@ -14745,6 +14751,8 @@ components:
           value_type: double
         attributes:
         - warehouse_name
+        stability:
+          level: development
       snowflake.billing.warehouse.total_credit.total:
         description: Total credits used associated with given warehouse over the last
           24 hour window.
@@ -14754,6 +14762,8 @@ components:
           value_type: double
         attributes:
         - warehouse_name
+        stability:
+          level: development
       snowflake.billing.warehouse.virtual_warehouse.total:
         description: Total credits used by virtual warehouse service for given warehouse
           over the last 24 hour window.
@@ -14763,6 +14773,8 @@ components:
           value_type: double
         attributes:
         - warehouse_name
+        stability:
+          level: development
       snowflake.database.bytes_scanned.avg:
         description: Average bytes scanned in a database over the last 24 hour window.
         unit: By
@@ -14777,6 +14789,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.database.query.count:
         description: Total query count for database over the last 24 hour window.
         unit: '1'
@@ -14791,6 +14805,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.logins.total:
         description: Total login attempts for account over the last 24 hour window.
         unit: '1'
@@ -14801,6 +14817,8 @@ components:
         - error_message
         - is_success
         - reported_client_type
+        stability:
+          level: development
       snowflake.pipe.credits_used.total:
         description: Snow pipe credits contotaled over the last 24 hour window.
         unit: '{credits}'
@@ -14809,6 +14827,8 @@ components:
           value_type: double
         attributes:
         - pipe_name
+        stability:
+          level: development
       snowflake.query.blocked:
         description: Blocked query count for warehouse over the last 24 hour window.
         unit: '1'
@@ -14817,6 +14837,8 @@ components:
           value_type: double
         attributes:
         - warehouse_name
+        stability:
+          level: development
       snowflake.query.bytes_deleted.avg:
         description: Average bytes deleted in database over the last 24 hour window.
         unit: By
@@ -14831,6 +14853,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.query.bytes_spilled.local.avg:
         description: Average bytes spilled (intermediate results do not fit in memory)
           by local storage over the last 24 hour window.
@@ -14846,6 +14870,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.query.bytes_spilled.remote.avg:
         description: Average bytes spilled (intermediate results do not fit in memory)
           by remote storage over the last 24 hour window.
@@ -14861,6 +14887,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.query.bytes_written.avg:
         description: Average bytes written by database over the last 24 hour window.
         unit: By
@@ -14875,6 +14903,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.query.compilation_time.avg:
         description: Average time taken to compile query over the last 24 hour window.
         unit: s
@@ -14889,6 +14919,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.query.data_scanned_cache.avg:
         description: Average percentage of data scanned from cache over the last 24
           hour window.
@@ -14904,6 +14936,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.query.executed:
         description: Executed query count for warehouse over the last 24 hour window.
         unit: '1'
@@ -14912,6 +14946,8 @@ components:
           value_type: double
         attributes:
         - warehouse_name
+        stability:
+          level: development
       snowflake.query.execution_time.avg:
         description: Average time spent executing queries in database over the last
           24 hour window.
@@ -14927,6 +14963,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.query.partitions_scanned.avg:
         description: Number of partitions scanned during query so far over the last
           24 hour window.
@@ -14942,6 +14980,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.query.queued_overload:
         description: Overloaded query count for warehouse over the last 24 hour window.
         unit: '1'
@@ -14950,6 +14990,8 @@ components:
           value_type: double
         attributes:
         - warehouse_name
+        stability:
+          level: development
       snowflake.query.queued_provision:
         description: Number of compute resources queued for provisioning over the
           last 24 hour window.
@@ -14959,6 +15001,8 @@ components:
           value_type: double
         attributes:
         - warehouse_name
+        stability:
+          level: development
       snowflake.queued_overload_time.avg:
         description: Average time spent in warehouse queue due to warehouse being
           overloaded over the last 24 hour window.
@@ -14974,6 +15018,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.queued_provisioning_time.avg:
         description: Average time spent in warehouse queue waiting for resources to
           provision over the last 24 hour window.
@@ -14989,6 +15035,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.queued_repair_time.avg:
         description: Average time spent in warehouse queue waiting for compute resources
           to be repaired over the last 24 hour window.
@@ -15004,6 +15052,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.rows_deleted.avg:
         description: Number of rows deleted from a table (or tables) over the last
           24 hour window.
@@ -15019,6 +15069,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.rows_inserted.avg:
         description: Number of rows inserted into a table (or tables) over the last
           24 hour window.
@@ -15034,6 +15086,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.rows_produced.avg:
         description: Average number of rows produced by statement over the last 24
           hour window.
@@ -15049,6 +15103,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.rows_unloaded.avg:
         description: Average number of rows unloaded during data export over the last
           24 hour window.
@@ -15064,6 +15120,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.rows_updated.avg:
         description: Average number of rows updated in a table over the last 24 hour
           window.
@@ -15079,6 +15137,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
       snowflake.session_id.count:
         description: Distinct session id's associated with snowflake username over
           the last 24 hour window.
@@ -15088,12 +15148,16 @@ components:
           value_type: int
         attributes:
         - user_name
+        stability:
+          level: development
       snowflake.storage.failsafe_bytes.total:
         description: Number of bytes of data in Fail-safe.
         unit: By
         enabled: false
         gauge:
           value_type: double
+        stability:
+          level: development
       snowflake.storage.stage_bytes.total:
         description: Number of bytes of stage storage used by files in all internal
           stages (named, table, user).
@@ -15101,6 +15165,8 @@ components:
         enabled: true
         gauge:
           value_type: double
+        stability:
+          level: development
       snowflake.storage.storage_bytes.total:
         description: Number of bytes of table storage used, including bytes for data
           currently in Time Travel.
@@ -15108,6 +15174,8 @@ components:
         enabled: true
         gauge:
           value_type: double
+        stability:
+          level: development
       snowflake.total_elapsed_time.avg:
         description: Average elapsed time over the last 24 hour window.
         unit: s
@@ -15122,6 +15190,8 @@ components:
         - schema_name
         - warehouse_name
         - warehouse_size
+        stability:
+          level: development
     resource_attributes:
       snowflake.account.name:
         description: Snowflake account being used by receiver.

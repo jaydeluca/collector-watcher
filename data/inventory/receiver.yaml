@@ -5004,6 +5004,8 @@ components:
           input_type: string
         attributes:
         - checkpoint
+        stability:
+          level: development
       flink.job.checkpoint.in_progress:
         description: The number of checkpoints in progress.
         unit: '{checkpoints}'
@@ -5014,6 +5016,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.job.last_checkpoint.size:
         description: The total size of the last checkpoint.
         unit: By
@@ -5024,6 +5028,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.job.last_checkpoint.time:
         description: The end to end duration of the last checkpoint.
         unit: ms
@@ -5032,6 +5038,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.job.restart.count:
         description: The total number of restarts since this job was submitted, including
           full restarts and fine-grained restarts.
@@ -5043,6 +5051,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.class_loader.classes_loaded:
         description: The total number of classes loaded since the start of the JVM.
         unit: '{classes}'
@@ -5053,6 +5063,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.cpu.load:
         description: The CPU usage of the JVM for a jobmanager or taskmanager.
         unit: '%'
@@ -5061,6 +5073,8 @@ components:
           value_type: double
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.cpu.time:
         description: The CPU time used by the JVM for a jobmanager or taskmanager.
         unit: ns
@@ -5071,6 +5085,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.gc.collections.count:
         description: The total number of collections that have occurred.
         unit: '{collections}'
@@ -5082,6 +5098,8 @@ components:
           input_type: string
         attributes:
         - garbage_collector_name
+        stability:
+          level: development
       flink.jvm.gc.collections.time:
         description: The total time spent performing garbage collection.
         unit: ms
@@ -5093,6 +5111,8 @@ components:
           input_type: string
         attributes:
         - garbage_collector_name
+        stability:
+          level: development
       flink.jvm.memory.direct.total_capacity:
         description: The total capacity of all buffers in the direct buffer pool.
         unit: By
@@ -5103,6 +5123,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.direct.used:
         description: The amount of memory used by the JVM for the direct buffer pool.
         unit: By
@@ -5113,6 +5135,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.heap.committed:
         description: The amount of heap memory guaranteed to be available to the JVM.
         unit: By
@@ -5123,6 +5147,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.heap.max:
         description: The maximum amount of heap memory that can be used for memory
           management.
@@ -5134,6 +5160,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.heap.used:
         description: The amount of heap memory currently used.
         unit: By
@@ -5144,6 +5172,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.mapped.total_capacity:
         description: The number of buffers in the mapped buffer pool.
         unit: By
@@ -5154,6 +5184,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.mapped.used:
         description: The amount of memory used by the JVM for the mapped buffer pool.
         unit: By
@@ -5164,6 +5196,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.metaspace.committed:
         description: The amount of memory guaranteed to be available to the JVM in
           the Metaspace memory pool.
@@ -5175,6 +5209,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.metaspace.max:
         description: The maximum amount of memory that can be used in the Metaspace
           memory pool.
@@ -5186,6 +5222,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.metaspace.used:
         description: The amount of memory currently used in the Metaspace memory pool.
         unit: By
@@ -5196,6 +5234,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.nonheap.committed:
         description: The amount of non-heap memory guaranteed to be available to the
           JVM.
@@ -5207,6 +5247,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.nonheap.max:
         description: The maximum amount of non-heap memory that can be used for memory
           management.
@@ -5218,6 +5260,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.memory.nonheap.used:
         description: The amount of non-heap memory currently used.
         unit: By
@@ -5228,6 +5272,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.jvm.threads.count:
         description: The total number of live threads.
         unit: '{threads}'
@@ -5238,6 +5284,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.memory.managed.total:
         description: The total amount of managed memory.
         unit: By
@@ -5248,6 +5296,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.memory.managed.used:
         description: The amount of managed memory currently used.
         unit: By
@@ -5258,6 +5308,8 @@ components:
           value_type: int
           input_type: string
         attributes: []
+        stability:
+          level: development
       flink.operator.record.count:
         description: The number of records an operator has.
         unit: '{records}'
@@ -5270,6 +5322,8 @@ components:
         attributes:
         - operator_name
         - record
+        stability:
+          level: development
       flink.operator.watermark.output:
         description: The last watermark this operator has emitted.
         unit: ms
@@ -5281,6 +5335,8 @@ components:
           input_type: string
         attributes:
         - operator_name
+        stability:
+          level: development
       flink.task.record.count:
         description: The number of records a task has.
         unit: '{records}'
@@ -5292,6 +5348,8 @@ components:
           input_type: string
         attributes:
         - record
+        stability:
+          level: development
     resource_attributes:
       flink.job.name:
         description: The job name.
@@ -6468,7 +6526,8 @@ components:
       distributions:
       - contrib
       codeowners:
-        active: []
+        active:
+        - belimawr
         emeritus:
         - djaglowski
         - sumo-drosiek
@@ -12525,6 +12584,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.message.acknowledged:
         description: The number of messages acknowledged by consumers.
         unit: '{messages}'
@@ -12533,6 +12594,8 @@ components:
           monotonic: true
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.message.current:
         description: The total number of messages currently in the queue.
         unit: '{messages}'
@@ -12543,6 +12606,8 @@ components:
           value_type: int
         attributes:
         - message.state
+        stability:
+          level: development
       rabbitmq.message.delivered:
         description: The number of messages delivered to consumers.
         unit: '{messages}'
@@ -12551,6 +12616,8 @@ components:
           monotonic: true
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.message.dropped:
         description: The number of messages dropped as unroutable.
         unit: '{messages}'
@@ -12559,6 +12626,8 @@ components:
           monotonic: true
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.message.published:
         description: The number of messages published to a queue.
         unit: '{messages}'
@@ -12567,6 +12636,8 @@ components:
           monotonic: true
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.channel_closed:
         description: Number of channels closed.
         unit: '{channels}'
@@ -12575,6 +12646,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.channel_closed_details.rate:
         description: Rate of channels closed.
         unit: '{channels}/s'
@@ -12583,6 +12656,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.channel_created:
         description: Number of channels created.
         unit: '{channels}'
@@ -12591,6 +12666,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.channel_created_details.rate:
         description: Rate of channels created.
         unit: '{channels}/s'
@@ -12599,6 +12676,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.connection_closed:
         description: Number of connections closed.
         unit: '{connections}'
@@ -12607,6 +12686,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.connection_closed_details.rate:
         description: Rate of connections closed.
         unit: '{connections}/s'
@@ -12615,6 +12696,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.connection_created:
         description: Number of connections created.
         unit: '{connections}'
@@ -12623,6 +12706,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.connection_created_details.rate:
         description: Rate of connections created.
         unit: '{connections}/s'
@@ -12631,6 +12716,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.context_switches:
         description: Total number of context switches.
         unit: '{switches}'
@@ -12639,6 +12726,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.context_switches_details.rate:
         description: Rate of context switches.
         unit: '{switches}/s'
@@ -12647,6 +12736,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.disk_free:
         description: Free disk space on the node.
         unit: '{bytes}'
@@ -12655,6 +12746,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.disk_free_alarm:
         description: Whether disk usage has triggered an alarm.
         unit: '{status}'
@@ -12663,6 +12756,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.disk_free_details.rate:
         description: Rate of disk usage change.
         unit: '{bytes}/s'
@@ -12671,6 +12766,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.disk_free_limit:
         description: Minimum required free disk space before alarm.
         unit: '{bytes}'
@@ -12679,6 +12776,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.fd_total:
         description: Maximum number of file descriptors available.
         unit: '{fd}'
@@ -12687,6 +12786,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.fd_used:
         description: Number of file descriptors used.
         unit: '{fd}'
@@ -12695,6 +12796,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.fd_used_details.rate:
         description: Rate of file descriptor usage.
         unit: '{fd}/s'
@@ -12703,6 +12806,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.gc_bytes_reclaimed:
         description: Bytes reclaimed by garbage collection.
         unit: '{bytes}'
@@ -12711,6 +12816,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.gc_bytes_reclaimed_details.rate:
         description: Rate of bytes reclaimed by GC.
         unit: '{bytes}/s'
@@ -12719,6 +12826,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.gc_num:
         description: Number of garbage collections.
         unit: '{collections}'
@@ -12727,6 +12836,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.gc_num_details.rate:
         description: Rate of garbage collections.
         unit: '{collections}/s'
@@ -12735,6 +12846,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_read_avg_time:
         description: Average read time in microseconds.
         unit: '{microseconds}'
@@ -12743,6 +12856,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_read_avg_time_details.rate:
         description: Rate of change of average read time.
         unit: '{microseconds}/s'
@@ -12751,6 +12866,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_read_bytes:
         description: Total bytes read.
         unit: '{bytes}'
@@ -12759,6 +12876,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.io_read_bytes_details.rate:
         description: Rate of bytes read.
         unit: '{bytes}/s'
@@ -12767,6 +12886,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_read_count:
         description: Number of read operations.
         unit: '{ops}'
@@ -12775,6 +12896,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.io_read_count_details.rate:
         description: Rate of read operations.
         unit: '{ops}/s'
@@ -12783,6 +12906,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_reopen_count:
         description: Number of file reopen operations.
         unit: '{ops}'
@@ -12791,6 +12916,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.io_reopen_count_details.rate:
         description: Rate of file reopen operations.
         unit: '{ops}/s'
@@ -12799,6 +12926,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_seek_avg_time:
         description: Average seek time in microseconds.
         unit: '{microseconds}'
@@ -12807,6 +12936,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_seek_avg_time_details.rate:
         description: Rate of change of average seek time.
         unit: '{microseconds}/s'
@@ -12815,6 +12946,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_seek_count:
         description: Number of seek operations.
         unit: '{ops}'
@@ -12823,6 +12956,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.io_seek_count_details.rate:
         description: Rate of seek operations.
         unit: '{ops}/s'
@@ -12831,6 +12966,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_sync_avg_time:
         description: Average sync time in microseconds.
         unit: '{microseconds}'
@@ -12839,6 +12976,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_sync_avg_time_details.rate:
         description: Rate of change of average sync time.
         unit: '{microseconds}/s'
@@ -12847,6 +12986,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_sync_count:
         description: Number of sync operations.
         unit: '{ops}'
@@ -12855,6 +12996,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.io_sync_count_details.rate:
         description: Rate of sync operations.
         unit: '{ops}/s'
@@ -12863,6 +13006,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_write_avg_time:
         description: Average write time in microseconds.
         unit: '{microseconds}'
@@ -12871,6 +13016,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_write_avg_time_details.rate:
         description: Rate of change of average write time.
         unit: '{microseconds}/s'
@@ -12879,6 +13026,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_write_bytes:
         description: Total bytes written.
         unit: '{bytes}'
@@ -12887,6 +13036,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.io_write_bytes_details.rate:
         description: Rate of bytes written.
         unit: '{bytes}/s'
@@ -12895,6 +13046,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.io_write_count:
         description: Number of write operations.
         unit: '{ops}'
@@ -12903,6 +13056,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.io_write_count_details.rate:
         description: Rate of write operations.
         unit: '{ops}/s'
@@ -12911,6 +13066,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.mem_alarm:
         description: Whether memory alarm is triggered.
         unit: '{status}'
@@ -12919,6 +13076,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.mem_limit:
         description: The memory limit on the node.
         unit: '{bytes}'
@@ -12927,6 +13086,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.mem_used:
         description: The memory used on the node.
         unit: '{bytes}'
@@ -12935,6 +13096,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.mem_used_details.rate:
         description: Rate of memory usage change.
         unit: '{bytes}/s'
@@ -12943,6 +13106,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.mnesia_disk_tx_count:
         description: Number of disk transactions in Mnesia.
         unit: '{tx}'
@@ -12951,6 +13116,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.mnesia_disk_tx_count_details.rate:
         description: Rate of disk transactions in Mnesia.
         unit: '{tx}/s'
@@ -12959,6 +13126,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.mnesia_ram_tx_count:
         description: Number of RAM transactions in Mnesia.
         unit: '{tx}'
@@ -12967,6 +13136,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.mnesia_ram_tx_count_details.rate:
         description: Rate of RAM transactions in Mnesia.
         unit: '{tx}/s'
@@ -12975,6 +13146,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.msg_store_read_count:
         description: Number of message store reads.
         unit: '{ops}'
@@ -12983,6 +13156,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.msg_store_read_count_details.rate:
         description: Rate of message store reads.
         unit: '{ops}/s'
@@ -12991,6 +13166,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.msg_store_write_count:
         description: Number of message store writes.
         unit: '{ops}'
@@ -12999,6 +13176,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.msg_store_write_count_details.rate:
         description: Rate of message store writes.
         unit: '{ops}/s'
@@ -13007,6 +13186,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.proc_total:
         description: Maximum allowed Erlang processes.
         unit: '{processes}'
@@ -13015,6 +13196,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.proc_used:
         description: Number of Erlang processes in use.
         unit: '{processes}'
@@ -13023,6 +13206,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.proc_used_details.rate:
         description: Rate of process usage.
         unit: '{processes}/s'
@@ -13031,6 +13216,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.processors:
         description: Number of processors available to the node.
         unit: '{processors}'
@@ -13039,6 +13226,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.queue_created:
         description: Number of queues created.
         unit: '{queues}'
@@ -13047,6 +13236,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.queue_created_details.rate:
         description: Rate of queues created.
         unit: '{queues}/s'
@@ -13055,6 +13246,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.queue_declared:
         description: Number of queues declared.
         unit: '{queues}'
@@ -13063,6 +13256,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.queue_declared_details.rate:
         description: Rate of queues declared.
         unit: '{queues}/s'
@@ -13071,6 +13266,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.queue_deleted:
         description: Number of queues deleted.
         unit: '{queues}'
@@ -13079,6 +13276,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.queue_deleted_details.rate:
         description: Rate of queues deleted.
         unit: '{queues}/s'
@@ -13087,6 +13286,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.queue_index_read_count:
         description: Number of queue index reads.
         unit: '{ops}'
@@ -13095,6 +13296,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.queue_index_read_count_details.rate:
         description: Rate of queue index reads.
         unit: '{ops}/s'
@@ -13103,6 +13306,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.queue_index_write_count:
         description: Number of queue index writes.
         unit: '{ops}'
@@ -13111,6 +13316,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.queue_index_write_count_details.rate:
         description: Rate of queue index writes.
         unit: '{ops}/s'
@@ -13119,6 +13326,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.run_queue:
         description: Run queue length of the Erlang scheduler.
         unit: '{threads}'
@@ -13127,6 +13336,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.sockets_total:
         description: Maximum allowed sockets.
         unit: '{sockets}'
@@ -13135,6 +13346,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.sockets_used:
         description: Number of sockets in use.
         unit: '{sockets}'
@@ -13143,6 +13356,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
       rabbitmq.node.sockets_used_details.rate:
         description: Rate of socket usage.
         unit: '{sockets}/s'
@@ -13151,6 +13366,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: double
+        stability:
+          level: development
       rabbitmq.node.uptime:
         description: Uptime of the node.
         unit: ms
@@ -13159,6 +13376,8 @@ components:
           monotonic: false
           aggregation_temporality: cumulative
           value_type: int
+        stability:
+          level: development
     resource_attributes:
       rabbitmq.node.name:
         description: The name of the RabbitMQ node.
@@ -16790,7 +17009,7 @@ components:
     status:
       class: receiver
       stability:
-        alpha:
+        beta:
         - logs
       distributions:
       - contrib

@@ -514,6 +514,7 @@ components:
         - pavolloffay
         - MovieStoreGuy
         - axw
+        - paulojmdias
     attributes:
       node_id:
         description: The Kafka node ID.

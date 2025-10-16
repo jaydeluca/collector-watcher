@@ -2245,7 +2245,81 @@ components:
       codeowners:
         active:
         - dmitryax
-    resource_attributes: {}
+    attributes:
+      interface.name:
+        description: Name of the network interface
+        type: string
+      interface.state:
+        description: Administrative state of the interface
+        type: string
+    metrics:
+      cisco.interface.receive.bytes:
+        description: Number of bytes received on the interface
+        unit: By
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - interface.name
+        - interface.state
+      cisco.interface.receive.errors:
+        description: Number of receive errors on the interface
+        unit: '{error}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - interface.name
+        - interface.state
+      cisco.interface.transmit.bytes:
+        description: Number of bytes transmitted on the interface
+        unit: By
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - interface.name
+        - interface.state
+      cisco.interface.transmit.errors:
+        description: Number of transmit errors on the interface
+        unit: '{error}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - interface.name
+        - interface.state
+      cisco.interface.up:
+        description: Interface operational status (1 for up, 0 for down)
+        unit: '1'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - interface.name
+        - interface.state
+      cisco.system.cpu.utilization:
+        description: CPU utilization as a fraction
+        unit: '1'
+        enabled: true
+        gauge:
+          value_type: double
+      cisco.system.memory.utilization:
+        description: Memory utilization as a fraction
+        unit: '1'
+        enabled: true
+        gauge:
+          value_type: double
+    resource_attributes:
+      cisco.device.ip:
+        description: IP address of the Cisco device
+        type: string
+      cisco.device.model:
+        description: Model of the Cisco device
+        type: string
+      cisco.device.name:
+        description: Name of the Cisco device
+        type: string
 - name: cloudflarereceiver
   metadata:
     type: cloudflare
@@ -13437,6 +13511,286 @@ components:
         - ChrsMark
         emeritus:
         - rmfitzpatrick
+- name: redfishreceiver
+  metadata:
+    type: redfish
+    status:
+      class: receiver
+      stability:
+        development:
+        - metrics
+      codeowners:
+        active:
+        - steven-freed
+      distributions:
+      - contrib
+    attributes:
+      base_url:
+        description: base url.
+        type: string
+      chassis.asset_tag:
+        description: Chassis asset tag.
+        type: string
+      chassis.chassis_type:
+        description: Chassis type.
+        type: string
+      chassis.id:
+        description: Chassis id.
+        type: string
+      chassis.manufacturer:
+        description: Chassis manufacturer.
+        type: string
+      chassis.model:
+        description: Chassis model.
+        type: string
+      chassis.name:
+        description: Chassis name.
+        type: string
+      chassis.serial_number:
+        description: Chassis serial number.
+        type: string
+      chassis.sku:
+        description: Chassis sku.
+        type: string
+      fan.name:
+        description: Fan name.
+        type: string
+      system.asset_tag:
+        description: System asset tag.
+        type: string
+      system.bios_version:
+        description: System bios version.
+        type: string
+      system.host_name:
+        description: System host name.
+        type: string
+      system.id:
+        description: System id.
+        type: string
+      system.manufacturer:
+        description: System manufacturer.
+        type: string
+      system.model:
+        description: System model.
+        type: string
+      system.name:
+        description: System name.
+        type: string
+      system.serial_number:
+        description: System serial number.
+        type: string
+      system.sku:
+        description: System sku.
+        type: string
+      system.system_type:
+        description: System type.
+        type: string
+      temperature.name:
+        description: Temperature name.
+        type: string
+    metrics:
+      chassis.powerstate:
+        description: Measures the power state of a chassis (-1 unknown, 0 off, 1 on).
+        unit: '{powerstate}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - chassis.asset_tag
+        - chassis.chassis_type
+        - chassis.id
+        - chassis.manufacturer
+        - chassis.model
+        - chassis.name
+        - chassis.serial_number
+        - chassis.sku
+        - system.host_name
+        stability:
+          level: development
+      chassis.status.health:
+        description: Measures the health of a chassis (-1 unknown, 0 critical, 1 ok,
+          2 warning).
+        unit: '{health}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - chassis.asset_tag
+        - chassis.chassis_type
+        - chassis.id
+        - chassis.manufacturer
+        - chassis.model
+        - chassis.name
+        - chassis.serial_number
+        - chassis.sku
+        - system.host_name
+        stability:
+          level: development
+      chassis.status.state:
+        description: Measures the state of a chassis (-1 unknown, 0 disabled, 1 enabled).
+        unit: '{state}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - chassis.asset_tag
+        - chassis.chassis_type
+        - chassis.id
+        - chassis.manufacturer
+        - chassis.model
+        - chassis.name
+        - chassis.serial_number
+        - chassis.sku
+        - system.host_name
+        stability:
+          level: development
+      fan.reading:
+        description: Measures the reading of a chassis fan.
+        unit: '{%}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - chassis.id
+        - fan.name
+        - system.host_name
+        stability:
+          level: development
+      fan.status.health:
+        description: Measures the health of a chassis fan (-1 unknown, 0 critical,
+          1 ok, 2 warning).
+        unit: '{health}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - chassis.id
+        - fan.name
+        - system.host_name
+        stability:
+          level: development
+      fan.status.state:
+        description: Measures the state of a chassis fan (-1 unknown, 0 disabled,
+          1 enabled).
+        unit: '{state}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - chassis.id
+        - fan.name
+        - system.host_name
+        stability:
+          level: development
+      system.powerstate:
+        description: Measures the power state of a system (-1 unknown, 0 off, 1 on).
+        unit: '{powerstate}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - system.asset_tag
+        - system.bios_version
+        - system.host_name
+        - system.id
+        - system.manufacturer
+        - system.model
+        - system.name
+        - system.serial_number
+        - system.sku
+        - system.system_type
+        stability:
+          level: development
+      system.status.health:
+        description: Measures the health of a system (-1 unknown, 0 critical, 1 ok,
+          2 warning).
+        unit: '{health}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - system.asset_tag
+        - system.bios_version
+        - system.host_name
+        - system.id
+        - system.manufacturer
+        - system.model
+        - system.name
+        - system.serial_number
+        - system.sku
+        - system.system_type
+        stability:
+          level: development
+      system.status.state:
+        description: Measures the state of a system (-1 unknown, 0 disabled, 1 enabled).
+        unit: '{state}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - system.asset_tag
+        - system.bios_version
+        - system.host_name
+        - system.id
+        - system.manufacturer
+        - system.model
+        - system.name
+        - system.serial_number
+        - system.sku
+        - system.system_type
+        stability:
+          level: development
+      temperature.reading:
+        description: Measures the reading of a chassis temperature.
+        unit: '{%}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - chassis.id
+        - fan.name
+        - system.host_name
+        stability:
+          level: development
+      temperature.status.health:
+        description: Measures the health of a chassis temperature (-1 unknown, 0 critical,
+          1 ok, 2 warning).
+        unit: '{health}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - chassis.id
+        - system.host_name
+        - temperature.name
+        stability:
+          level: development
+      temperature.status.state:
+        description: Measures the state of a chassis temperature (-1 unknown, 0 disabled,
+          1 enabled).
+        unit: '{state}'
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - base_url
+        - chassis.id
+        - system.host_name
+        - temperature.name
+        stability:
+          level: development
+    resource_attributes: {}
 - name: redisreceiver
   metadata:
     type: redis

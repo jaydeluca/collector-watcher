@@ -162,12 +162,13 @@ components:
     status:
       class: extension
       stability:
-        unmaintained:
+        alpha:
         - extension
       distributions:
       - contrib
       codeowners:
-        active: []
+        active:
+        - evan-bradley
         seeking_new: true
 - name: healthcheckv2extension
   metadata:

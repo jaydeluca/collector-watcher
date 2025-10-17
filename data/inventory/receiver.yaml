@@ -6374,6 +6374,70 @@ components:
         active:
         - atoulme
         - jkoronaAtCisco
+    attributes:
+      net.peer.ip:
+        description: The IP address of the host being pinged.
+        type: string
+      net.peer.name:
+        description: The hostname of the host being pinged.
+        type: string
+    metrics:
+      ping.loss.ratio:
+        description: The percentage of lost packets.
+        unit: '%'
+        enabled: true
+        gauge:
+          value_type: double
+        attributes:
+        - net.peer.ip
+        - net.peer.name
+        stability:
+          level: development
+      ping.rtt.avg:
+        description: Average round-trip time in milliseconds.
+        unit: ms
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - net.peer.ip
+        - net.peer.name
+        stability:
+          level: development
+      ping.rtt.max:
+        description: Maximum round-trip time in milliseconds.
+        unit: ms
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - net.peer.ip
+        - net.peer.name
+        stability:
+          level: development
+      ping.rtt.min:
+        description: Minimum round-trip time in milliseconds.
+        unit: ms
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - net.peer.ip
+        - net.peer.name
+        stability:
+          level: development
+      ping.rtt.stddev:
+        description: Standard deviation of round-trip time in milliseconds.
+        unit: ms
+        enabled: true
+        gauge:
+          value_type: int
+        attributes:
+        - net.peer.ip
+        - net.peer.name
+        stability:
+          level: development
+    resource_attributes: {}
 - name: iisreceiver
   metadata:
     type: iis

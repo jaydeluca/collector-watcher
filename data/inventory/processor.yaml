@@ -88,6 +88,7 @@ components:
       codeowners:
         active:
         - RichieSams
+        emeritus:
         - tombrk
 - name: deltatorateprocessor
   metadata:
@@ -129,6 +130,8 @@ components:
         - logs
         - metrics
         - traces
+        development:
+        - profiles
       distributions:
       - contrib
       codeowners:
@@ -200,6 +203,7 @@ components:
       codeowners:
         active:
         - RichieSams
+        emeritus:
         - tombrk
 - name: isolationforestprocessor
   metadata:

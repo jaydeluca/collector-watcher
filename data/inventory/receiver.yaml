@@ -5673,7 +5673,7 @@ components:
     status:
       class: receiver
       stability:
-        development:
+        alpha:
         - traces
       distributions:
       - contrib

@@ -36,9 +36,7 @@ class VersionedScanner:
         """
         self.repos = repos
         self.inventory_manager = inventory_manager
-        self.version_detectors = {
-            dist: VersionDetector(path) for dist, path in repos.items()
-        }
+        self.version_detectors = {dist: VersionDetector(path) for dist, path in repos.items()}
 
     def get_repository_name(self, distribution: DistributionName) -> str:
         """
@@ -218,11 +216,15 @@ class VersionedScanner:
             # Process latest release
             latest = self.process_latest_release(distribution)
             if latest:
-                summary["new_releases"].append({"distribution": distribution, "version": str(latest)})
+                summary["new_releases"].append(
+                    {"distribution": distribution, "version": str(latest)}
+                )
 
             # Update snapshot
             snapshot = self.update_snapshot(distribution)
-            summary["snapshots_updated"].append({"distribution": distribution, "version": str(snapshot)})
+            summary["snapshots_updated"].append(
+                {"distribution": distribution, "version": str(snapshot)}
+            )
 
         # Final summary
         print(f"\n{'=' * 60}")
@@ -263,4 +265,3 @@ class VersionedScanner:
 
         # Save the inventory
         self.save_version(distribution, version, components)
-

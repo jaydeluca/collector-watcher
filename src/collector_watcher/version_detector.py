@@ -262,4 +262,3 @@ def get_snapshot_versions(metadata_dir: Path, distribution: DistributionName) ->
     """
     all_versions = get_distribution_versions(metadata_dir, distribution)
     return [v for v in all_versions if v.is_snapshot]
-

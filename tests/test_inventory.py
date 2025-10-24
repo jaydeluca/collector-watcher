@@ -222,7 +222,9 @@ def test_version_exists(temp_inventory_dir, sample_components, sample_version):
     assert manager.version_exists("contrib", sample_version)
 
 
-def test_versioned_inventory_separate_distributions(temp_inventory_dir, sample_components, sample_version):
+def test_versioned_inventory_separate_distributions(
+    temp_inventory_dir, sample_components, sample_version
+):
     """Test that different distributions are stored separately."""
     manager = InventoryManager(str(temp_inventory_dir))
 

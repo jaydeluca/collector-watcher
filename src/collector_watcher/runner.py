@@ -101,7 +101,9 @@ class CollectorWatcher:
             summary = {"snapshots_updated": []}
             for dist in dist_config.keys():
                 snapshot = versioned_scanner.update_snapshot(dist)
-                summary["snapshots_updated"].append({"distribution": dist, "version": str(snapshot)})
+                summary["snapshots_updated"].append(
+                    {"distribution": dist, "version": str(snapshot)}
+                )
             return summary
 
         elif mode == "specific":
@@ -131,7 +133,9 @@ class CollectorWatcher:
 def main():
     """CLI entry point for the watcher."""
     if len(sys.argv) < 2:
-        print("Usage: python -m collector_watcher.runner <contrib_repo_path> --core-repo=<core_repo_path> [OPTIONS]")
+        print(
+            "Usage: python -m collector_watcher.runner <contrib_repo_path> --core-repo=<core_repo_path> [OPTIONS]"
+        )
         print("\nRequired Options:")
         print("  --core-repo=PATH           Path to core collector repository")
         print("\nOptional Arguments:")
@@ -144,9 +148,13 @@ def main():
         print("  # Nightly scan (default) - check releases and update snapshots")
         print("  python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core")
         print("\n  # Update snapshots only")
-        print("  python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --mode=snapshot")
+        print(
+            "  python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --mode=snapshot"
+        )
         print("\n  # Scan a specific version")
-        print("  python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --mode=specific --version=v0.112.0")
+        print(
+            "  python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --mode=specific --version=v0.112.0"
+        )
         sys.exit(1)
 
     repo_path = sys.argv[1]
@@ -172,7 +180,9 @@ def main():
     # Require core-repo
     if not core_repo_path:
         print("\n❌ Error: --core-repo is required", file=sys.stderr)
-        print("Usage: python -m collector_watcher.runner <contrib_repo_path> --core-repo=<core_repo_path>")
+        print(
+            "Usage: python -m collector_watcher.runner <contrib_repo_path> --core-repo=<core_repo_path>"
+        )
         sys.exit(1)
 
     try:

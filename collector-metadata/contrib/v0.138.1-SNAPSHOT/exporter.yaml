@@ -1,3 +1,5 @@
+distribution: contrib
+version: v0.138.1-SNAPSHOT
 repository: opentelemetry-collector-contrib
 component_type: exporter
 components:
@@ -9,8 +11,7 @@ components:
       stability:
         development:
         - traces
-      distributions:
-      - contrib
+      distributions: []
       codeowners:
         active:
         - sokoide
@@ -224,9 +225,10 @@ components:
       codeowners:
         active:
         - hanjm
-        - dmitryax
         - Frapschen
         - SpencerTorres
+        emeritus:
+        - dmitryax
 - name: coralogixexporter
   metadata:
     type: coralogix
@@ -288,23 +290,6 @@ components:
         - martin-majlis-s1
         - zdaratom-s1
         - tomaz-s1
-- name: debugexporter
-  metadata:
-    type: debug
-    status:
-      class: exporter
-      stability:
-        alpha:
-        - logs
-        - metrics
-        - traces
-        development:
-        - profiles
-      distributions:
-      - core
-      codeowners:
-        active:
-        - andrzej-stencel
 - name: dorisexporter
   metadata:
     type: doris
@@ -396,6 +381,8 @@ components:
         - profiles
       distributions:
       - contrib
+      - core
+      - k8s
       codeowners:
         active:
         - atingchen
@@ -447,8 +434,6 @@ components:
         - constanca-m
         - braydonk
         seeking_new: true
-      distributions:
-      - contrib
 - name: googlemanagedprometheusexporter
   metadata:
     type: googlemanagedprometheus
@@ -510,6 +495,7 @@ components:
         - profiles
       distributions:
       - contrib
+      - core
       codeowners:
         active:
         - pavolloffay
@@ -545,6 +531,7 @@ components:
         - metrics
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - rlankfo
@@ -611,21 +598,6 @@ components:
         - dashpole
         - billmeyer
         - gjanco
-- name: nopexporter
-  metadata:
-    type: nop
-    status:
-      class: exporter
-      stability:
-        beta:
-        - logs
-        - metrics
-        - traces
-      distributions:
-      - core
-      codeowners:
-        active:
-        - evan-bradley
 - name: opensearchexporter
   metadata:
     type: opensearch
@@ -658,39 +630,12 @@ components:
         - traces
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - jmacd
         - moh-osman3
         - lquerel
-- name: otlpexporter
-  metadata:
-    type: otlp
-    status:
-      class: exporter
-      stability:
-        development:
-        - profiles
-        stable:
-        - logs
-        - metrics
-        - traces
-      distributions:
-      - core
-- name: otlphttpexporter
-  metadata:
-    type: otlphttp
-    status:
-      class: exporter
-      stability:
-        development:
-        - profiles
-        stable:
-        - logs
-        - metrics
-        - traces
-      distributions:
-      - core
 - name: prometheusexporter
   metadata:
     type: prometheus
@@ -701,6 +646,7 @@ components:
         - metrics
       distributions:
       - contrib
+      - core
       codeowners:
         active:
         - Aneurysm9
@@ -716,6 +662,7 @@ components:
         - metrics
       distributions:
       - contrib
+      - core
       codeowners:
         active:
         - Aneurysm9
@@ -737,8 +684,9 @@ components:
       - contrib
       codeowners:
         active:
-        - dmitryax
         - dao-jun
+        emeritus:
+        - dmitryax
 - name: rabbitmqexporter
   metadata:
     type: rabbitmq
@@ -779,8 +727,7 @@ components:
         development:
         - logs
         - metrics
-      distributions:
-      - contrib
+      distributions: []
       codeowners:
         active:
         - AkhigbeEromo
@@ -913,20 +860,6 @@ components:
         - mx-psi
         - jordivilaseca
         - MoreraAlejandro
-- name: xexporter
-  metadata:
-    type: xexporter
-    status:
-      class: pkg
-      stability:
-        development:
-        - profiles
-      codeowners:
-        active:
-        - mx-psi
-        - dmathieu
-      distributions:
-      - core
 - name: zipkinexporter
   metadata:
     type: zipkin
@@ -937,6 +870,7 @@ components:
         - traces
       distributions:
       - contrib
+      - core
       codeowners:
         active:
         - MovieStoreGuy

@@ -1,0 +1,50 @@
+distribution: core
+version: v0.138.0
+repository: opentelemetry-collector
+component_type: receiver
+components:
+- name: nopreceiver
+  metadata:
+    type: nop
+    status:
+      class: receiver
+      stability:
+        beta:
+        - logs
+        - metrics
+        - traces
+      distributions:
+      - contrib
+      - core
+      codeowners:
+        active:
+        - evan-bradley
+- name: otlpreceiver
+  metadata:
+    type: otlp
+    status:
+      class: receiver
+      stability:
+        development:
+        - profiles
+        stable:
+        - logs
+        - metrics
+        - traces
+      distributions:
+      - contrib
+      - core
+      - k8s
+      - otlp
+- name: xreceiver
+  metadata:
+    type: xreceiver
+    status:
+      class: pkg
+      stability:
+        development:
+        - profiles
+      codeowners:
+        active:
+        - mx-psi
+        - dmathieu

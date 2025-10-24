@@ -1,15 +1,13 @@
 """Main runner for collector watcher workflow."""
 
-import os
 import sys
-import tempfile
 from pathlib import Path
 
-from .doc_generator import DocGenerator
 from .inventory import InventoryManager
 from .multi_repo_scanner import MultiRepoScanner
-from .pr_creator import PRCreator, generate_commit_message, generate_pr_body
 from .scanner import ComponentScanner
+from .version_detector import Version
+from .versioned_scanner import VersionedScanner
 
 
 class CollectorWatcher:
@@ -47,248 +45,149 @@ class CollectorWatcher:
 
         self.inventory_manager = InventoryManager(inventory_dir)
 
-    def run_scan(self) -> None:
-        """
-        Run a full scan and update inventory.
-
-        Changes are detected by comparing git diffs of the inventory files.
-        """
-        if self.is_multi_repo:
-            print("Scanning repositories:")
-            print(f"  Core: {self.core_repo_path}")
-            print(f"  Contrib: {self.repo_path}")
-        else:
-            print(f"Scanning repository: {self.repo_path}")
-
-        # Scan all components
-        if self.is_multi_repo:
-            inventory_data = self.scanner.scan_all_repos()
-            components = inventory_data["components"]
-        else:
-            components = self.scanner.scan_all_components()
-
-        # Print summary
-        total_components = sum(len(comps) for comps in components.values())
-        print(f"\nFound {total_components} total components:")
-        for component_type, component_list in components.items():
-            with_metadata = sum(1 for c in component_list if "metadata" in c)
-            without_metadata = len(component_list) - with_metadata
-            if without_metadata > 0:
-                print(
-                    f"  {component_type}: {len(component_list)} ({with_metadata} with metadata, {without_metadata} without)"
-                )
-            else:
-                print(f"  {component_type}: {len(component_list)}")
-
-        # Create and save inventory
-        new_inventory = self.inventory_manager.create_inventory(components)
-        self.inventory_manager.save_inventory(new_inventory)
-        print(f"\nInventory saved to: {self.inventory_manager.inventory_dir}/")
-        print("\nUse 'git diff' to see what changed in the inventory files.")
-
-    def generate_docs(
+    def run_versioned_scan(
         self,
-        repo_owner: str = "open-telemetry",
-        repo_name: str = "opentelemetry.io",
-        fork_owner: str | None = None,
-        base_branch: str = "main",
-        local_path: str | None = None,
-        dry_run: bool = False,
-    ) -> dict | None:
+        mode: str = "nightly",
+        specific_version: str | None = None,
+        force: bool = False,
+    ) -> dict:
         """
-        Generate documentation pages and create a pull request.
+        Run versioned scan workflow.
 
         Args:
-            repo_owner: Owner of the target repository
-            repo_name: Name of the target repository
-            fork_owner: Owner of the fork (defaults to authenticated user)
-            base_branch: Base branch to target
-            local_path: Local path to clone to (temporary if None)
-            dry_run: If True, don't push or create PR
+            mode: Scan mode - "nightly" (default), "release", "snapshot", or "specific"
+            specific_version: Version string for "specific" mode (e.g., "v0.112.0")
+            force: Force rescan even if version exists
 
         Returns:
-            PR metadata dict or None if failed
+            Summary of scan results
         """
-        github_token = os.environ.get("GITHUB_TOKEN")
-        if not github_token:
-            print("\n❌ GITHUB_TOKEN environment variable not set", file=sys.stderr)
-            return None
+        if not self.is_multi_repo:
+            print("Error: Versioned scanning requires both core and contrib repos")
+            print("Please provide --core-repo parameter")
+            sys.exit(1)
 
-        print(f"\n📝 Generating documentation{' (DRY RUN)' if dry_run else ''}...")
+        # Build distribution config
+        dist_config = {
+            "core": str(self.core_repo_path),
+            "contrib": str(self.repo_path),
+        }
 
-        # Load current inventory
-        inventory = self.inventory_manager.load_inventory()
-
-        # Generate documentation pages
-        doc_generator = DocGenerator(repository="opentelemetry-collector-contrib")
-        output_dir = Path("content/en/docs/collector")
-        pages = doc_generator.generate_all_pages(inventory, output_dir)
-
-        print(f"  Generated {len(pages)} documentation page(s)")
-
-        # Initialize PR creator
-        pr_creator = PRCreator(
-            github_token=github_token,
-            repo_owner=repo_owner,
-            repo_name=repo_name,
-            fork_owner=fork_owner,
+        # Create versioned scanner
+        versioned_scanner = VersionedScanner(
+            repos=dist_config,
+            inventory_manager=self.inventory_manager,
         )
 
-        # Determine local path
-        cleanup_local = False
-        if local_path is None:
-            local_path = Path(tempfile.mkdtemp(prefix="opentelemetry-io-"))
-            cleanup_local = True
-        else:
-            local_path = Path(local_path)
+        # Run appropriate scan mode
+        if mode == "nightly":
+            return versioned_scanner.run_nightly_scan()
 
-        try:
-            # Clone or update repository
-            print(f"  Cloning/updating repository to {local_path}...")
-            repo = pr_creator.clone_or_update_repo(local_path, base_branch)
+        elif mode == "release":
+            # Process latest releases only
+            summary = {"new_releases": []}
+            for dist in dist_config.keys():
+                latest = versioned_scanner.process_latest_release(dist)
+                if latest:
+                    summary["new_releases"].append({"distribution": dist, "version": str(latest)})
+            return summary
 
-            # Create feature branch
-            branch_name = pr_creator.create_feature_branch(repo)
-            print(f"  Created branch: {branch_name}")
-
-            # Write generated pages
-            file_paths = []
-            for page_path, content in pages.items():
-                full_path = local_path / page_path
-                full_path.parent.mkdir(parents=True, exist_ok=True)
-                full_path.write_text(content)
-                # Store relative path for git
-                file_paths.append(str(Path(page_path)))
-
-            # Commit changes
-            # For now, we'll just say "refreshing documentation" since we don't have change tracking yet
-            commit_msg = generate_commit_message([], [], [])
-            has_changes = pr_creator.commit_changes(repo, file_paths, commit_msg)
-
-            if not has_changes:
-                print("  ✓ No changes to commit")
-                return None
-
-            print(f"  Committed changes to {branch_name}")
-
-            # Push and create PR
-            if not dry_run:
-                print("  Pushing to fork...")
-                pr_creator.push_to_fork(repo, branch_name)
-
-                print("  Creating pull request...")
-                pr_title = "docs: Update OpenTelemetry Collector component pages"
-                pr_body_text = generate_pr_body([], [], [], [Path(p).name for p in file_paths])
-                pr = pr_creator.create_pull_request(
-                    title=pr_title,
-                    body=pr_body_text,
-                    head_branch=branch_name,
-                    base_branch=base_branch,
-                    dry_run=False,
+        elif mode == "snapshot":
+            # Update snapshots only
+            summary = {"snapshots_updated": []}
+            for dist in dist_config.keys():
+                snapshot = versioned_scanner.update_snapshot(dist)
+                summary["snapshots_updated"].append(
+                    {"distribution": dist, "version": str(snapshot)}
                 )
+            return summary
 
-                if pr:
-                    print(f"✅ Pull request created: {pr['url']}")
-                    return pr
-                else:
-                    print("❌ Failed to create pull request")
-                    return None
-            else:
-                print(f"  [DRY RUN] Would push branch: {branch_name}")
-                print(f"  [DRY RUN] Would create PR to {repo_owner}/{repo_name}:{base_branch}")
-                return {
-                    "number": None,
-                    "url": "DRY_RUN",
-                    "title": "docs: Update OpenTelemetry Collector component pages",
-                }
+        elif mode == "specific":
+            if not specific_version:
+                print("Error: --version required for 'specific' mode")
+                sys.exit(1)
 
-        finally:
-            # Cleanup temporary directory if needed
-            if cleanup_local and local_path.exists():
-                pr_creator.cleanup_local_repo(local_path)
+            # Parse version
+            try:
+                version = Version.from_string(specific_version)
+            except ValueError as e:
+                print(f"Error: Invalid version format: {e}")
+                sys.exit(1)
+
+            # Scan both distributions at this version
+            summary = {"scanned": []}
+            for dist in dist_config.keys():
+                versioned_scanner.scan_specific_version(dist, version, force=force)
+                summary["scanned"].append({"distribution": dist, "version": str(version)})
+            return summary
+
+        else:
+            print(f"Error: Unknown mode: {mode}")
+            sys.exit(1)
 
 
 def main():
     """CLI entry point for the watcher."""
     if len(sys.argv) < 2:
         print(
-            "Usage: python -m collector_watcher.runner <contrib_repo_path> [inventory_dir] [OPTIONS]"
+            "Usage: python -m collector_watcher.runner <contrib_repo_path> --core-repo=<core_repo_path> [OPTIONS]"
         )
-        print("\nOptions:")
-        print("  --core-repo=PATH           Path to core collector repository (optional)")
-        print(
-            "  --dry-run                  Don't actually create PRs, just show what would be created"
-        )
-        print("\nDocumentation Generation Options:")
-        print("  --generate-docs            Generate documentation pages and create PR")
-        print("  --docs-repo=OWNER/REPO     Docs repo (default: open-telemetry/opentelemetry.io)")
-        print("  --docs-fork-owner=OWNER    Fork owner (defaults to authenticated user)")
-        print("  --docs-base-branch=BRANCH  Base branch (default: main)")
-        print("  --docs-local-path=PATH     Local path for docs repo (temporary if not specified)")
+        print("\nRequired Options:")
+        print("  --core-repo=PATH           Path to core collector repository")
+        print("\nOptional Arguments:")
+        print("  --inventory-dir=PATH       Inventory directory (default: collector-metadata)")
+        print("  --mode=MODE                Scan mode: nightly, release, snapshot, specific")
+        print("                             (default: nightly)")
+        print("  --version=VERSION          Version for 'specific' mode (e.g., v0.112.0)")
+        print("  --force                    Force rescan even if version exists")
         print("\nExamples:")
-        print("  # Scan contrib repo only")
-        print("  python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib")
-        print("\n  # Scan both core and contrib repos")
+        print("  # Nightly scan (default) - check releases and update snapshots")
         print("  python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core")
-        print("\n  # Generate documentation")
+        print("\n  # Update snapshots only")
         print(
-            "  python -m collector_watcher.runner /path/to/repo --core-repo=/path/to/core --generate-docs"
+            "  python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --mode=snapshot"
+        )
+        print("\n  # Scan a specific version")
+        print(
+            "  python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --mode=specific --version=v0.112.0"
         )
         sys.exit(1)
 
     repo_path = sys.argv[1]
-    inventory_dir = "data/inventory"
+    inventory_dir = "collector-metadata"
     core_repo_path = None
-    dry_run = False
-    generate_docs = False
-    docs_repo = "open-telemetry/opentelemetry.io"
-    docs_fork_owner = None
-    docs_base_branch = "main"
-    docs_local_path = None
+    scan_mode = "nightly"
+    specific_version = None
+    force = False
 
     # Parse arguments
     for arg in sys.argv[2:]:
         if arg.startswith("--core-repo="):
             core_repo_path = arg.split("=", 1)[1]
-        elif arg.startswith("--docs-repo="):
-            docs_repo = arg.split("=", 1)[1]
-        elif arg.startswith("--docs-fork-owner="):
-            docs_fork_owner = arg.split("=", 1)[1]
-        elif arg.startswith("--docs-base-branch="):
-            docs_base_branch = arg.split("=", 1)[1]
-        elif arg.startswith("--docs-local-path="):
-            docs_local_path = arg.split("=", 1)[1]
-        elif arg == "--generate-docs":
-            generate_docs = True
-        elif arg == "--dry-run":
-            dry_run = True
-        elif not arg.startswith("--"):
-            inventory_dir = arg
+        elif arg.startswith("--inventory-dir="):
+            inventory_dir = arg.split("=", 1)[1]
+        elif arg.startswith("--mode="):
+            scan_mode = arg.split("=", 1)[1]
+        elif arg.startswith("--version="):
+            specific_version = arg.split("=", 1)[1]
+        elif arg == "--force":
+            force = True
+
+    # Require core-repo
+    if not core_repo_path:
+        print("\n❌ Error: --core-repo is required", file=sys.stderr)
+        print(
+            "Usage: python -m collector_watcher.runner <contrib_repo_path> --core-repo=<core_repo_path>"
+        )
+        sys.exit(1)
 
     try:
         watcher = CollectorWatcher(repo_path, inventory_dir, core_repo_path=core_repo_path)
-        watcher.run_scan()
-
-        # Generate documentation if requested
-        if generate_docs:
-            # Parse docs_repo into owner/name
-            if "/" in docs_repo:
-                docs_owner, docs_name = docs_repo.split("/", 1)
-            else:
-                print(
-                    f"\n❌ Invalid docs-repo format: {docs_repo}. Expected: owner/repo",
-                    file=sys.stderr,
-                )
-                sys.exit(1)
-
-            watcher.generate_docs(
-                repo_owner=docs_owner,
-                repo_name=docs_name,
-                fork_owner=docs_fork_owner,
-                base_branch=docs_base_branch,
-                local_path=docs_local_path,
-                dry_run=dry_run,
-            )
+        watcher.run_versioned_scan(
+            mode=scan_mode,
+            specific_version=specific_version,
+            force=force,
+        )
 
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)

@@ -37,135 +37,222 @@ def sample_components():
     }
 
 
-def test_create_inventory(sample_components):
-    """Test creating inventory structure."""
-    manager = InventoryManager()
-    inventory = manager.create_inventory(sample_components)
-
-    assert inventory["repository"] == "opentelemetry-collector-contrib"
-    assert inventory["components"] == sample_components
+# Versioned inventory tests
 
 
-def test_create_inventory_custom_repo(sample_components):
-    """Test creating inventory with custom repository name."""
-    manager = InventoryManager()
-    inventory = manager.create_inventory(sample_components, repository="custom-repo")
+@pytest.fixture
+def sample_version():
+    """Sample version for testing."""
+    from collector_watcher.version_detector import Version
 
-    assert inventory["repository"] == "custom-repo"
+    return Version(0, 112, 0)
 
 
-def test_save_inventory(temp_inventory_dir, sample_components):
-    """Test saving inventory to separate files per component type."""
-    inventory_dir = temp_inventory_dir / "inventory"
-    manager = InventoryManager(str(inventory_dir))
+@pytest.fixture
+def sample_snapshot_version():
+    """Sample snapshot version for testing."""
+    from collector_watcher.version_detector import Version
 
-    inventory = manager.create_inventory(sample_components)
-    manager.save_inventory(inventory)
+    return Version(0, 113, 0, is_snapshot=True)
 
-    # Verify each component type file exists
-    assert (inventory_dir / "receiver.yaml").exists()
-    assert (inventory_dir / "processor.yaml").exists()
-    assert (inventory_dir / "exporter.yaml").exists()
 
-    # Verify receiver file contents
-    with open(inventory_dir / "receiver.yaml") as f:
+def test_save_versioned_inventory(temp_inventory_dir, sample_components, sample_version):
+    """Test saving versioned inventory."""
+    manager = InventoryManager(str(temp_inventory_dir))
+
+    manager.save_versioned_inventory(
+        distribution="contrib",
+        version=sample_version,
+        components=sample_components,
+        repository="opentelemetry-collector-contrib",
+    )
+
+    # Verify directory structure
+    version_dir = temp_inventory_dir / "contrib" / "v0.112.0"
+    assert version_dir.exists()
+    assert (version_dir / "receiver.yaml").exists()
+    assert (version_dir / "processor.yaml").exists()
+
+    # Verify file contents
+    with open(version_dir / "receiver.yaml") as f:
         loaded = yaml.safe_load(f)
 
+    assert loaded["distribution"] == "contrib"
+    assert loaded["version"] == "v0.112.0"
     assert loaded["repository"] == "opentelemetry-collector-contrib"
     assert loaded["component_type"] == "receiver"
-    assert loaded["components"][0]["name"] == "otlpreceiver"
+    assert len(loaded["components"]) == 2
 
 
-def test_save_inventory_creates_directory(temp_inventory_dir, sample_components):
-    """Test that save_inventory creates the inventory directory."""
-    inventory_dir = temp_inventory_dir / "nested" / "dir" / "inventory"
-    manager = InventoryManager(str(inventory_dir))
-
-    inventory = manager.create_inventory(sample_components)
-    manager.save_inventory(inventory)
-
-    assert inventory_dir.exists()
-    assert (inventory_dir / "receiver.yaml").exists()
-
-
-def test_load_inventory(temp_inventory_dir, sample_components):
-    """Test loading inventory from multiple files."""
-    inventory_dir = temp_inventory_dir / "inventory"
-    manager = InventoryManager(str(inventory_dir))
+def test_load_versioned_inventory(temp_inventory_dir, sample_components, sample_version):
+    """Test loading versioned inventory."""
+    manager = InventoryManager(str(temp_inventory_dir))
 
     # Save first
-    inventory = manager.create_inventory(sample_components)
-    manager.save_inventory(inventory)
+    manager.save_versioned_inventory(
+        distribution="contrib",
+        version=sample_version,
+        components=sample_components,
+        repository="opentelemetry-collector-contrib",
+    )
 
     # Then load
-    loaded = manager.load_inventory()
+    loaded = manager.load_versioned_inventory("contrib", sample_version)
 
+    assert loaded["distribution"] == "contrib"
+    assert loaded["version"] == "v0.112.0"
     assert loaded["repository"] == "opentelemetry-collector-contrib"
     assert loaded["components"] == sample_components
 
 
-def test_load_nonexistent_inventory(temp_inventory_dir):
-    """Test loading inventory when directory doesn't exist."""
-    inventory_dir = temp_inventory_dir / "nonexistent"
-    manager = InventoryManager(str(inventory_dir))
+def test_load_nonexistent_versioned_inventory(temp_inventory_dir, sample_version):
+    """Test loading versioned inventory that doesn't exist."""
+    manager = InventoryManager(str(temp_inventory_dir))
 
-    loaded = manager.load_inventory()
+    loaded = manager.load_versioned_inventory("contrib", sample_version)
 
-    assert loaded["repository"] == ""
+    assert loaded["distribution"] == "contrib"
+    assert loaded["version"] == "v0.112.0"
     assert loaded["components"] == {}
 
 
-def test_inventory_exists(temp_inventory_dir, sample_components):
-    """Test checking if inventory exists."""
-    inventory_dir = temp_inventory_dir / "inventory"
-    manager = InventoryManager(str(inventory_dir))
+def test_list_versions(temp_inventory_dir, sample_components):
+    """Test listing available versions."""
+    from collector_watcher.version_detector import Version
 
-    assert not manager.inventory_exists()
+    manager = InventoryManager(str(temp_inventory_dir))
 
-    inventory = manager.create_inventory(sample_components)
-    manager.save_inventory(inventory)
+    # Create multiple versions
+    v1 = Version(0, 110, 0)
+    v2 = Version(0, 111, 0)
+    v3 = Version(0, 112, 0)
 
-    assert manager.inventory_exists()
+    for version in [v1, v2, v3]:
+        manager.save_versioned_inventory(
+            distribution="contrib",
+            version=version,
+            components=sample_components,
+            repository="opentelemetry-collector-contrib",
+        )
 
+    # List versions
+    versions = manager.list_versions("contrib")
 
-def test_yaml_format_preserved(temp_inventory_dir, sample_components):
-    """Test that YAML format is human-readable and properly formatted."""
-    inventory_dir = temp_inventory_dir / "inventory"
-    manager = InventoryManager(str(inventory_dir))
-
-    inventory = manager.create_inventory(sample_components)
-    manager.save_inventory(inventory)
-
-    # Read receiver.yaml as text to verify format
-    with open(inventory_dir / "receiver.yaml") as f:
-        content = f.read()
-
-    # Should be readable YAML with proper structure
-    assert "repository:" in content
-    assert "component_type:" in content
-    assert "components:" in content
-    assert "- name:" in content
-    # Should not use flow style (inline brackets)
-    assert "{" not in content
+    assert len(versions) == 3
+    # Should be sorted newest to oldest
+    assert str(versions[0]) == "v0.112.0"
+    assert str(versions[1]) == "v0.111.0"
+    assert str(versions[2]) == "v0.110.0"
 
 
-def test_roundtrip_consistency(temp_inventory_dir, sample_components):
-    """Test that save/load roundtrip preserves data."""
-    inventory_dir = temp_inventory_dir / "inventory"
-    manager = InventoryManager(str(inventory_dir))
+def test_list_snapshot_versions(temp_inventory_dir, sample_components):
+    """Test listing snapshot versions."""
+    from collector_watcher.version_detector import Version
 
-    # Create and save
-    original = manager.create_inventory(sample_components)
-    manager.save_inventory(original)
+    manager = InventoryManager(str(temp_inventory_dir))
 
-    # Load
-    loaded = manager.load_inventory()
+    # Create mix of release and snapshot versions
+    v1 = Version(0, 112, 0)
+    v2 = Version(0, 113, 0, is_snapshot=True)
+    v3 = Version(0, 114, 0, is_snapshot=True)
 
-    # Save again
-    manager.save_inventory(loaded)
+    for version in [v1, v2, v3]:
+        manager.save_versioned_inventory(
+            distribution="contrib",
+            version=version,
+            components=sample_components,
+            repository="opentelemetry-collector-contrib",
+        )
 
-    # Load again
-    final = manager.load_inventory()
+    # List snapshot versions only
+    snapshots = manager.list_snapshot_versions("contrib")
 
-    # Should be identical
-    assert original == loaded == final
+    assert len(snapshots) == 2
+    assert all(v.is_snapshot for v in snapshots)
+
+
+def test_cleanup_snapshots(temp_inventory_dir, sample_components):
+    """Test cleaning up snapshot versions."""
+    from collector_watcher.version_detector import Version
+
+    manager = InventoryManager(str(temp_inventory_dir))
+
+    # Create mix of release and snapshot versions
+    v1 = Version(0, 112, 0)
+    v2 = Version(0, 113, 0, is_snapshot=True)
+    v3 = Version(0, 114, 0, is_snapshot=True)
+
+    for version in [v1, v2, v3]:
+        manager.save_versioned_inventory(
+            distribution="contrib",
+            version=version,
+            components=sample_components,
+            repository="opentelemetry-collector-contrib",
+        )
+
+    # Verify all exist
+    assert manager.version_exists("contrib", v1)
+    assert manager.version_exists("contrib", v2)
+    assert manager.version_exists("contrib", v3)
+
+    # Cleanup snapshots
+    removed = manager.cleanup_snapshots("contrib")
+
+    assert removed == 2
+    # Release should still exist
+    assert manager.version_exists("contrib", v1)
+    # Snapshots should be gone
+    assert not manager.version_exists("contrib", v2)
+    assert not manager.version_exists("contrib", v3)
+
+
+def test_version_exists(temp_inventory_dir, sample_components, sample_version):
+    """Test checking if version exists."""
+    manager = InventoryManager(str(temp_inventory_dir))
+
+    assert not manager.version_exists("contrib", sample_version)
+
+    manager.save_versioned_inventory(
+        distribution="contrib",
+        version=sample_version,
+        components=sample_components,
+        repository="opentelemetry-collector-contrib",
+    )
+
+    assert manager.version_exists("contrib", sample_version)
+
+
+def test_versioned_inventory_separate_distributions(
+    temp_inventory_dir, sample_components, sample_version
+):
+    """Test that different distributions are stored separately."""
+    manager = InventoryManager(str(temp_inventory_dir))
+
+    # Save to both distributions
+    manager.save_versioned_inventory(
+        distribution="core",
+        version=sample_version,
+        components=sample_components,
+        repository="opentelemetry-collector",
+    )
+
+    manager.save_versioned_inventory(
+        distribution="contrib",
+        version=sample_version,
+        components=sample_components,
+        repository="opentelemetry-collector-contrib",
+    )
+
+    # Verify both exist separately
+    core_dir = temp_inventory_dir / "core" / "v0.112.0"
+    contrib_dir = temp_inventory_dir / "contrib" / "v0.112.0"
+
+    assert core_dir.exists()
+    assert contrib_dir.exists()
+
+    # Load and verify they have correct repository
+    core_inv = manager.load_versioned_inventory("core", sample_version)
+    contrib_inv = manager.load_versioned_inventory("contrib", sample_version)
+
+    assert core_inv["repository"] == "opentelemetry-collector"
+    assert contrib_inv["repository"] == "opentelemetry-collector-contrib"

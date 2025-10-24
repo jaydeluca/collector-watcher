@@ -43,18 +43,18 @@ jobs:
         run: uv sync
         working-directory: ${{ github.workspace }}
 
-      - name: Run collector watcher
+      - name: Run versioned collector watcher
         id: scan
         run: |
           uv run python -m collector_watcher.runner \
             opentelemetry-collector-contrib \
-            data/inventory \
-            --core-repo=opentelemetry-collector
+            --core-repo=opentelemetry-collector \
+            --mode=nightly
 
       - name: Check for inventory changes
         id: check_changes
         run: |
-          if git diff --quiet data/inventory/; then
+          if git diff --quiet collector-metadata/; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
@@ -65,13 +65,17 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
-          commit-message: Update component inventory
+          commit-message: Update component inventory (versioned)
           branch: inventory-update-${{ github.run_id }}
           delete-branch: true
           title: "Update component inventory"
           add-paths: |
-            data/inventory/*.yaml
+            collector-metadata/**/*.yaml
           body: |
             ## Component Inventory Update
 
-            Automated scan detected changes in OpenTelemetry Collector components.
+            Automated nightly scan detected changes in OpenTelemetry Collector components.
+            
+            This includes:
+            - New release versions (if any)
+            - Updated SNAPSHOT versions from main branch

@@ -1,3 +1,5 @@
+distribution: contrib
+version: v0.138.0
 repository: opentelemetry-collector-contrib
 component_type: processor
 components:
@@ -13,21 +15,11 @@ components:
         - traces
       distributions:
       - contrib
+      - core
+      - k8s
       codeowners:
         active:
         - boostchicken
-- name: batchprocessor
-  metadata:
-    type: batch
-    status:
-      class: processor
-      stability:
-        beta:
-        - logs
-        - metrics
-        - traces
-      distributions:
-      - core
 - name: coralogixprocessor
   metadata:
     type: coralogix
@@ -36,8 +28,7 @@ components:
       stability:
         alpha:
         - traces
-      distributions:
-      - contrib
+      distributions: []
       codeowners:
         active:
         - crobert-1
@@ -53,6 +44,7 @@ components:
         - metrics
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - TylerHelmuth
@@ -85,6 +77,7 @@ components:
         - metrics
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - RichieSams
@@ -100,6 +93,7 @@ components:
         - metrics
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - Aneurysm9
@@ -118,8 +112,6 @@ components:
         - andrzej-stencel
         - kaisecheng
         - edmocosta
-      distributions:
-      - contrib
 - name: filterprocessor
   metadata:
     type: filter
@@ -134,6 +126,8 @@ components:
         - profiles
       distributions:
       - contrib
+      - core
+      - k8s
       codeowners:
         active:
         - TylerHelmuth
@@ -169,6 +163,7 @@ components:
         - traces
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - rnishtala-sumo
@@ -184,6 +179,7 @@ components:
         - traces
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - iblancasa
@@ -200,6 +196,7 @@ components:
         - metrics
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - RichieSams
@@ -234,6 +231,7 @@ components:
         - profiles
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - dmitryax
@@ -347,6 +345,7 @@ components:
         - logs
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - MikeGoldsmith
@@ -360,25 +359,10 @@ components:
       stability:
         development:
         - logs
-      distributions:
-      - contrib
+      distributions: []
       codeowners:
         active:
         - dehaansa
-- name: memorylimiterprocessor
-  metadata:
-    type: memory_limiter
-    status:
-      class: processor
-      stability:
-        alpha:
-        - profiles
-        beta:
-        - logs
-        - metrics
-        - traces
-      distributions:
-      - core
 - name: metricsgenerationprocessor
   metadata:
     type: metricsgeneration
@@ -417,6 +401,7 @@ components:
         - metrics
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - dmitryax
@@ -432,6 +417,8 @@ components:
         - traces
       distributions:
       - contrib
+      - core
+      - k8s
       codeowners:
         active:
         - jmacd
@@ -451,6 +438,7 @@ components:
         - traces
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - dmitryax
@@ -470,6 +458,7 @@ components:
         - traces
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - atoulme
@@ -490,6 +479,7 @@ components:
         - profiles
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - Aneurysm9
@@ -508,6 +498,8 @@ components:
         - profiles
       distributions:
       - contrib
+      - core
+      - k8s
       codeowners:
         active:
         - dmitryax
@@ -521,8 +513,7 @@ components:
         - logs
         - metrics
         - traces
-      distributions:
-      - contrib
+      distributions: []
       codeowners:
         active:
         - MovieStoreGuy
@@ -538,6 +529,7 @@ components:
         - traces
       distributions:
       - contrib
+      - core
       codeowners:
         active:
         - boostchicken
@@ -574,6 +566,7 @@ components:
         - traces
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - portertech
@@ -610,6 +603,7 @@ components:
         - profiles
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - TylerHelmuth
@@ -635,17 +629,3 @@ components:
         - axw
         - schmikei
         - rnishtala-sumo
-- name: xprocessor
-  metadata:
-    type: xprocessor
-    status:
-      class: pkg
-      stability:
-        development:
-        - profiles
-      codeowners:
-        active:
-        - mx-psi
-        - dmathieu
-      distributions:
-      - core

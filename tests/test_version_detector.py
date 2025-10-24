@@ -1,12 +1,8 @@
 """Tests for version detection."""
 
-import tempfile
-from pathlib import Path
-
-import git
 import pytest
 
-from collector_watcher.version_detector import Version, VersionDetector, get_distribution_versions
+from collector_watcher.version_detector import Version
 
 
 class TestVersion:

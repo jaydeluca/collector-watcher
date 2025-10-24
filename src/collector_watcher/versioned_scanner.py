@@ -1,7 +1,6 @@
 """Versioned scanner for OpenTelemetry Collector repositories."""
 
-from pathlib import Path
-from typing import Any, Literal
+from typing import Any
 
 from .inventory import DistributionName, InventoryManager
 from .scanner import ComponentScanner

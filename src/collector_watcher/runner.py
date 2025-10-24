@@ -1,14 +1,10 @@
 """Main runner for collector watcher workflow."""
 
-import os
 import sys
-import tempfile
 from pathlib import Path
 
-from .doc_generator import DocGenerator
 from .inventory import InventoryManager
 from .multi_repo_scanner import MultiRepoScanner
-from .pr_creator import PRCreator, generate_commit_message, generate_pr_body
 from .scanner import ComponentScanner
 from .version_detector import Version
 from .versioned_scanner import VersionedScanner

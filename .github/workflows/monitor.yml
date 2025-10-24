@@ -25,12 +25,22 @@ jobs:
         with:
           repository: open-telemetry/opentelemetry-collector-contrib
           path: opentelemetry-collector-contrib
+          fetch-depth: 1  # Shallow clone
+
+      - name: Fetch tags for contrib
+        run: git fetch --tags --depth=1
+        working-directory: opentelemetry-collector-contrib
 
       - name: Checkout opentelemetry-collector (core)
         uses: actions/checkout@v4
         with:
           repository: open-telemetry/opentelemetry-collector
           path: opentelemetry-collector
+          fetch-depth: 1  # Shallow clone
+
+      - name: Fetch tags for core
+        run: git fetch --tags --depth=1
+        working-directory: opentelemetry-collector
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4

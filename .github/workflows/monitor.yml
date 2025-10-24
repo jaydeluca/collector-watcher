@@ -25,12 +25,22 @@ jobs:
         with:
           repository: open-telemetry/opentelemetry-collector-contrib
           path: opentelemetry-collector-contrib
+          fetch-depth: 1  # Shallow clone
+
+      - name: Fetch tags for contrib
+        run: git fetch --tags --depth=1
+        working-directory: opentelemetry-collector-contrib
 
       - name: Checkout opentelemetry-collector (core)
         uses: actions/checkout@v4
         with:
           repository: open-telemetry/opentelemetry-collector
           path: opentelemetry-collector
+          fetch-depth: 1  # Shallow clone
+
+      - name: Fetch tags for core
+        run: git fetch --tags --depth=1
+        working-directory: opentelemetry-collector
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4
@@ -65,9 +75,9 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
-          commit-message: Update component inventory (versioned)
-          branch: inventory-update-${{ github.run_id }}
-          delete-branch: true
+          commit-message: Update component inventory
+          branch: automated-inventory-update
+          delete-branch: false  # Keep branch to reuse for next update
           title: "Update component inventory"
           add-paths: |
             collector-metadata/**/*.yaml
@@ -79,3 +89,7 @@ jobs:
             This includes:
             - New release versions (if any)
             - Updated SNAPSHOT versions from main branch
+            
+            ---
+            
+            _This PR is automatically updated by the nightly scan._

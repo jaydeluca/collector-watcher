@@ -1,5 +1,5 @@
 distribution: contrib
-version: v0.138.1-SNAPSHOT
+version: v0.0.1-SNAPSHOT
 repository: opentelemetry-collector-contrib
 component_type: connector
 components:

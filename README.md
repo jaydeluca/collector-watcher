@@ -1,35 +1,68 @@
 # Collector Watcher
 
 Automated monitoring system for OpenTelemetry Collector components. Tracks changes in component structure and metadata
-across both the opentelemetry-collector (core) and opentelemetry-collector-contrib repositories.
+across both the opentelemetry-collector (core) and opentelemetry-collector-contrib repositories on a **versioned basis**.
 
 ## Overview
 
-Collector Watcher scans OpenTelemetry Collector components and maintains an inventory. When run, it:
+Collector Watcher scans OpenTelemetry Collector components and maintains a versioned inventory. When run, it:
 - Discovers all collector components (connectors, exporters, extensions, processors, receivers)
-- Scans both core and contrib repositories and merges component data
+- Tracks components separately by distribution (core, contrib) and version
 - Parses component metadata from metadata.yaml files
-- Maintains inventory in YAML format
+- Maintains versioned inventory in YAML format at `collector-metadata/{distribution}/{version}/`
+- Tracks finalized release versions and current SNAPSHOT from main branch
 - Generates documentation pages for opentelemetry.io
-- Changes are detected via git diff of the inventory files
+- Changes are detected via git diff of the versioned inventory files
 
 ## Usage
 
-### Basic Scan
+### Nightly Scan (Recommended)
 
-Run a scan of the collector-contrib repository only:
-
-```bash
-uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib
-```
-
-Or scan both core and contrib repositories (recommended):
+Run the full nightly workflow that checks for new releases and updates snapshots:
 
 ```bash
 uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --core-repo=/path/to/opentelemetry-collector
 ```
 
-After scanning, use `git diff data/inventory/` to see what changed in the inventory.
+This will:
+1. Check for new release versions in both repositories
+2. Scan and save any new releases found
+3. Update SNAPSHOT versions from the main branch
+4. Clean up old SNAPSHOT directories
+
+After scanning, use `git diff collector-metadata/` to see what changed.
+
+### Update Snapshots Only
+
+To only update the SNAPSHOT versions without checking for new releases:
+
+```bash
+uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --core-repo=/path/to/opentelemetry-collector --mode=snapshot
+```
+
+### Check for New Releases Only
+
+To only check for and process new releases:
+
+```bash
+uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --core-repo=/path/to/opentelemetry-collector --mode=release
+```
+
+### Scan a Specific Version
+
+To scan a specific version (useful for backfilling historical data):
+
+```bash
+uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --core-repo=/path/to/opentelemetry-collector --mode=specific --version=v0.112.0
+```
+
+### Legacy Mode
+
+To use the old (non-versioned) scanning behavior:
+
+```bash
+uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --legacy
+```
 
 ### Generate Documentation
 
@@ -97,20 +130,35 @@ uv run ruff format src/ tests/
 
 ## Inventory Format
 
-The inventory is stored as separate YAML files per component type in `data/inventory/`:
+The inventory is stored in a versioned directory structure:
 
 ```
-data/inventory/
-├── connector.yaml
-├── exporter.yaml
-├── extension.yaml
-├── processor.yaml
-└── receiver.yaml
+collector-metadata/
+├── core/
+│   ├── v0.112.0/
+│   │   ├── connector.yaml
+│   │   ├── exporter.yaml
+│   │   ├── extension.yaml
+│   │   ├── processor.yaml
+│   │   └── receiver.yaml
+│   ├── v0.113.0/
+│   │   └── ...
+│   └── v0.114.0-SNAPSHOT/
+│       └── ...
+└── contrib/
+    ├── v0.112.0/
+    │   └── ...
+    ├── v0.113.0/
+    │   └── ...
+    └── v0.114.0-SNAPSHOT/
+        └── ...
 ```
 
-Each file contains:
+Each version directory contains separate YAML files per component type. Each file contains:
 
 ```yaml
+distribution: contrib
+version: v0.113.0
 repository: opentelemetry-collector-contrib
 component_type: receiver
 components:
@@ -122,7 +170,11 @@ components:
           stable: [metrics, traces]
 ```
 
-Timestamps and commit SHAs are intentionally excluded so files only change when component metadata or existence changes, making git diffs meaningful. Splitting by component type keeps file sizes manageable.
+Key principles:
+- **Distributions are tracked separately**: Core and contrib each have their own version directories
+- **Only finalized releases are tracked permanently**: Each release tag gets its own directory
+- **Only ONE snapshot exists at a time**: The latest `-SNAPSHOT` version representing the main branch
+- **Timestamps excluded**: Files only change when component metadata or existence changes, making git diffs meaningful
 
 ## GitHub Actions
 
@@ -135,7 +187,9 @@ Runs on all pull requests:
 
 ### Monitoring Workflow
 Runs daily to monitor both core and contrib repositories:
-- Scans both opentelemetry-collector and opentelemetry-collector-contrib
-- Merges component data into inventory files
-- Opens PR with updated inventory files if changes detected
-- Changes are visible via git diff in the PR
+- Checks for new release versions in both repositories
+- Scans and saves any new releases found
+- Updates SNAPSHOT versions from main branch
+- Cleans up old SNAPSHOT directories
+- Opens PR with updated versioned inventory files if changes detected
+- Changes are visible via git diff in the PR showing new/updated version directories

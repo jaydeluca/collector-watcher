@@ -1,3 +1,5 @@
+distribution: contrib
+version: v0.138.1-SNAPSHOT
 repository: opentelemetry-collector-contrib
 component_type: extension
 components:
@@ -11,6 +13,7 @@ components:
         - extension
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - splunkericl
@@ -67,6 +70,7 @@ components:
         - extension
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - frzifus
@@ -84,6 +88,7 @@ components:
         - extension
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - frzifus
@@ -152,6 +157,7 @@ components:
         - extension
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - VihasMakwana
@@ -162,12 +168,15 @@ components:
     status:
       class: extension
       stability:
-        unmaintained:
+        alpha:
         - extension
       distributions:
       - contrib
+      - core
+      - k8s
       codeowners:
-        active: []
+        active:
+        - evan-bradley
         seeking_new: true
 - name: healthcheckv2extension
   metadata:
@@ -177,8 +186,7 @@ components:
       stability:
         development:
         - extension
-      distributions:
-      - contrib
+      distributions: []
       codeowners:
         active:
         - mwear
@@ -196,6 +204,7 @@ components:
         - extension
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - atoulme
@@ -226,20 +235,11 @@ components:
         - extension
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - dmitryax
         - rakesh-garimella
-- name: memorylimiterextension
-  metadata:
-    type: memory_limiter
-    status:
-      class: extension
-      stability:
-        development:
-        - extension
-      distributions:
-      - core
 - name: oauth2clientauthextension
   metadata:
     type: oauth2client
@@ -250,6 +250,7 @@ components:
         - extension
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - pavankrish123
@@ -266,6 +267,7 @@ components:
         - extension
       distributions:
       - contrib
+      - k8s
       codeowners:
         seeking_new: true
         active:
@@ -282,6 +284,7 @@ components:
         - extension
       distributions:
       - contrib
+      - k8s
       codeowners:
         active:
         - portertech
@@ -297,6 +300,8 @@ components:
         - extension
       distributions:
       - contrib
+      - core
+      - k8s
       codeowners:
         active:
         - MovieStoreGuy
@@ -308,8 +313,7 @@ components:
       stability:
         development:
         - extension
-      distributions:
-      - contrib
+      distributions: []
       codeowners:
         active:
         - atoulme
@@ -336,8 +340,7 @@ components:
       stability:
         development:
         - extension
-      distributions:
-      - contrib
+      distributions: []
       codeowners:
         active:
         - jerrytfleung
@@ -350,8 +353,7 @@ components:
       stability:
         alpha:
         - extension
-      distributions:
-      - contrib
+      distributions: []
       codeowners:
         active:
         - rnishtala-sumo
@@ -363,24 +365,3 @@ components:
         - kasia-kujawa
         - mat-rumian
         - sumo-drosiek
-- name: xextension
-  metadata:
-    type: xextension
-    status:
-      class: extension
-      stability:
-        development:
-        - profiles
-      codeowners: null
-      distributions:
-      - core
-- name: zpagesextension
-  metadata:
-    type: zpages
-    status:
-      class: extension
-      stability:
-        beta:
-        - extension
-      distributions:
-      - core

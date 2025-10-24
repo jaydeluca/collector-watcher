@@ -11,7 +11,7 @@ Usage:
        uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core
 
     2. Generate documentation pages:
-       uv run python generate_docs_local.py
+       uv run python generate_docs_local.py [--distribution=contrib] [--version=v0.138.0]
 
     3. Preview the documentation:
        cd /Users/jaydeluca/code/projects/opentelemetry.io
@@ -19,18 +19,56 @@ Usage:
        # Open http://localhost:1313/docs/collector/components/
 """
 
+import sys
 from pathlib import Path
 
 from src.collector_watcher.doc_generator import DocGenerator
 from src.collector_watcher.inventory import InventoryManager
+from src.collector_watcher.version_detector import Version
 
 
 def main():
     """Generate docs to local opentelemetry.io repository."""
+    # Parse arguments
+    distribution = "contrib"
+    version_str = None
+    
+    for arg in sys.argv[1:]:
+        if arg.startswith("--distribution="):
+            distribution = arg.split("=", 1)[1]
+        elif arg.startswith("--version="):
+            version_str = arg.split("=", 1)[1]
+    
     # Load inventory
-    print("Loading inventory...")
-    inv_mgr = InventoryManager("data/inventory")
-    inventory = inv_mgr.load_inventory()
+    print(f"Loading inventory for {distribution}...")
+    inv_mgr = InventoryManager("collector-metadata")
+    
+    # Determine which version to use
+    if version_str:
+        version = Version.from_string(version_str)
+    else:
+        # Use the latest non-snapshot version
+        versions = inv_mgr.list_versions(distribution)
+        if not versions:
+            print(f"❌ No versions found for {distribution}")
+            sys.exit(1)
+        
+        # Filter out snapshots and get the latest
+        release_versions = [v for v in versions if not v.is_snapshot]
+        if not release_versions:
+            print(f"❌ No release versions found for {distribution}")
+            sys.exit(1)
+        
+        version = release_versions[0]
+    
+    print(f"Using version: {version}")
+    inventory_data = inv_mgr.load_versioned_inventory(distribution, version)
+    
+    # Convert to legacy format for doc generator
+    inventory = {
+        "repository": inventory_data.get("repository", ""),
+        "components": inventory_data.get("components", {})
+    }
 
     total_components = sum(len(comps) for comps in inventory["components"].values())
     print(f"Loaded {total_components} components")

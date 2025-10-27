@@ -3,6 +3,7 @@
 import shutil
 import tempfile
 from pathlib import Path
+from collector_watcher.version_detector import Version
 
 import pytest
 import yaml
@@ -43,16 +44,12 @@ def sample_components():
 @pytest.fixture
 def sample_version():
     """Sample version for testing."""
-    from collector_watcher.version_detector import Version
-
     return Version(0, 112, 0)
 
 
 @pytest.fixture
 def sample_snapshot_version():
     """Sample snapshot version for testing."""
-    from collector_watcher.version_detector import Version
-
     return Version(0, 113, 0, is_snapshot=True)
 
 
@@ -118,8 +115,6 @@ def test_load_nonexistent_versioned_inventory(temp_inventory_dir, sample_version
 
 def test_list_versions(temp_inventory_dir, sample_components):
     """Test listing available versions."""
-    from collector_watcher.version_detector import Version
-
     manager = InventoryManager(str(temp_inventory_dir))
 
     # Create multiple versions
@@ -147,8 +142,6 @@ def test_list_versions(temp_inventory_dir, sample_components):
 
 def test_list_snapshot_versions(temp_inventory_dir, sample_components):
     """Test listing snapshot versions."""
-    from collector_watcher.version_detector import Version
-
     manager = InventoryManager(str(temp_inventory_dir))
 
     # Create mix of release and snapshot versions
@@ -173,8 +166,6 @@ def test_list_snapshot_versions(temp_inventory_dir, sample_components):
 
 def test_cleanup_snapshots(temp_inventory_dir, sample_components):
     """Test cleaning up snapshot versions."""
-    from collector_watcher.version_detector import Version
-
     manager = InventoryManager(str(temp_inventory_dir))
 
     # Create mix of release and snapshot versions

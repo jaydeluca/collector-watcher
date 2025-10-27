@@ -74,20 +74,28 @@ uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/
 
 ### Local Documentation Testing
 
-For local testing without creating PRs:
+For local testing without creating PRs. The documentation generator uses a **marker-based update system** that preserves manual content while updating auto-generated sections:
 
 ```bash
 # 1. First scan repositories to update inventory
 uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core
 
-# 2. Generate documentation pages locally
+# 2. Update documentation tables in existing pages (preserves manual content)
 uv run python generate_docs_local.py
 
-# 3. Preview the documentation
+# 3. Or specify a custom docs repo path
+uv run python generate_docs_local.py --docs-repo=/path/to/opentelemetry.io
+
+# 4. Or use a specific version
+uv run python generate_docs_local.py --version=v0.138.0
+
+# 5. Preview the documentation
 cd /path/to/opentelemetry.io
 hugo server
 # Open http://localhost:1313/docs/collector/components/
 ```
+
+**Marker-Based Updates:** The generator only updates sections marked with HTML comment markers like `<!-- BEGIN GENERATED: receiver-table -->` and `<!-- END GENERATED: receiver-table -->`, preserving all manual content outside these markers. See `templates/README.md` for details.
 
 ## Development
 
@@ -166,6 +174,7 @@ components:
     metadata:
       type: otlp
       status:
+        distributions: [core, contrib]  # Which distributions include this component
         stability:
           stable: [metrics, traces]
 ```
@@ -175,6 +184,7 @@ Key principles:
 - **Only finalized releases are tracked permanently**: Each release tag gets its own directory
 - **Only ONE snapshot exists at a time**: The latest `-SNAPSHOT` version representing the main branch
 - **Timestamps excluded**: Files only change when component metadata or existence changes, making git diffs meaningful
+- **Distribution metadata**: Components specify which distributions (core, contrib, k8s, etc.) include them
 
 ## GitHub Actions
 

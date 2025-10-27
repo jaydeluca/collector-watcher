@@ -10,7 +10,7 @@ from collector_watcher.doc_generator import DocGenerator
 @pytest.fixture
 def doc_generator():
     """Create a DocGenerator instance for testing."""
-    return DocGenerator(repository="opentelemetry-collector-contrib")
+    return DocGenerator(version="v0.138.0")
 
 
 class TestGetStabilityBySignal:
@@ -106,27 +106,25 @@ class TestGenerateComponentPage:
 
         # Check description
         assert "Receivers collect telemetry data" in page_content
+        
+        # Check version info
+        assert "_Generated from version v0.138.0_" in page_content
 
-        # Check distribution section
-        assert "## Contrib Distribution" in page_content
-        assert "Components from the [OpenTelemetry Collector Contrib]" in page_content
+        # Check table headers (now includes Distributions column with footnote references)
+        assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in page_content
+        
+        # Check footnote definitions
+        assert "[^1]: Shows which distributions" in page_content
+        assert "[^2]: For details about component stability levels" in page_content
+        assert "component-stability.md" in page_content
 
-        # Check explanation text
+        # Check components are listed (alphabetically) with distributions column
         assert (
-            "The **Traces**, **Metrics**, and **Logs** columns show the stability level for each signal type."
+            "| [jaegerreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/jaegerreceiver) | contrib | beta | - | - |"
             in page_content
         )
-
-        # Check table headers (separate columns, no Documentation column)
-        assert "| Name | Traces | Metrics | Logs |" in page_content
-
-        # Check components are listed (alphabetically) with separate columns and name as link
         assert (
-            "| [jaegerreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/jaegerreceiver) | beta | - | - |"
-            in page_content
-        )
-        assert (
-            "| [otlpreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/otlpreceiver) | beta | beta | beta |"
+            "| [otlpreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/otlpreceiver) | contrib | beta | beta | beta |"
             in page_content
         )
 
@@ -147,29 +145,26 @@ class TestGenerateComponentPage:
         assert "title: Extensions" in page_content
         assert "weight: 350" in page_content
 
-        # Check distribution section
-        assert "## Contrib Distribution" in page_content
+        # Extensions should have Distributions and Stability columns with footnote references
+        assert "| Name | Distributions[^1] | Stability[^2] |" in page_content
+        
+        # Check footnote definitions
+        assert "[^1]: Shows which distributions" in page_content
+        assert "[^2]: For details about component stability levels" in page_content
+        assert "component-stability.md" in page_content
 
-        # Check explanation text
+        # Check component with distributions column
         assert (
-            "The **Stability** column indicates the maturity level of each extension."
-            in page_content
-        )
-
-        # Extensions should have different stability header (no separate signal columns)
-        assert "| Name | Stability |" in page_content
-
-        # Check component with name as link
-        assert (
-            "| [healthcheckextension](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/healthcheckextension) | beta |"
+            "| [healthcheckextension](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/healthcheckextension) | contrib | beta |"
             in page_content
         )
 
     def test_generate_component_page_mixed_distributions(self, doc_generator):
-        """Test generating a page with both core and contrib components."""
+        """Test generating a page with components from different distributions."""
         components = [
             {
                 "name": "otlpreceiver",
+                "source_repo": "core",  # Component source is in core repo
                 "metadata": {
                     "status": {
                         "stability": {"beta": ["traces", "metrics", "logs"]},
@@ -179,16 +174,18 @@ class TestGenerateComponentPage:
             },
             {
                 "name": "jaegerreceiver",
+                "source_repo": "contrib",  # Component source is in contrib repo
                 "metadata": {
                     "status": {"stability": {"beta": ["traces"]}, "distributions": ["contrib"]}
                 },
             },
             {
                 "name": "zipkinreceiver",
+                "source_repo": "core",  # Component source is in core repo, but included in both distributions
                 "metadata": {
                     "status": {
                         "stability": {"beta": ["traces"]},
-                        "distributions": ["core", "contrib"],
+                        "distributions": ["contrib", "core"],  # Will be sorted to "contrib, core"
                     }
                 },
             },
@@ -196,28 +193,28 @@ class TestGenerateComponentPage:
 
         page_content = doc_generator.generate_component_page("receiver", components)
 
-        # Check both distribution sections exist
-        assert "## Core Distribution" in page_content
-        assert "## Contrib Distribution" in page_content
-        assert (
-            "Components from the [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector)"
-            in page_content
-        )
-        assert "Components from the [OpenTelemetry Collector Contrib]" in page_content
+        # Should be a unified table (no separate distribution sections)
+        assert "## Core Distribution" not in page_content
+        assert "## Contrib Distribution" not in page_content
 
-        # Core components should link to core repo
+        # Check table has distributions column with footnote references
+        assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in page_content
+
+        # Core components should show "core" in distributions and link to core repo
         assert (
-            "[otlpreceiver](https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/otlpreceiver)"
-            in page_content
-        )
-        assert (
-            "[zipkinreceiver](https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/zipkinreceiver)"
+            "[otlpreceiver](https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/otlpreceiver) | core |"
             in page_content
         )
 
-        # Contrib components should link to contrib repo
+        # Contrib-only components should show "contrib" and link to contrib repo
         assert (
-            "[jaegerreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/jaegerreceiver)"
+            "[jaegerreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/jaegerreceiver) | contrib |"
+            in page_content
+        )
+
+        # Multi-distribution components should show both (sorted) and link to core repo (priority)
+        assert (
+            "[zipkinreceiver](https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/zipkinreceiver) | contrib, core |"
             in page_content
         )
 
@@ -227,9 +224,8 @@ class TestGenerateComponentPage:
 
         # Should still have basic structure
         assert "title: Processors" in page_content
-        # But no distribution sections since no components
-        assert "## Core Distribution" not in page_content
-        assert "## Contrib Distribution" not in page_content
+        # Should have description and table headers even with no components
+        assert "Processors transform, filter" in page_content
 
     def test_generate_component_page_no_metadata(self, doc_generator):
         """Test generating a component page with components lacking metadata."""
@@ -237,11 +233,9 @@ class TestGenerateComponentPage:
 
         page_content = doc_generator.generate_component_page("processor", components)
 
-        # Should have contrib section (default when no metadata)
-        assert "## Contrib Distribution" in page_content
-        # Should show dashes for all stability columns when no metadata, and name as link
+        # Should default to "contrib" distribution and show dashes for stability
         assert (
-            "| [fooprocessor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/fooprocessor) | - | - | - |"
+            "| [fooprocessor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/fooprocessor) | contrib | - | - | - |"
             in page_content
         )
 
@@ -277,36 +271,6 @@ class TestGenerateComponentPage:
 
         # Verify alphabetical order
         assert a_pos < m_pos < z_pos
-
-
-class TestGenerateIndexPage:
-    """Tests for generate_index_page function."""
-
-    def test_generate_index_page(self, doc_generator):
-        """Test generating the components index page."""
-        page_content = doc_generator.generate_index_page()
-
-        # Check Hugo front matter
-        assert "---" in page_content
-        assert "title: Components" in page_content
-        assert "weight: 300" in page_content
-
-        # Check component type links
-        assert "[Receivers](receiver/)" in page_content
-        assert "[Processors](processor/)" in page_content
-        assert "[Exporters](exporter/)" in page_content
-        assert "[Connectors](connector/)" in page_content
-        assert "[Extensions](extension/)" in page_content
-
-        # Check stability level descriptions
-        assert "**stable**" in page_content
-        assert "**beta**" in page_content
-        assert "**alpha**" in page_content
-        assert "**development**" in page_content
-
-        # Check general content
-        assert "OpenTelemetry Collector" in page_content
-
 
 class TestGenerateAllPages:
     """Tests for generate_all_pages function."""
@@ -357,35 +321,28 @@ class TestGenerateAllPages:
         output_dir = Path("/fake/path/content/en/docs/collector")
         pages = doc_generator.generate_all_pages(inventory, output_dir)
 
-        # Should have 6 pages: _index.md + 5 component type pages
-        assert len(pages) == 6
+        # Should have 5 pages: 5 component type pages (no index for marker-based approach)
+        assert len(pages) == 5
 
         # Check paths
         components_dir = output_dir / "components"
-        assert str(components_dir / "_index.md") in pages
         assert str(components_dir / "receiver.md") in pages
         assert str(components_dir / "processor.md") in pages
         assert str(components_dir / "exporter.md") in pages
         assert str(components_dir / "connector.md") in pages
         assert str(components_dir / "extension.md") in pages
 
-        # Check index page content
-        index_content = pages[str(components_dir / "_index.md")]
-        assert "title: Components" in index_content
-
-        # Check receiver page content (with name as link and distribution section)
+        # Check receiver page content (with distributions column)
         receiver_content = pages[str(components_dir / "receiver.md")]
-        assert "## Contrib Distribution" in receiver_content
         assert (
-            "| [otlpreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/otlpreceiver) | beta | beta | beta |"
+            "| [otlpreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/otlpreceiver) | contrib | beta | beta | beta |"
             in receiver_content
         )
 
-        # Check extension page content (with name as link and distribution section)
+        # Check extension page content (with distributions column)
         extension_content = pages[str(components_dir / "extension.md")]
-        assert "## Contrib Distribution" in extension_content
         assert (
-            "| [healthcheckextension](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/healthcheckextension) | beta |"
+            "| [healthcheckextension](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/healthcheckextension) | contrib | beta |"
             in extension_content
         )
 
@@ -396,16 +353,14 @@ class TestGenerateAllPages:
         output_dir = Path("/fake/path/content/en/docs/collector")
         pages = doc_generator.generate_all_pages(inventory, output_dir)
 
-        # Should still generate all 6 pages
-        assert len(pages) == 6
+        # Should still generate all 5 component pages (no index for marker-based approach)
+        assert len(pages) == 5
 
         # Pages should exist but have no component rows
         components_dir = output_dir / "components"
         receiver_content = pages[str(components_dir / "receiver.md")]
         assert "title: Receivers" in receiver_content
-        # Should have description but no distribution sections when no components
+        # Should have description
         assert (
             "Receivers collect telemetry data from various sources and formats." in receiver_content
         )
-        assert "## Core Distribution" not in receiver_content
-        assert "## Contrib Distribution" not in receiver_content

@@ -25,14 +25,14 @@ class DocGenerator:
         "extension": 350,
     }
 
-    def __init__(self, repository: str = "opentelemetry-collector-contrib"):
+    def __init__(self, version: str | None = None):
         """
         Initialize the documentation generator.
 
         Args:
-            repository: Name of the repository (used for GitHub links)
+            version: Version string to include in generated content (e.g., "v0.138.0")
         """
-        self.repository = repository
+        self.version = version
 
     def get_stability_by_signal(self, metadata: dict[str, Any]) -> dict[str, str]:
         """
@@ -64,35 +64,42 @@ class DocGenerator:
 
         return signal_stability
 
-    def _get_distribution(self, component: dict[str, Any]) -> str:
+    def _get_distributions(self, component: dict[str, Any]) -> list[str]:
         """
-        Get the primary distribution for a component.
+        Get the list of distributions for a component.
 
         Args:
             component: Component data
 
         Returns:
-            Distribution name ("core" or "contrib")
+            List of distribution names (e.g., ["core", "contrib"])
         """
         metadata = component.get("metadata", {})
         if not metadata:
-            # Default to contrib if no metadata
-            return "contrib"
+            return ["contrib"]
 
         status = metadata.get("status", {})
         distributions = status.get("distributions", [])
 
-        # Priority: core > contrib > other
-        if "core" in distributions:
-            return "core"
-        elif "contrib" in distributions:
-            return "contrib"
-        elif distributions:
-            # If has other distributions (like k8s), default to contrib
-            return "contrib"
-        else:
-            # No distribution specified, default to contrib
-            return "contrib"
+        if not distributions:
+            return ["contrib"]
+
+        return sorted(distributions)
+
+    def _format_distributions(self, distributions: list[str]) -> str:
+        """
+        Format distribution list for display in table.
+
+        Args:
+            distributions: List of distribution names
+
+        Returns:
+            Formatted string (e.g., "core, contrib")
+        """
+        if not distributions:
+            return "-"
+
+        return ", ".join(distributions)
 
     def generate_component_page(self, component_type: str, components: list[dict[str, Any]]) -> str:
         """
@@ -125,33 +132,15 @@ weight: {weight}
         content = front_matter
         content += f"{description}\n\n"
 
-        # Group components by distribution
-        core_components = []
-        contrib_components = []
+        # Add version info if available
+        if self.version:
+            content += f"_Generated from version {self.version}_\n\n"
 
-        for component in components:
-            distribution = self._get_distribution(component)
-            if distribution == "core":
-                core_components.append(component)
-            else:
-                contrib_components.append(component)
+        # Sort components alphabetically by name
+        sorted_components = sorted(components, key=lambda c: c.get("name", ""))
 
-        # Sort components alphabetically by name within each distribution
-        core_components.sort(key=lambda c: c.get("name", ""))
-        contrib_components.sort(key=lambda c: c.get("name", ""))
-
-        # Generate Core Distribution section
-        if core_components:
-            content += "## Core Distribution\n\n"
-            content += "Components from the [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector) core distribution.\n\n"
-            content += self._generate_component_table(component_type, core_components)
-            content += "\n"
-
-        # Generate Contrib Distribution section
-        if contrib_components:
-            content += "## Contrib Distribution\n\n"
-            content += "Components from the [OpenTelemetry Collector Contrib](https://github.com/open-telemetry/opentelemetry-collector-contrib) distribution.\n\n"
-            content += self._generate_component_table(component_type, contrib_components)
+        # Generate unified table with distributions column
+        content += self._generate_component_table(component_type, sorted_components)
 
         return content
 
@@ -159,7 +148,7 @@ weight: {weight}
         self, component_type: str, components: list[dict[str, Any]]
     ) -> str:
         """
-        Generate a table of components.
+        Generate a table of components with distributions column.
 
         Args:
             component_type: Type of component (receiver, processor, etc.)
@@ -170,30 +159,31 @@ weight: {weight}
         """
         table_content = ""
 
-        # Add column explanation
+        # Add table headers with footnote references
         if component_type == "extension":
-            table_content += (
-                "The **Stability** column indicates the maturity level of each extension.\n\n"
-            )
-            table_content += "| Name | Stability |\n"
-            table_content += "|------|----------|\n"
+            table_content += "| Name | Distributions[^1] | Stability[^2] |\n"
+            table_content += "|------|-------------------|---------------|\n"
         else:
-            table_content += "The **Traces**, **Metrics**, and **Logs** columns show the stability level for each signal type.\n\n"
-            table_content += "| Name | Traces | Metrics | Logs |\n"
-            table_content += "|------|--------|---------|------|\n"
+            table_content += "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |\n"
+            table_content += "|------|-------------------|------------|-------------|----------|\n"
 
         # Table rows
         for component in components:
             name = component.get("name", "unknown")
             metadata = component.get("metadata", {})
 
+            # Get distributions
+            distributions = self._get_distributions(component)
+            distributions_str = self._format_distributions(distributions)
+
             # Get stability by signal
             stability_map = self.get_stability_by_signal(metadata)
 
-            # Generate GitHub link
-            # Determine which repository this component is from
-            distribution = self._get_distribution(component)
-            if distribution == "core":
+            # Generate GitHub link based on source repository
+            # Use source_repo field if available, otherwise infer from distributions
+            source_repo = component.get("source_repo", "contrib")
+
+            if source_repo == "core":
                 repo_name = "opentelemetry-collector"
             else:
                 repo_name = "opentelemetry-collector-contrib"
@@ -208,56 +198,43 @@ weight: {weight}
             if component_type == "extension":
                 # Single stability column for extensions
                 stability = stability_map.get("extension", "N/A")
-                table_content += f"| {name_link} | {stability} |\n"
+                table_content += f"| {name_link} | {distributions_str} | {stability} |\n"
             else:
                 # Separate columns for traces/metrics/logs
                 traces = stability_map.get("traces", "-")
                 metrics = stability_map.get("metrics", "-")
                 logs = stability_map.get("logs", "-")
-                table_content += f"| {name_link} | {traces} | {metrics} | {logs} |\n"
+                table_content += (
+                    f"| {name_link} | {distributions_str} | {traces} | {metrics} | {logs} |\n"
+                )
+
+        # Add footnotes
+        table_content += "\n"
+        stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
+
+        table_content += (
+            "[^1]: Shows which distributions (core, contrib, k8s, etc.) include this component.\n"
+            f"[^2]: For details about component stability levels, see the [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
+        )
 
         return table_content
 
-    def generate_index_page(self) -> str:
+    def generate_table_only(self, component_type: str, components: list[dict[str, Any]]) -> str:
         """
-        Generate the components/_index.md landing page.
+        Generate only the table content for a component type (for marker-based updates).
+
+        Args:
+            component_type: Type of component (receiver, processor, etc.)
+            components: List of components of this type
 
         Returns:
-            Markdown content for the index page
+            Markdown table content only (no front matter or headers)
         """
-        content = """---
-title: Components
-description: OpenTelemetry Collector components - receivers, processors, exporters, connectors, and extensions
-weight: 300
----
+        # Sort components alphabetically by name
+        sorted_components = sorted(components, key=lambda c: c.get("name", ""))
 
-The OpenTelemetry Collector is made up of components that handle telemetry data. Each component has a specific role in the data pipeline.
-
-## Component Types
-
-- **[Receivers](receiver/)** - Collect telemetry data from various sources and formats
-- **[Processors](processor/)** - Transform, filter, and enrich telemetry data
-- **[Exporters](exporter/)** - Send telemetry data to observability backends
-- **[Connectors](connector/)** - Connect two pipelines, acting as both exporter and receiver
-- **[Extensions](extension/)** - Provide additional capabilities like health checks
-
-## Stability Levels
-
-Each component has a stability level that indicates its maturity:
-
-- **stable** - Ready for production use
-- **beta** - Mostly stable, but may have minor changes
-- **alpha** - Early development, expect breaking changes
-- **development** - Experimental, not recommended for production
-- **unmaintained** - No longer actively maintained
-
-For signal-based components (receivers, processors, exporters, connectors), stability is shown per signal type (traces/metrics/logs).
-
-## Contributing
-
-To learn more about developing Collector components, see the [Collector development documentation](https://github.com/open-telemetry/opentelemetry-collector/blob/main/CONTRIBUTING.md).
-"""
-        return content
+        # Generate table
+        return self._generate_component_table(component_type, sorted_components)
 
     def generate_all_pages(
         self, inventory: dict[str, Any], output_dir: str | Path
@@ -277,10 +254,6 @@ To learn more about developing Collector components, see the [Collector developm
 
         pages = {}
 
-        # Generate index page
-        index_path = str(components_dir / "_index.md")
-        pages[index_path] = self.generate_index_page()
-
         # Generate page for each component type
         components = inventory.get("components", {})
         for component_type in ["receiver", "processor", "exporter", "connector", "extension"]:
@@ -289,3 +262,22 @@ To learn more about developing Collector components, see the [Collector developm
             pages[page_path] = self.generate_component_page(component_type, component_list)
 
         return pages
+
+    def generate_all_tables(self, inventory: dict[str, Any]) -> dict[str, str]:
+        """
+        Generate just the table content for all component types (for marker-based updates).
+
+        Args:
+            inventory: Complete inventory data
+
+        Returns:
+            Dictionary mapping component_type to table content
+        """
+        tables = {}
+        components = inventory.get("components", {})
+
+        for component_type in ["receiver", "processor", "exporter", "connector", "extension"]:
+            component_list = components.get(component_type, [])
+            tables[component_type] = self.generate_table_only(component_type, component_list)
+
+        return tables

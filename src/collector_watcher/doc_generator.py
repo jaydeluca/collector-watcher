@@ -182,7 +182,7 @@ weight: {weight}
             # Generate GitHub link based on source repository
             # Use source_repo field if available, otherwise infer from distributions
             source_repo = component.get("source_repo", "contrib")
-            
+
             if source_repo == "core":
                 repo_name = "opentelemetry-collector"
             else:
@@ -204,12 +204,14 @@ weight: {weight}
                 traces = stability_map.get("traces", "-")
                 metrics = stability_map.get("metrics", "-")
                 logs = stability_map.get("logs", "-")
-                table_content += f"| {name_link} | {distributions_str} | {traces} | {metrics} | {logs} |\n"
+                table_content += (
+                    f"| {name_link} | {distributions_str} | {traces} | {metrics} | {logs} |\n"
+                )
 
         # Add footnotes
         table_content += "\n"
         stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
-        
+
         table_content += (
             "[^1]: Shows which distributions (core, contrib, k8s, etc.) include this component.\n"
             f"[^2]: For details about component stability levels, see the [OpenTelemetry Collector component stability definitions]({stability_link}).\n"

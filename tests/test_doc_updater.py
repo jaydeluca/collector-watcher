@@ -65,9 +65,7 @@ class TestUpdateSection:
     def test_update_section_markers_not_found(self, doc_updater):
         """Test update when markers don't exist."""
         content = "# Simple Page\n\nNo markers here."
-        updated, was_updated = doc_updater.update_section(
-            content, "nonexistent", "New content"
-        )
+        updated, was_updated = doc_updater.update_section(content, "nonexistent", "New content")
 
         assert not was_updated
         assert updated == content
@@ -102,9 +100,7 @@ More old content
 
 Footer"""
 
-        updated, was_updated = doc_updater.update_section(
-            content, "section1", "New content 1"
-        )
+        updated, was_updated = doc_updater.update_section(content, "section1", "New content 1")
 
         assert was_updated
         assert "Header" in updated
@@ -115,9 +111,7 @@ Footer"""
 
     def test_update_section_empty_content(self, doc_updater, sample_content):
         """Test updating with empty content."""
-        updated, was_updated = doc_updater.update_section(
-            sample_content, "test-section", ""
-        )
+        updated, was_updated = doc_updater.update_section(sample_content, "test-section", "")
 
         assert was_updated
         assert "<!-- BEGIN GENERATED: test-section -->" in updated
@@ -180,9 +174,7 @@ class TestUpdateFile:
             temp_path = Path(f.name)
 
         try:
-            success = doc_updater.update_file(
-                temp_path, "test-section", "Updated file content"
-            )
+            success = doc_updater.update_file(temp_path, "test-section", "Updated file content")
 
             assert success
             updated_content = temp_path.read_text()
@@ -338,4 +330,3 @@ Content 3 (missing end)
         results = doc_updater.validate_markers(content)
 
         assert len(results) == 0
-

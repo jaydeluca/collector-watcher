@@ -3,12 +3,12 @@
 import shutil
 import tempfile
 from pathlib import Path
-from collector_watcher.version_detector import Version
 
 import pytest
 import yaml
 
 from collector_watcher.inventory import InventoryManager
+from collector_watcher.version_detector import Version
 
 
 @pytest.fixture

@@ -106,13 +106,13 @@ class TestGenerateComponentPage:
 
         # Check description
         assert "Receivers collect telemetry data" in page_content
-        
+
         # Check version info
         assert "_Generated from version v0.138.0_" in page_content
 
         # Check table headers (now includes Distributions column with footnote references)
         assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in page_content
-        
+
         # Check footnote definitions
         assert "[^1]: Shows which distributions" in page_content
         assert "[^2]: For details about component stability levels" in page_content
@@ -147,7 +147,7 @@ class TestGenerateComponentPage:
 
         # Extensions should have Distributions and Stability columns with footnote references
         assert "| Name | Distributions[^1] | Stability[^2] |" in page_content
-        
+
         # Check footnote definitions
         assert "[^1]: Shows which distributions" in page_content
         assert "[^2]: For details about component stability levels" in page_content
@@ -271,6 +271,7 @@ class TestGenerateComponentPage:
 
         # Verify alphabetical order
         assert a_pos < m_pos < z_pos
+
 
 class TestGenerateAllPages:
     """Tests for generate_all_pages function."""

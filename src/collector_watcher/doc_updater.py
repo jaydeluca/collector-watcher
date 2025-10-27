@@ -94,9 +94,7 @@ class DocUpdater:
 
         return current_content, results
 
-    def update_file(
-        self, file_path: Path | str, marker_id: str, new_content: str
-    ) -> bool:
+    def update_file(self, file_path: Path | str, marker_id: str, new_content: str) -> bool:
         """
         Update a file by replacing content between markers.
 
@@ -120,9 +118,7 @@ class DocUpdater:
         original_content = file_path.read_text()
 
         # Update section
-        updated_content, was_updated = self.update_section(
-            original_content, marker_id, new_content
-        )
+        updated_content, was_updated = self.update_section(original_content, marker_id, new_content)
 
         if not was_updated:
             return False
@@ -202,13 +198,9 @@ class DocUpdater:
             (has both begin and end markers)
         """
         # Find all BEGIN markers
-        begin_pattern = re.compile(
-            rf"<!-- BEGIN {re.escape(self.marker_prefix)}: ([a-z0-9-]+) -->"
-        )
+        begin_pattern = re.compile(rf"<!-- BEGIN {re.escape(self.marker_prefix)}: ([a-z0-9-]+) -->")
         # Find all END markers
-        end_pattern = re.compile(
-            rf"<!-- END {re.escape(self.marker_prefix)}: ([a-z0-9-]+) -->"
-        )
+        end_pattern = re.compile(rf"<!-- END {re.escape(self.marker_prefix)}: ([a-z0-9-]+) -->")
 
         begin_markers = set(begin_pattern.findall(content))
         end_markers = set(end_pattern.findall(content))
@@ -225,4 +217,3 @@ class DocUpdater:
                 results[marker_id] = False
 
         return results
-

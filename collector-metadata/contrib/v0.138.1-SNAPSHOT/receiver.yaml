@@ -13510,6 +13510,9 @@ components:
       fan.name:
         description: Fan name.
         type: string
+      fan.reading_units:
+        description: Fan reading units.
+        type: string
       system.asset_tag:
         description: System asset tag.
         type: string
@@ -13566,7 +13569,7 @@ components:
       chassis.status.health:
         description: Measures the health of a chassis (-1 unknown, 0 critical, 1 ok,
           2 warning).
-        unit: '{health}'
+        unit: '{statushealth}'
         enabled: true
         gauge:
           value_type: int
@@ -13585,7 +13588,7 @@ components:
           level: development
       chassis.status.state:
         description: Measures the state of a chassis (-1 unknown, 0 disabled, 1 enabled).
-        unit: '{state}'
+        unit: '{statusstate}'
         enabled: true
         gauge:
           value_type: int
@@ -13604,7 +13607,7 @@ components:
           level: development
       fan.reading:
         description: Measures the reading of a chassis fan.
-        unit: '{%}'
+        unit: '{}'
         enabled: true
         gauge:
           value_type: int
@@ -13612,13 +13615,14 @@ components:
         - base_url
         - chassis.id
         - fan.name
+        - fan.reading_units
         - system.host_name
         stability:
           level: development
       fan.status.health:
         description: Measures the health of a chassis fan (-1 unknown, 0 critical,
           1 ok, 2 warning).
-        unit: '{health}'
+        unit: '{statushealth}'
         enabled: true
         gauge:
           value_type: int
@@ -13632,7 +13636,7 @@ components:
       fan.status.state:
         description: Measures the state of a chassis fan (-1 unknown, 0 disabled,
           1 enabled).
-        unit: '{state}'
+        unit: '{statusstate}'
         enabled: true
         gauge:
           value_type: int
@@ -13666,7 +13670,7 @@ components:
       system.status.health:
         description: Measures the health of a system (-1 unknown, 0 critical, 1 ok,
           2 warning).
-        unit: '{health}'
+        unit: '{statushealth}'
         enabled: true
         gauge:
           value_type: int
@@ -13686,7 +13690,7 @@ components:
           level: development
       system.status.state:
         description: Measures the state of a system (-1 unknown, 0 disabled, 1 enabled).
-        unit: '{state}'
+        unit: '{statusstate}'
         enabled: true
         gauge:
           value_type: int
@@ -13706,21 +13710,21 @@ components:
           level: development
       temperature.reading:
         description: Measures the reading of a chassis temperature.
-        unit: '{%}'
+        unit: °C
         enabled: true
         gauge:
           value_type: int
         attributes:
         - base_url
         - chassis.id
-        - fan.name
         - system.host_name
+        - temperature.name
         stability:
           level: development
       temperature.status.health:
         description: Measures the health of a chassis temperature (-1 unknown, 0 critical,
           1 ok, 2 warning).
-        unit: '{health}'
+        unit: '{statushealth}'
         enabled: true
         gauge:
           value_type: int
@@ -13734,7 +13738,7 @@ components:
       temperature.status.state:
         description: Measures the state of a chassis temperature (-1 unknown, 0 disabled,
           1 enabled).
-        unit: '{state}'
+        unit: '{statusstate}'
         enabled: true
         gauge:
           value_type: int

@@ -1,7 +1,5 @@
 """Tests for documentation generator."""
 
-from pathlib import Path
-
 import pytest
 
 from docs_automation.doc_generator import DocGenerator
@@ -226,7 +224,16 @@ class TestGenerateComponentTable:
         # But no component rows (only headers)
         lines = table_content.strip().split("\n")
         # Should have: header, separator, footnotes - no data rows
-        assert len([line for line in lines if line.startswith("|") and "[" in line and "Name" not in line]) == 0
+        assert (
+            len(
+                [
+                    line
+                    for line in lines
+                    if line.startswith("|") and "[" in line and "Name" not in line
+                ]
+            )
+            == 0
+        )
 
 
 class TestGenerateAllComponentTables:
@@ -286,7 +293,9 @@ class TestGenerateAllComponentTables:
 
         # Check receiver table content
         receiver_table = tables["receiver"]
-        assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in receiver_table
+        assert (
+            "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in receiver_table
+        )
         assert (
             "| [otlpreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/otlpreceiver) | contrib | beta | beta | beta |"
             in receiver_table
@@ -315,7 +324,7 @@ class TestGenerateAllComponentTables:
         assert "extension" in tables
 
         # Each table should have structure but no components
-        for component_type, table in tables.items():
+        for _component_type, table in tables.items():
             assert "| Name |" in table
             assert "[^1]:" in table
             assert "[^2]:" in table

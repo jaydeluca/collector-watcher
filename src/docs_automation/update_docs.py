@@ -27,9 +27,7 @@ from docs_automation.doc_generator import DocGenerator
 from docs_automation.doc_updater import DocUpdater
 
 
-def merge_inventories(
-    core_inventory: dict, contrib_inventory: dict
-) -> dict:
+def merge_inventories(core_inventory: dict, contrib_inventory: dict) -> dict:
     """
     Merge core and contrib inventories into a unified inventory.
 
@@ -43,9 +41,7 @@ def merge_inventories(
     Returns:
         Merged inventory with unified components
     """
-    merged = {
-        "components": {}
-    }
+    merged = {"components": {}}
 
     # Get all component types
     all_types = set(core_inventory.get("components", {}).keys()) | set(
@@ -79,7 +75,9 @@ def merge_inventories(
                 # Component exists in both - merge distributions
                 # Source repo is CORE because that's where the code lives
                 existing = component_map[name]
-                existing_dists = existing.get("metadata", {}).get("status", {}).get("distributions", [])
+                existing_dists = (
+                    existing.get("metadata", {}).get("status", {}).get("distributions", [])
+                )
                 contrib_dists = comp.get("metadata", {}).get("status", {}).get("distributions", [])
 
                 # Combine and deduplicate distributions
@@ -106,8 +104,7 @@ def merge_inventories(
 
         # Convert map back to list and sort alphabetically by name for consistent output
         merged["components"][component_type] = sorted(
-            component_map.values(),
-            key=lambda c: c.get("name", "")
+            component_map.values(), key=lambda c: c.get("name", "")
         )
 
     return merged
@@ -184,7 +181,9 @@ def main():
 
     if not components_dir.exists():
         print(f"\n❌ Error: {components_dir} does not exist")
-        print("Please ensure the opentelemetry.io repository has the collector components directory")
+        print(
+            "Please ensure the opentelemetry.io repository has the collector components directory"
+        )
         return
 
     print(f"\nUpdating pages in {components_dir}...")

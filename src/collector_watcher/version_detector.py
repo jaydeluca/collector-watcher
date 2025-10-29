@@ -119,7 +119,7 @@ class VersionDetector:
         """
         tags = self.repo.tags
         version_tags = []
-        
+
         for tag in tags:
             try:
                 version = Version.from_string(tag.name)
@@ -142,7 +142,7 @@ class VersionDetector:
         """
         tags = self.repo.tags
         version_tags = []
-        
+
         for tag in tags:
             try:
                 version = Version.from_string(tag.name)

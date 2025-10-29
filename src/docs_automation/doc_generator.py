@@ -81,7 +81,6 @@ class DocGenerator:
 
         return ", ".join(distributions)
 
-
     def _generate_component_table(
         self, component_type: str, components: list[dict[str, Any]]
     ) -> str:
@@ -144,7 +143,9 @@ class DocGenerator:
 
         return table_content
 
-    def generate_component_table(self, component_type: str, components: list[dict[str, Any]]) -> str:
+    def generate_component_table(
+        self, component_type: str, components: list[dict[str, Any]]
+    ) -> str:
         """
         Generate table content for a component type (for marker-based updates).
 

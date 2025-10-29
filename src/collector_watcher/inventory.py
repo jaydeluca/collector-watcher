@@ -57,7 +57,6 @@ class InventoryManager:
         version_dir = self.get_version_dir(distribution, version)
         version_dir.mkdir(parents=True, exist_ok=True)
 
-        # Save each component type to its own file
         for component_type in self.COMPONENT_TYPES:
             component_list = components.get(component_type, [])
             file_path = version_dir / f"{component_type}.yaml"
@@ -93,7 +92,6 @@ class InventoryManager:
         if not version_dir.exists():
             return {"distribution": distribution, "version": str(version), "components": {}}
 
-        # Load each component type file
         components = {}
         repository = ""
 
@@ -137,7 +135,6 @@ class InventoryManager:
                     version = Version.from_string(item.name)
                     versions.append(version)
                 except ValueError:
-                    # Skip directories that aren't valid versions
                     continue
 
         return sorted(versions, reverse=True)

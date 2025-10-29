@@ -14,6 +14,44 @@ Collector Watcher scans OpenTelemetry Collector components and maintains a versi
 - Generates documentation pages for opentelemetry.io
 - Changes are detected via git diff of the versioned inventory files
 
+## Quick Start: End-to-End Validation
+
+To quickly validate the entire workflow (useful for testing changes):
+
+```bash
+./validate_workflow.sh
+```
+
+This script will automatically:
+1. Clone or update the collector repositories (core and contrib)
+2. Run the inventory scanner to detect components
+3. Verify inventory was created
+4. Check for your opentelemetry.io fork (for documentation updates)
+5. Generate documentation updates (if docs repo found)
+6. Format the documentation with npm
+7. Show you what changed
+
+**Default Behavior:**
+- Collector repos (core/contrib) are cloned into `tmp_repos/` within this project (gitignored) from official upstream
+- Documentation repo expects your fork at `../opentelemetry.io` (sibling directory)
+- This setup lets you safely test changes without affecting your fork, while still being able to create PRs from your docs fork
+
+**Custom Paths:** Override default locations if needed:
+
+```bash
+# Use custom paths
+CORE_REPO_PATH=~/repos/opentelemetry-collector \
+CONTRIB_REPO_PATH=~/repos/opentelemetry-collector-contrib \
+DOCS_REPO_PATH=~/repos/opentelemetry.io \
+./validate_workflow.sh
+
+# Or export them
+export CORE_REPO_PATH=/path/to/opentelemetry-collector
+export CONTRIB_REPO_PATH=/path/to/opentelemetry-collector-contrib
+export DOCS_REPO_PATH=/path/to/opentelemetry.io
+./validate_workflow.sh
+```
+
 ## Usage
 
 ### Nightly Scan (Recommended)

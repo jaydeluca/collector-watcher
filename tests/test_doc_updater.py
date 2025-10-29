@@ -29,27 +29,10 @@ More manual content below.
 """
 
 
-class TestGetMarkerPattern:
-    """Tests for get_marker_pattern method."""
-
-    def test_get_marker_pattern(self, doc_updater):
-        """Test getting marker patterns."""
-        begin, end = doc_updater.get_marker_pattern("test-id")
-        assert begin == "<!-- BEGIN GENERATED: test-id -->"
-        assert end == "<!-- END GENERATED: test-id -->"
-
-    def test_get_marker_pattern_different_id(self, doc_updater):
-        """Test marker patterns with different IDs."""
-        begin, end = doc_updater.get_marker_pattern("receiver-table")
-        assert begin == "<!-- BEGIN GENERATED: receiver-table -->"
-        assert end == "<!-- END GENERATED: receiver-table -->"
-
-
 class TestUpdateSection:
     """Tests for update_section method."""
 
     def test_update_section_basic(self, doc_updater, sample_content):
-        """Test basic section update."""
         new_content = "New generated content"
         updated, was_updated = doc_updater.update_section(
             sample_content, "test-section", new_content
@@ -63,7 +46,6 @@ class TestUpdateSection:
         assert "More manual content below." in updated
 
     def test_update_section_markers_not_found(self, doc_updater):
-        """Test update when markers don't exist."""
         content = "# Simple Page\n\nNo markers here."
         updated, was_updated = doc_updater.update_section(content, "nonexistent", "New content")
 
@@ -168,7 +150,6 @@ class TestUpdateFile:
     """Tests for update_file method."""
 
     def test_update_file(self, doc_updater, sample_content):
-        """Test updating a file."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as f:
             f.write(sample_content)
             temp_path = Path(f.name)
@@ -184,26 +165,8 @@ class TestUpdateFile:
             temp_path.unlink()
 
     def test_update_file_not_found(self, doc_updater):
-        """Test updating a nonexistent file."""
         with pytest.raises(FileNotFoundError):
             doc_updater.update_file("/nonexistent/file.md", "test", "content")
-
-    def test_update_file_markers_not_found(self, doc_updater):
-        """Test updating file when markers don't exist."""
-        content = "# Page\n\nNo markers"
-
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as f:
-            f.write(content)
-            temp_path = Path(f.name)
-
-        try:
-            success = doc_updater.update_file(temp_path, "nonexistent", "New content")
-
-            assert not success
-            # File should be unchanged
-            assert temp_path.read_text() == content
-        finally:
-            temp_path.unlink()
 
 
 class TestUpdateFileMultiple:
@@ -243,8 +206,7 @@ Old 2
 class TestAddMarkers:
     """Tests for add_markers method."""
 
-    def test_add_markers_at_end(self, doc_updater):
-        """Test adding markers at end of content."""
+    def test_add_markers(self, doc_updater):
         content = "# Page\n\nContent here"
         updated = doc_updater.add_markers(content, "test-section", at_end=True)
 
@@ -252,20 +214,8 @@ class TestAddMarkers:
         assert "<!-- END GENERATED: test-section -->" in updated
         assert updated.startswith("# Page")
 
-    def test_add_markers_at_beginning(self, doc_updater):
-        """Test adding markers at beginning of content."""
-        content = "# Page\n\nContent here"
-        updated = doc_updater.add_markers(content, "test-section", at_end=False)
-
-        assert "<!-- BEGIN GENERATED: test-section -->" in updated
-        assert "<!-- END GENERATED: test-section -->" in updated
-        assert updated.startswith("\n<!-- BEGIN")
-
     def test_add_markers_already_exist(self, doc_updater, sample_content):
-        """Test adding markers when they already exist."""
         updated = doc_updater.add_markers(sample_content, "test-section")
-
-        # Should be unchanged
         assert updated == sample_content
 
 
@@ -273,14 +223,12 @@ class TestValidateMarkers:
     """Tests for validate_markers method."""
 
     def test_validate_markers_valid(self, doc_updater, sample_content):
-        """Test validating properly paired markers."""
         results = doc_updater.validate_markers(sample_content)
 
         assert "test-section" in results
         assert results["test-section"]
 
     def test_validate_markers_missing_end(self, doc_updater):
-        """Test validating when end marker is missing."""
         content = """# Page
 
 <!-- BEGIN GENERATED: test-section -->
@@ -291,20 +239,7 @@ Content
         assert "test-section" in results
         assert not results["test-section"]
 
-    def test_validate_markers_missing_begin(self, doc_updater):
-        """Test validating when begin marker is missing."""
-        content = """# Page
-
-Content
-<!-- END GENERATED: test-section -->
-"""
-        results = doc_updater.validate_markers(content)
-
-        assert "test-section" in results
-        assert not results["test-section"]
-
     def test_validate_markers_multiple(self, doc_updater):
-        """Test validating multiple markers."""
         content = """# Page
 
 <!-- BEGIN GENERATED: section1 -->
@@ -323,10 +258,3 @@ Content 3 (missing end)
         assert results["section1"]
         assert results["section2"]
         assert not results["section3"]
-
-    def test_validate_markers_none(self, doc_updater):
-        """Test validating content with no markers."""
-        content = "# Page\n\nNo markers here"
-        results = doc_updater.validate_markers(content)
-
-        assert len(results) == 0

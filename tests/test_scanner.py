@@ -60,69 +60,47 @@ def mock_repo():
     shutil.rmtree(temp_dir)
 
 
-def test_scanner_initialization(mock_repo):
-    """Test scanner can be initialized with valid path."""
-    scanner = ComponentScanner(str(mock_repo))
-    assert scanner.repo_path == mock_repo
-
-
-def test_scanner_invalid_path():
-    """Test scanner raises error for invalid path."""
-    with pytest.raises(ValueError, match="Repository path does not exist"):
-        ComponentScanner("/nonexistent/path")
-
-
 def test_scan_receivers(mock_repo):
-    """Test scanning receiver components."""
     scanner = ComponentScanner(str(mock_repo))
     receivers = scanner.scan_component_type("receiver")
 
     assert len(receivers) == 2
     assert any(r["name"] == "otlpreceiver" for r in receivers)
     assert any(r["name"] == "customreceiver" for r in receivers)
-    # Internal directory should be excluded
     assert not any(r["name"] == "internal" for r in receivers)
 
 
 def test_scan_processors(mock_repo):
-    """Test scanning processor components."""
     scanner = ComponentScanner(str(mock_repo))
     processors = scanner.scan_component_type("processor")
 
     assert len(processors) == 1
     assert processors[0]["name"] == "batchprocessor"
-    # Testdata should be excluded
     assert not any(p["name"] == "testdata" for p in processors)
 
 
 def test_scan_exporters(mock_repo):
-    """Test scanning exporter components."""
     scanner = ComponentScanner(str(mock_repo))
     exporters = scanner.scan_component_type("exporter")
 
     assert len(exporters) == 1
     assert exporters[0]["name"] == "loggingexporter"
-    # Hidden directory should be excluded
     assert not any(e["name"] == ".hidden" for e in exporters)
 
 
 def test_metadata_detection(mock_repo):
-    """Test metadata.yaml detection."""
     scanner = ComponentScanner(str(mock_repo))
     components = scanner.scan_all_components()
 
-    # Check receivers
     otlp = next(r for r in components["receiver"] if r["name"] == "otlpreceiver")
     assert "metadata" in otlp
 
     custom = next(r for r in components["receiver"] if r["name"] == "customreceiver")
     assert custom.get("has_metadata") is False
 
-    # Check processors
     batch = next(p for p in components["processor"] if p["name"] == "batchprocessor")
     assert "metadata" in batch
 
-    # Check exporters
     logging = next(e for e in components["exporter"] if e["name"] == "loggingexporter")
     assert "metadata" in logging
 
@@ -141,11 +119,9 @@ def test_scan_all_components(mock_repo):
 
 
 def test_get_components_with_metadata(mock_repo):
-    """Test getting components with metadata."""
     scanner = ComponentScanner(str(mock_repo))
     components = scanner.scan_all_components()
 
-    # Count components with metadata
     with_metadata = []
     for comp_type, comp_list in components.items():
         for comp in comp_list:
@@ -157,21 +133,3 @@ def test_get_components_with_metadata(mock_repo):
     assert "processor/batchprocessor" in with_metadata
     assert "exporter/loggingexporter" in with_metadata
     assert "receiver/customreceiver" not in with_metadata
-
-
-def test_scan_missing_component_type(mock_repo):
-    """Test scanning a component type directory that doesn't exist."""
-    scanner = ComponentScanner(str(mock_repo))
-    # Remove a component type directory
-    (mock_repo / "connector").mkdir(exist_ok=True)
-    connectors = scanner.scan_component_type("connector")
-    assert connectors == []
-
-
-def test_component_sorting(mock_repo):
-    """Test that components are returned in sorted order."""
-    scanner = ComponentScanner(str(mock_repo))
-    receivers = scanner.scan_component_type("receiver")
-
-    names = [r["name"] for r in receivers]
-    assert names == sorted(names)

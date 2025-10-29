@@ -45,6 +45,7 @@ htmlcov/
 
 # Cloned repositories
 repos/
+tmp_repos/
 opentelemetry-collector-contrib/
 opentelemetry-collector/
 

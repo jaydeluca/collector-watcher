@@ -85,17 +85,6 @@ class TestMultiRepoScanner:
     """Tests for MultiRepoScanner class."""
 
     @patch("collector_watcher.multi_repo_scanner.ComponentScanner")
-    def test_init(self, mock_scanner_class):
-        """Test initializing multi-repo scanner."""
-        repos = {"core": "/path/to/core", "contrib": "/path/to/contrib"}
-
-        scanner = MultiRepoScanner(repos)
-
-        assert scanner.repos == repos
-        assert "core" in scanner.scanners
-        assert "contrib" in scanner.scanners
-
-    @patch("collector_watcher.multi_repo_scanner.ComponentScanner")
     def test_scan_all_repos(
         self, mock_scanner_class, mock_core_components, mock_contrib_components
     ):

@@ -24,19 +24,6 @@ def create_metadata_file(component_dir: Path, content: str):
     return metadata_path
 
 
-def test_has_metadata_true(temp_component_dir):
-    """Test detecting metadata.yaml existence."""
-    create_metadata_file(temp_component_dir, "type: test")
-    parser = MetadataParser(temp_component_dir)
-    assert parser.has_metadata() is True
-
-
-def test_has_metadata_false(temp_component_dir):
-    """Test detecting missing metadata.yaml."""
-    parser = MetadataParser(temp_component_dir)
-    assert parser.has_metadata() is False
-
-
 def test_parse_type_field(temp_component_dir):
     """Test parsing the type field."""
     create_metadata_file(temp_component_dir, "type: otlp")

@@ -36,12 +36,12 @@ jobs:
 
       - name: Run type checker (mypy)
         run: |
-          uv run mypy src/collector_watcher --ignore-missing-imports
+          uv run mypy src/collector_watcher src/docs_automation --ignore-missing-imports
         continue-on-error: true
 
       - name: Run tests
         run: |
-          uv run pytest tests/ -v --cov=src/collector_watcher --cov-report=term-missing
+          uv run pytest tests/ -v --cov=src/collector_watcher --cov=src/docs_automation --cov-report=term-missing
 
       - name: Upload coverage
         uses: codecov/codecov-action@v4

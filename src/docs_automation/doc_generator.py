@@ -144,24 +144,23 @@ class DocGenerator:
 
         return table_content
 
-    def generate_table_only(self, component_type: str, components: list[dict[str, Any]]) -> str:
+    def generate_component_table(self, component_type: str, components: list[dict[str, Any]]) -> str:
         """
-        Generate only the table content for a component type (for marker-based updates).
+        Generate table content for a component type (for marker-based updates).
 
         Args:
             component_type: Type of component (receiver, processor, etc.)
             components: List of components of this type
 
         Returns:
-            Markdown table content only (no front matter or headers)
+            Markdown table content (no front matter or headers)
         """
         sorted_components = sorted(components, key=lambda c: c.get("name", ""))
         return self._generate_component_table(component_type, sorted_components)
 
-
-    def generate_all_tables(self, inventory: dict[str, Any]) -> dict[str, str]:
+    def generate_all_component_tables(self, inventory: dict[str, Any]) -> dict[str, str]:
         """
-        Generate just the table content for all component types (for marker-based updates).
+        Generate table content for all component types (for marker-based updates).
 
         Args:
             inventory: Complete inventory data
@@ -174,6 +173,6 @@ class DocGenerator:
 
         for component_type in ["receiver", "processor", "exporter", "connector", "extension"]:
             component_list = components.get(component_type, [])
-            tables[component_type] = self.generate_table_only(component_type, component_list)
+            tables[component_type] = self.generate_component_table(component_type, component_list)
 
         return tables

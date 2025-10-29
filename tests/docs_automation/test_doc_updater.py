@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from collector_watcher.doc_updater import DocUpdater
+from docs_automation.doc_updater import DocUpdater
 
 
 @pytest.fixture

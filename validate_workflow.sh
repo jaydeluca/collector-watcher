@@ -73,7 +73,7 @@ echo -e "${BLUE}Step 2: Running Inventory Scanner${NC}"
 echo "Scanning both core and contrib repositories..."
 echo ""
 
-uv run python -m collector_watcher.runner \
+uv run python -m collector_watcher.scan_inventory \
     "$CONTRIB_REPO_PATH" \
     --core-repo="$CORE_REPO_PATH" \
     --mode=nightly
@@ -136,7 +136,7 @@ echo -e "${BLUE}Step 5: Generating Documentation${NC}"
 echo "Updating documentation tables in your fork..."
 echo ""
 
-uv run python generate_docs_local.py --docs-repo="$DOCS_REPO_PATH"
+uv run python -m docs_automation.update_docs --docs-repo="$DOCS_REPO_PATH"
 
 echo ""
 echo -e "${GREEN}✓ Documentation updated${NC}"

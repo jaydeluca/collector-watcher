@@ -98,18 +98,15 @@ class TestMultiRepoScanner:
 
         mock_scanner_class.side_effect = [mock_core_scanner, mock_contrib_scanner]
 
-        # Create scanner
         repos = {"core": "/path/to/core", "contrib": "/path/to/contrib"}
         scanner = MultiRepoScanner(repos)
 
-        # Scan all repos
         result = scanner.scan_all_repos()
 
         # Verify both scanners were called
         mock_core_scanner.scan_all_components.assert_called_once()
         mock_contrib_scanner.scan_all_components.assert_called_once()
 
-        # Verify result structure
         assert "repository" in result
         assert "components" in result
         assert "processor" in result["components"]

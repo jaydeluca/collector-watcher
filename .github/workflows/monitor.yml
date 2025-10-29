@@ -56,7 +56,7 @@ jobs:
       - name: Run versioned collector watcher
         id: scan
         run: |
-          uv run python -m collector_watcher.runner \
+          uv run python -m collector_watcher.scan_inventory \
             opentelemetry-collector-contrib \
             --core-repo=opentelemetry-collector \
             --mode=nightly

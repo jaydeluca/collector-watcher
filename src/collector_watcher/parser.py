@@ -73,7 +73,6 @@ class MetadataParser:
             return parsed
 
         except yaml.YAMLError as e:
-            # Log error but don't crash - return None for malformed files
             print(f"Warning: Failed to parse {self.metadata_path}: {e}")
             return None
         except Exception as e:
@@ -92,32 +91,26 @@ class MetadataParser:
         """
         parsed = {}
 
-        # Class
         if "class" in status:
             parsed["class"] = status["class"]
 
-        # Stability (with sorted signal types)
         if "stability" in status:
             stability = {}
             for level in sorted(status["stability"].keys()):
                 signals = status["stability"][level]
-                # Sort signal types if it's a list
                 if isinstance(signals, list):
                     stability[level] = sorted(signals)
                 else:
                     stability[level] = signals
             parsed["stability"] = stability
 
-        # Distributions (sorted)
         if "distributions" in status:
             dists = status["distributions"]
             parsed["distributions"] = sorted(dists) if isinstance(dists, list) else dists
 
-        # Codeowners
         if "codeowners" in status:
             parsed["codeowners"] = status["codeowners"]
 
-        # Unsupported platforms (sorted)
         if "unsupported_platforms" in status:
             platforms = status["unsupported_platforms"]
             parsed["unsupported_platforms"] = (
@@ -145,7 +138,6 @@ class MetadataParser:
             if isinstance(attr, dict):
                 parsed_attr = {}
 
-                # Common fields in deterministic order
                 if "description" in attr:
                     parsed_attr["description"] = attr["description"]
                 if "type" in attr:
@@ -153,7 +145,6 @@ class MetadataParser:
                 if "name_override" in attr:
                     parsed_attr["name_override"] = attr["name_override"]
 
-                # Enum values (sorted)
                 if "enum" in attr:
                     parsed_attr["enum"] = (
                         sorted(attr["enum"]) if isinstance(attr["enum"], list) else attr["enum"]
@@ -184,7 +175,6 @@ class MetadataParser:
             if isinstance(metric, dict):
                 parsed_metric = {}
 
-                # Common fields in deterministic order
                 if "description" in metric:
                     parsed_metric["description"] = metric["description"]
                 if "unit" in metric:
@@ -192,19 +182,16 @@ class MetadataParser:
                 if "enabled" in metric:
                     parsed_metric["enabled"] = metric["enabled"]
 
-                # Metric type fields (sum, gauge, etc.)
                 for metric_type in ["sum", "gauge", "histogram"]:
                     if metric_type in metric:
                         parsed_metric[metric_type] = metric[metric_type]
 
-                # Attributes (sorted)
                 if "attributes" in metric:
                     attrs = metric["attributes"]
                     parsed_metric["attributes"] = (
                         sorted(attrs) if isinstance(attrs, list) else attrs
                     )
 
-                # Stability
                 if "stability" in metric:
                     parsed_metric["stability"] = metric["stability"]
 

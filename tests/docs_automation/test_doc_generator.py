@@ -1,10 +1,8 @@
 """Tests for documentation generator."""
 
-from pathlib import Path
-
 import pytest
 
-from collector_watcher.doc_generator import DocGenerator
+from docs_automation.doc_generator import DocGenerator
 
 
 @pytest.fixture
@@ -17,68 +15,58 @@ class TestGetStabilityBySignal:
     """Tests for get_stability_by_signal function."""
 
     def test_get_stability_single_signal_beta(self, doc_generator):
-        """Test getting stability for a single signal (beta)."""
         metadata = {"status": {"stability": {"beta": ["metrics"]}}}
         result = doc_generator.get_stability_by_signal(metadata)
         assert result == {"metrics": "beta"}
 
     def test_get_stability_multiple_signals_same_level(self, doc_generator):
-        """Test getting stability for multiple signals at same level."""
         metadata = {"status": {"stability": {"beta": ["traces", "metrics", "logs"]}}}
         result = doc_generator.get_stability_by_signal(metadata)
         assert result == {"traces": "beta", "metrics": "beta", "logs": "beta"}
 
     def test_get_stability_multiple_signals_different_levels(self, doc_generator):
-        """Test getting stability for multiple signals at different levels."""
         metadata = {"status": {"stability": {"beta": ["traces", "metrics"], "alpha": ["logs"]}}}
         result = doc_generator.get_stability_by_signal(metadata)
         assert result == {"traces": "beta", "metrics": "beta", "logs": "alpha"}
 
     def test_get_stability_extension(self, doc_generator):
-        """Test getting stability for extensions (single signal type)."""
         metadata = {"status": {"stability": {"beta": ["extension"]}}}
         result = doc_generator.get_stability_by_signal(metadata)
         assert result == {"extension": "beta"}
 
     def test_get_stability_no_metadata(self, doc_generator):
-        """Test getting stability when no metadata exists."""
         assert doc_generator.get_stability_by_signal({}) == {}
         assert doc_generator.get_stability_by_signal(None) == {}
 
     def test_get_stability_no_stability_field(self, doc_generator):
-        """Test getting stability when stability field is missing."""
         metadata = {"status": {}}
         assert doc_generator.get_stability_by_signal(metadata) == {}
 
     def test_get_stability_empty_stability(self, doc_generator):
-        """Test getting stability when stability dict is empty."""
         metadata = {"status": {"stability": {}}}
         assert doc_generator.get_stability_by_signal(metadata) == {}
 
     def test_get_stability_partial_signals(self, doc_generator):
-        """Test getting stability with only some signals defined."""
         metadata = {"status": {"stability": {"alpha": ["traces"]}}}
         result = doc_generator.get_stability_by_signal(metadata)
         assert result == {"traces": "alpha"}
 
     def test_get_stability_development_level(self, doc_generator):
-        """Test getting stability with development level."""
         metadata = {"status": {"stability": {"development": ["traces", "logs"]}}}
         result = doc_generator.get_stability_by_signal(metadata)
         assert result == {"traces": "development", "logs": "development"}
 
     def test_get_stability_unmaintained_level(self, doc_generator):
-        """Test getting stability with unmaintained level."""
         metadata = {"status": {"stability": {"unmaintained": ["extension"]}}}
         result = doc_generator.get_stability_by_signal(metadata)
         assert result == {"extension": "unmaintained"}
 
 
-class TestGenerateComponentPage:
-    """Tests for generate_component_page function."""
+class TestGenerateComponentTable:
+    """Tests for generate_component_table function (marker-based approach)."""
 
-    def test_generate_component_page_receiver(self, doc_generator):
-        """Test generating a receiver component page."""
+    def test_generate_component_table_receiver(self, doc_generator):
+        """Test generating a receiver table with traces/metrics/logs columns."""
         components = [
             {
                 "name": "otlpreceiver",
@@ -97,39 +85,24 @@ class TestGenerateComponentPage:
             },
         ]
 
-        page_content = doc_generator.generate_component_page("receiver", components)
+        table_content = doc_generator.generate_component_table("receiver", components)
 
-        # Check Hugo front matter
-        assert "---" in page_content
-        assert "title: Receivers" in page_content
-        assert "weight: 310" in page_content
+        assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in table_content
+        assert "[^1]: Shows which distributions" in table_content
+        assert "[^2]: For details about component stability levels" in table_content
+        assert "component-stability.md" in table_content
 
-        # Check description
-        assert "Receivers collect telemetry data" in page_content
-
-        # Check version info
-        assert "_Generated from version v0.138.0_" in page_content
-
-        # Check table headers (now includes Distributions column with footnote references)
-        assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in page_content
-
-        # Check footnote definitions
-        assert "[^1]: Shows which distributions" in page_content
-        assert "[^2]: For details about component stability levels" in page_content
-        assert "component-stability.md" in page_content
-
-        # Check components are listed (alphabetically) with distributions column
         assert (
             "| [jaegerreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/jaegerreceiver) | contrib | beta | - | - |"
-            in page_content
+            in table_content
         )
         assert (
             "| [otlpreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/otlpreceiver) | contrib | beta | beta | beta |"
-            in page_content
+            in table_content
         )
 
-    def test_generate_component_page_extension(self, doc_generator):
-        """Test generating an extension component page."""
+    def test_generate_component_table_extension(self, doc_generator):
+        """Test generating an extension table with single stability column."""
         components = [
             {
                 "name": "healthcheckextension",
@@ -139,32 +112,23 @@ class TestGenerateComponentPage:
             }
         ]
 
-        page_content = doc_generator.generate_component_page("extension", components)
+        table_content = doc_generator.generate_component_table("extension", components)
 
-        # Check title
-        assert "title: Extensions" in page_content
-        assert "weight: 350" in page_content
+        assert "| Name | Distributions[^1] | Stability[^2] |" in table_content
+        assert "[^1]: Shows which distributions" in table_content
+        assert "[^2]: For details about component stability levels" in table_content
 
-        # Extensions should have Distributions and Stability columns with footnote references
-        assert "| Name | Distributions[^1] | Stability[^2] |" in page_content
-
-        # Check footnote definitions
-        assert "[^1]: Shows which distributions" in page_content
-        assert "[^2]: For details about component stability levels" in page_content
-        assert "component-stability.md" in page_content
-
-        # Check component with distributions column
         assert (
             "| [healthcheckextension](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/healthcheckextension) | contrib | beta |"
-            in page_content
+            in table_content
         )
 
-    def test_generate_component_page_mixed_distributions(self, doc_generator):
-        """Test generating a page with components from different distributions."""
+    def test_generate_component_table_with_distributions(self, doc_generator):
+        """Test that distributions column shows correct values."""
         components = [
             {
                 "name": "otlpreceiver",
-                "source_repo": "core",  # Component source is in core repo
+                "source_repo": "core",
                 "metadata": {
                     "status": {
                         "stability": {"beta": ["traces", "metrics", "logs"]},
@@ -174,73 +138,40 @@ class TestGenerateComponentPage:
             },
             {
                 "name": "jaegerreceiver",
-                "source_repo": "contrib",  # Component source is in contrib repo
+                "source_repo": "contrib",
                 "metadata": {
                     "status": {"stability": {"beta": ["traces"]}, "distributions": ["contrib"]}
                 },
             },
             {
                 "name": "zipkinreceiver",
-                "source_repo": "core",  # Component source is in core repo, but included in both distributions
+                "source_repo": "core",
                 "metadata": {
                     "status": {
                         "stability": {"beta": ["traces"]},
-                        "distributions": ["contrib", "core"],  # Will be sorted to "contrib, core"
+                        "distributions": ["contrib", "core"],
                     }
                 },
             },
         ]
 
-        page_content = doc_generator.generate_component_page("receiver", components)
+        table_content = doc_generator.generate_component_table("receiver", components)
 
-        # Should be a unified table (no separate distribution sections)
-        assert "## Core Distribution" not in page_content
-        assert "## Contrib Distribution" not in page_content
-
-        # Check table has distributions column with footnote references
-        assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in page_content
-
-        # Core components should show "core" in distributions and link to core repo
         assert (
             "[otlpreceiver](https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/otlpreceiver) | core |"
-            in page_content
+            in table_content
         )
-
-        # Contrib-only components should show "contrib" and link to contrib repo
         assert (
             "[jaegerreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/jaegerreceiver) | contrib |"
-            in page_content
+            in table_content
         )
-
-        # Multi-distribution components should show both (sorted) and link to core repo (priority)
         assert (
             "[zipkinreceiver](https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/zipkinreceiver) | contrib, core |"
-            in page_content
+            in table_content
         )
 
-    def test_generate_component_page_empty_list(self, doc_generator):
-        """Test generating a component page with no components."""
-        page_content = doc_generator.generate_component_page("processor", [])
-
-        # Should still have basic structure
-        assert "title: Processors" in page_content
-        # Should have description and table headers even with no components
-        assert "Processors transform, filter" in page_content
-
-    def test_generate_component_page_no_metadata(self, doc_generator):
-        """Test generating a component page with components lacking metadata."""
-        components = [{"name": "fooprocessor"}]
-
-        page_content = doc_generator.generate_component_page("processor", components)
-
-        # Should default to "contrib" distribution and show dashes for stability
-        assert (
-            "| [fooprocessor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/fooprocessor) | contrib | - | - | - |"
-            in page_content
-        )
-
-    def test_generate_component_page_sorting(self, doc_generator):
-        """Test that components are sorted alphabetically."""
+    def test_generate_component_table_sorting(self, doc_generator):
+        """Test components are sorted alphabetically."""
         components = [
             {
                 "name": "zreceiver",
@@ -262,24 +193,55 @@ class TestGenerateComponentPage:
             },
         ]
 
-        page_content = doc_generator.generate_component_page("receiver", components)
+        table_content = doc_generator.generate_component_table("receiver", components)
 
-        # Find positions in the content (component names are now links)
-        a_pos = page_content.find("| [areceiver]")
-        m_pos = page_content.find("| [mreceiver]")
-        z_pos = page_content.find("| [zreceiver]")
+        a_pos = table_content.find("| [areceiver]")
+        m_pos = table_content.find("| [mreceiver]")
+        z_pos = table_content.find("| [zreceiver]")
 
         # Verify alphabetical order
         assert a_pos < m_pos < z_pos
 
+    def test_generate_component_table_no_metadata(self, doc_generator):
+        """Test handling of components without metadata."""
+        components = [{"name": "fooprocessor"}]
 
-class TestGenerateAllPages:
-    """Tests for generate_all_pages function."""
+        table_content = doc_generator.generate_component_table("processor", components)
 
-    def test_generate_all_pages(self, doc_generator):
-        """Test generating all pages from inventory."""
+        assert (
+            "| [fooprocessor](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/fooprocessor) | contrib | - | - | - |"
+            in table_content
+        )
+
+    def test_generate_component_table_empty_list(self, doc_generator):
+        """Test generating table with empty component list."""
+        table_content = doc_generator.generate_component_table("processor", [])
+
+        # Should still have table structure
+        assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in table_content
+        assert "[^1]: Shows which distributions" in table_content
+
+        # But no component rows (only headers)
+        lines = table_content.strip().split("\n")
+        # Should have: header, separator, footnotes - no data rows
+        assert (
+            len(
+                [
+                    line
+                    for line in lines
+                    if line.startswith("|") and "[" in line and "Name" not in line
+                ]
+            )
+            == 0
+        )
+
+
+class TestGenerateAllComponentTables:
+    """Tests for generate_all_component_tables function."""
+
+    def test_generate_all_component_tables(self, doc_generator):
+        """Test generating all component type tables."""
         inventory = {
-            "repository": "opentelemetry-collector-contrib",
             "components": {
                 "receiver": [
                     {
@@ -316,52 +278,53 @@ class TestGenerateAllPages:
                         },
                     }
                 ],
-            },
+            }
         }
 
-        output_dir = Path("/fake/path/content/en/docs/collector")
-        pages = doc_generator.generate_all_pages(inventory, output_dir)
+        tables = doc_generator.generate_all_component_tables(inventory)
 
-        # Should have 5 pages: 5 component type pages (no index for marker-based approach)
-        assert len(pages) == 5
+        # Should return dict with all component types
+        assert len(tables) == 5
+        assert "receiver" in tables
+        assert "processor" in tables
+        assert "exporter" in tables
+        assert "connector" in tables
+        assert "extension" in tables
 
-        # Check paths
-        components_dir = output_dir / "components"
-        assert str(components_dir / "receiver.md") in pages
-        assert str(components_dir / "processor.md") in pages
-        assert str(components_dir / "exporter.md") in pages
-        assert str(components_dir / "connector.md") in pages
-        assert str(components_dir / "extension.md") in pages
-
-        # Check receiver page content (with distributions column)
-        receiver_content = pages[str(components_dir / "receiver.md")]
+        # Check receiver table content
+        receiver_table = tables["receiver"]
+        assert (
+            "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in receiver_table
+        )
         assert (
             "| [otlpreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/otlpreceiver) | contrib | beta | beta | beta |"
-            in receiver_content
+            in receiver_table
         )
 
-        # Check extension page content (with distributions column)
-        extension_content = pages[str(components_dir / "extension.md")]
+        # Check extension table content
+        extension_table = tables["extension"]
+        assert "| Name | Distributions[^1] | Stability[^2] |" in extension_table
         assert (
             "| [healthcheckextension](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/healthcheckextension) | contrib | beta |"
-            in extension_content
+            in extension_table
         )
 
-    def test_generate_all_pages_empty_inventory(self, doc_generator):
-        """Test generating all pages from empty inventory."""
-        inventory = {"repository": "opentelemetry-collector-contrib", "components": {}}
+    def test_generate_all_component_tables_empty_inventory(self, doc_generator):
+        """Test with empty inventory."""
+        inventory = {"components": {}}
 
-        output_dir = Path("/fake/path/content/en/docs/collector")
-        pages = doc_generator.generate_all_pages(inventory, output_dir)
+        tables = doc_generator.generate_all_component_tables(inventory)
 
-        # Should still generate all 5 component pages (no index for marker-based approach)
-        assert len(pages) == 5
+        # Should still return all component types with empty tables
+        assert len(tables) == 5
+        assert "receiver" in tables
+        assert "processor" in tables
+        assert "exporter" in tables
+        assert "connector" in tables
+        assert "extension" in tables
 
-        # Pages should exist but have no component rows
-        components_dir = output_dir / "components"
-        receiver_content = pages[str(components_dir / "receiver.md")]
-        assert "title: Receivers" in receiver_content
-        # Should have description
-        assert (
-            "Receivers collect telemetry data from various sources and formats." in receiver_content
-        )
+        # Each table should have structure but no components
+        for _component_type, table in tables.items():
+            assert "| Name |" in table
+            assert "[^1]:" in table
+            assert "[^2]:" in table

@@ -9,7 +9,6 @@ from .parser import MetadataParser
 class ComponentScanner:
     """Scans collector repositories for components."""
 
-    # Component types to scan
     COMPONENT_TYPES = ["connector", "exporter", "extension", "processor", "receiver"]
 
     def __init__(self, repo_path: str):
@@ -61,9 +60,8 @@ class ComponentScanner:
         """
         Check if a directory is a valid component.
 
-        A valid component directory typically contains:
-        - go.mod file (indicating a Go module)
-        - Or at least some .go files
+        A valid component directory typically contains go.mod or .go files,
+        and excludes internal/test/utility directories.
 
         Args:
             path: Path to check
@@ -71,19 +69,14 @@ class ComponentScanner:
         Returns:
             True if this appears to be a component directory
         """
-        # Exclude internal directories and test directories
         if path.name.startswith(".") or path.name.startswith("_"):
             return False
         if path.name in ["internal", "testdata"]:
             return False
 
-        # Exclude test helpers, test modules, and experimental modules
-        if path.name.endswith("test"):
-            return False
-        if path.name.endswith("helper"):
+        if path.name.endswith("test") or path.name.endswith("helper"):
             return False
 
-        # Exclude common infrastructure/utility modules
         excluded_prefixes = [
             "encoding",
             "observer",
@@ -96,7 +89,6 @@ class ComponentScanner:
         if path.name in excluded_prefixes:
             return False
 
-        # Check for go.mod or .go files
         has_go_mod = (path / "go.mod").exists()
         has_go_files = any(path.glob("*.go"))
 
@@ -120,16 +112,13 @@ class ComponentScanner:
             "name": component_path.name,
         }
 
-        # Parse and include metadata if present
         if has_metadata:
             parsed_metadata = parser.parse()
             if parsed_metadata:
                 component_info["metadata"] = parsed_metadata
             else:
-                # Metadata file exists but couldn't be parsed
                 component_info["has_metadata"] = False
         else:
-            # No metadata file
             component_info["has_metadata"] = False
 
         return component_info

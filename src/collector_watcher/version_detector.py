@@ -31,15 +31,12 @@ class Version:
         Raises:
             ValueError: If version string is invalid
         """
-        # Remove leading 'v' if present
         version_str = version_str.lstrip("v")
 
-        # Check for SNAPSHOT suffix
         is_snapshot = version_str.endswith("-SNAPSHOT")
         if is_snapshot:
             version_str = version_str.replace("-SNAPSHOT", "")
 
-        # Parse semantic version
         match = re.match(r"^(\d+)\.(\d+)\.(\d+)$", version_str)
         if not match:
             raise ValueError(f"Invalid version string: {version_str}")
@@ -59,14 +56,13 @@ class Version:
         return base
 
     def __lt__(self, other: "Version") -> bool:
-        """Compare versions for sorting."""
+        """Compare versions for sorting. Snapshots are considered less than releases."""
         if self.major != other.major:
             return self.major < other.major
         if self.minor != other.minor:
             return self.minor < other.minor
         if self.patch != other.patch:
             return self.patch < other.patch
-        # Snapshots are considered less than releases
         if self.is_snapshot != other.is_snapshot:
             return self.is_snapshot
         return False
@@ -121,25 +117,20 @@ class VersionDetector:
         Returns:
             Latest version tag, or None if no valid tags found
         """
-        # Get all tags
         tags = self.repo.tags
-
-        # Filter to semantic version tags
         version_tags = []
+
         for tag in tags:
             try:
-                # Try to parse as semantic version
                 version = Version.from_string(tag.name)
-                if not version.is_snapshot:  # Exclude snapshot tags
+                if not version.is_snapshot:
                     version_tags.append(version)
             except ValueError:
-                # Skip non-semantic version tags
                 continue
 
         if not version_tags:
             return None
 
-        # Return the latest version
         return max(version_tags)
 
     def get_all_release_tags(self) -> list[Version]:
@@ -149,22 +140,17 @@ class VersionDetector:
         Returns:
             List of version tags
         """
-        # Get all tags
         tags = self.repo.tags
-
-        # Filter to semantic version tags
         version_tags = []
+
         for tag in tags:
             try:
-                # Try to parse as semantic version
                 version = Version.from_string(tag.name)
-                if not version.is_snapshot:  # Exclude snapshot tags
+                if not version.is_snapshot:
                     version_tags.append(version)
             except ValueError:
-                # Skip non-semantic version tags
                 continue
 
-        # Sort newest to oldest
         return sorted(version_tags, reverse=True)
 
     def checkout_version(self, version: Version) -> None:
@@ -184,11 +170,10 @@ class VersionDetector:
             raise ValueError(f"Failed to checkout {tag_name}: {e}") from e
 
     def checkout_main(self) -> None:
-        """Checkout the main branch."""
+        """Checkout the main branch (tries master as fallback)."""
         try:
             self.repo.git.checkout("main")
         except git.exc.GitCommandError:
-            # Try master as fallback
             try:
                 self.repo.git.checkout("master")
             except git.exc.GitCommandError as e:
@@ -212,10 +197,8 @@ class VersionDetector:
         """
         latest = self.get_latest_release_tag()
         if latest is None:
-            # Default to v0.0.1-SNAPSHOT if no releases exist
             return Version(0, 0, 1, is_snapshot=True)
 
-        # Next patch version as snapshot
         next_version = latest.next_patch()
         next_version.is_snapshot = True
         return next_version
@@ -243,7 +226,6 @@ def get_distribution_versions(metadata_dir: Path, distribution: DistributionName
                 version = Version.from_string(item.name)
                 versions.append(version)
             except ValueError:
-                # Skip directories that aren't valid versions
                 continue
 
     return sorted(versions, reverse=True)

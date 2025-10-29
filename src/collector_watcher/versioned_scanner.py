@@ -74,7 +74,6 @@ class VersionedScanner:
         repo_path = self.repos[distribution]
         detector = self.version_detectors[distribution]
 
-        # Checkout the version if requested
         if checkout and not version.is_snapshot:
             print(f"  Checking out {distribution} {version}...")
             detector.checkout_version(version)
@@ -82,12 +81,10 @@ class VersionedScanner:
             print(f"  Checking out {distribution} main branch...")
             detector.checkout_main()
 
-        # Scan components
         print(f"  Scanning {distribution} {version}...")
         scanner = ComponentScanner(repo_path)
         components = scanner.scan_all_components()
 
-        # Print summary
         total = sum(len(comps) for comps in components.values())
         print(f"    Found {total} components")
 
@@ -128,23 +125,18 @@ class VersionedScanner:
         """
         detector = self.version_detectors[distribution]
 
-        # Get latest release
         latest = detector.get_latest_release_tag()
         if latest is None:
             print(f"No releases found for {distribution}")
             return None
 
-        # Check if already tracked
         if self.inventory_manager.version_exists(distribution, latest):
             print(f"Version {distribution} {latest} already tracked")
             return None
 
         print(f"\nProcessing new release: {distribution} {latest}")
 
-        # Scan the version
         components = self.scan_version(distribution, latest, checkout=True)
-
-        # Save the inventory
         self.save_version(distribution, latest, components)
 
         return latest
@@ -167,20 +159,15 @@ class VersionedScanner:
         """
         detector = self.version_detectors[distribution]
 
-        # Cleanup old snapshots
         print(f"\nCleaning up old {distribution} snapshots...")
         removed = self.inventory_manager.cleanup_snapshots(distribution)
         if removed > 0:
             print(f"  Removed {removed} old snapshot(s)")
 
-        # Determine next snapshot version
         snapshot_version = detector.determine_next_snapshot_version()
         print(f"\nUpdating {distribution} {snapshot_version}...")
 
-        # Scan main branch
         components = self.scan_version(distribution, snapshot_version, checkout=True)
-
-        # Save snapshot
         self.save_version(distribution, snapshot_version, components)
 
         return snapshot_version
@@ -206,26 +193,22 @@ class VersionedScanner:
         print("NIGHTLY SCAN")
         print("=" * 60)
 
-        # Process each distribution
         for distribution in self.repos.keys():
             print(f"\n{'=' * 60}")
             print(f"Distribution: {distribution.upper()}")
             print(f"{'=' * 60}")
 
-            # Process latest release
             latest = self.process_latest_release(distribution)
             if latest:
                 summary["new_releases"].append(
                     {"distribution": distribution, "version": str(latest)}
                 )
 
-            # Update snapshot
             snapshot = self.update_snapshot(distribution)
             summary["snapshots_updated"].append(
                 {"distribution": distribution, "version": str(snapshot)}
             )
 
-        # Final summary
         print(f"\n{'=' * 60}")
         print("SCAN COMPLETE")
         print(f"{'=' * 60}")
@@ -252,15 +235,11 @@ class VersionedScanner:
             version: Version to scan
             force: If True, rescan even if version already exists
         """
-        # Check if already exists
         if not force and self.inventory_manager.version_exists(distribution, version):
             print(f"Version {distribution} {version} already exists (use --force to rescan)")
             return
 
         print(f"\nScanning {distribution} {version}...")
 
-        # Scan the version
         components = self.scan_version(distribution, version, checkout=True)
-
-        # Save the inventory
         self.save_version(distribution, version, components)

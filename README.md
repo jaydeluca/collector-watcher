@@ -1,169 +1,122 @@
 # Collector Watcher
 
 Automated monitoring system for OpenTelemetry Collector components. Tracks changes in component structure and metadata
-across both the opentelemetry-collector (core) and opentelemetry-collector-contrib repositories on a **versioned basis**.
+across both the opentelemetry-collector (core) and opentelemetry-collector-contrib repositories.
 
-## Overview
+## What It Does
 
-Collector Watcher scans OpenTelemetry Collector components and maintains a versioned inventory. When run, it:
-- Discovers all collector components (connectors, exporters, extensions, processors, receivers)
-- Tracks components separately by distribution (core, contrib) and version
-- Parses component metadata from metadata.yaml files
-- Maintains versioned inventory in YAML format at `collector-metadata/{distribution}/{version}/`
-- Tracks finalized release versions and current SNAPSHOT from main branch
-- Generates documentation pages for opentelemetry.io
-- Changes are detected via git diff of the versioned inventory files
+Collector Watcher scans OpenTelemetry Collector repositories and:
+- Discovers components (receivers, processors, exporters, connectors, extensions)
+- Tracks component metadata across versions
+- Maintains versioned inventory in YAML format
+- Generates documentation tables for opentelemetry.io
 
-## Usage
+## Quick Start
 
-### Nightly Scan (Recommended)
-
-Run the full nightly workflow that checks for new releases and updates snapshots:
+The easiest way to run the full workflow locally:
 
 ```bash
-uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --core-repo=/path/to/opentelemetry-collector
+# Run end-to-end validation
+./validate_workflow.sh
 ```
 
 This will:
-1. Check for new release versions in both repositories
-2. Scan and save any new releases found
-3. Update SNAPSHOT versions from the main branch
-4. Clean up old SNAPSHOT directories
+1. Clone/update collector repositories to `tmp_repos/`
+2. Scan components and update inventory
+3. Generate documentation updates (if `../opentelemetry.io` exists)
+4. Show you what changed
 
-After scanning, use `git diff collector-metadata/` to see what changed.
-
-### Update Snapshots Only
-
-To only update the SNAPSHOT versions without checking for new releases:
-
+**Custom paths:** Set environment variables if needed:
 ```bash
-uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --core-repo=/path/to/opentelemetry-collector --mode=snapshot
+export CORE_REPO_PATH=/path/to/opentelemetry-collector
+export CONTRIB_REPO_PATH=/path/to/opentelemetry-collector-contrib
+export DOCS_REPO_PATH=/path/to/opentelemetry.io
+./validate_workflow.sh
 ```
 
-### Check for New Releases Only
+## Usage
 
-To only check for and process new releases:
+### Scan Inventory
 
 ```bash
-uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --core-repo=/path/to/opentelemetry-collector --mode=release
+# Scan both repositories
+collector-scan /path/to/contrib --core-repo=/path/to/core
+
+# Check for new releases and update snapshots
+collector-scan /path/to/contrib --core-repo=/path/to/core --mode=nightly
 ```
 
-### Scan a Specific Version
-
-To scan a specific version (useful for backfilling historical data):
+### Update Documentation
 
 ```bash
-uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --core-repo=/path/to/opentelemetry-collector --mode=specific --version=v0.112.0
-```
+# Update docs in ../opentelemetry.io
+collector-docs
 
-### Legacy Mode
+# Or specify a custom path
+collector-docs --docs-repo=/path/to/opentelemetry.io
 
-To use the old (non-versioned) scanning behavior:
-
-```bash
-uv run python -m collector_watcher.runner /path/to/opentelemetry-collector-contrib --legacy
-```
-
-### Generate Documentation
-
-Generate documentation pages and create a PR to opentelemetry.io:
-
-```bash
-uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core --generate-docs --docs-repo=owner/repo
-```
-
-### Local Documentation Testing
-
-For local testing without creating PRs. The documentation generator uses a **marker-based update system** that preserves manual content while updating auto-generated sections:
-
-```bash
-# 1. First scan repositories to update inventory
-uv run python -m collector_watcher.runner /path/to/contrib --core-repo=/path/to/core
-
-# 2. Update documentation tables in existing pages (preserves manual content)
-uv run python generate_docs_local.py
-
-# 3. Or specify a custom docs repo path
-uv run python generate_docs_local.py --docs-repo=/path/to/opentelemetry.io
-
-# 4. Or use a specific version
-uv run python generate_docs_local.py --version=v0.138.0
-
-# 5. Preview the documentation
+# Preview changes
 cd /path/to/opentelemetry.io
-hugo server
-# Open http://localhost:1313/docs/collector/components/
+hugo server  # Open http://localhost:1313/docs/collector/components/
 ```
 
-**Marker-Based Updates:** The generator only updates sections marked with HTML comment markers like `<!-- BEGIN GENERATED: receiver-table -->` and `<!-- END GENERATED: receiver-table -->`, preserving all manual content outside these markers. See `templates/README.md` for details.
+## Project Structure
 
-## Development
-
-### Prerequisites
-
-Install uv (recommended for Python dependency management):
-```bash
-# macOS/Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Verify installation
-uv --version
+```
+collector-watcher/
+├── src/
+│   ├── collector_watcher/          # Inventory management
+│   │   ├── scanner.py              # Component discovery
+│   │   ├── multi_repo_scanner.py   # Scan core + contrib
+│   │   ├── parser.py               # Parse metadata.yaml files
+│   │   ├── inventory.py            # Versioned storage
+│   │   ├── version_detector.py     # Git tag parsing
+│   │   └── scan_inventory.py       # CLI entry point
+│   └── docs_automation/            # Documentation generation
+│       ├── doc_generator.py        # Generate markdown tables
+│       ├── doc_updater.py          # Update existing pages
+│       └── update_docs.py          # CLI entry point
+├── tests/                          # Test suites
+│   ├── collector_watcher/
+│   └── docs_automation/
+├── collector-metadata/             # Versioned inventory
+│   ├── core/
+│   │   ├── v0.112.0/
+│   │   └── v0.113.0-SNAPSHOT/
+│   └── contrib/
+│       └── ...
+└── tmp_repos/                      # Cloned upstream repos (gitignored)
 ```
 
-### Setup
+## Module Overview
 
-```bash
-# Clone the repository
-cd /path/to/collector-watcher
+### Inventory Management (`collector_watcher`)
 
-# Install dependencies
-uv sync
-```
+- **scanner.py** - Finds components by scanning directories for go.mod files
+- **multi_repo_scanner.py** - Coordinates scanning core and contrib repositories
+- **parser.py** - Extracts metadata from component metadata.yaml files
+- **inventory.py** - Saves/loads versioned inventory to YAML files
+- **version_detector.py** - Detects versions from git tags (handles releases and snapshots)
+- **scan_inventory.py** - CLI entry point (`collector-scan` command)
 
-### Running Tests
+### Documentation (`docs_automation`)
 
-```bash
-# Run all tests
-uv run pytest tests/
+- **doc_generator.py** - Generates markdown tables from inventory
+- **doc_updater.py** - Updates content between HTML comment markers
+- **update_docs.py** - CLI entry point (`collector-docs` command)
 
-# Run with coverage
-uv run pytest tests/ --cov=src/collector_watcher
-
-# Run linter
-uv run ruff check src/ tests/
-
-# Run formatter
-uv run ruff format src/ tests/
-```
+Documentation uses marker-based updates: only content between
+`<!-- BEGIN GENERATED: X -->` and `<!-- END GENERATED: X -->` markers is modified, preserving all manual content.
 
 ## Inventory Format
 
-The inventory is stored in a versioned directory structure:
+Components are tracked in versioned YAML files:
 
 ```
-collector-metadata/
-├── core/
-│   ├── v0.112.0/
-│   │   ├── connector.yaml
-│   │   ├── exporter.yaml
-│   │   ├── extension.yaml
-│   │   ├── processor.yaml
-│   │   └── receiver.yaml
-│   ├── v0.113.0/
-│   │   └── ...
-│   └── v0.114.0-SNAPSHOT/
-│       └── ...
-└── contrib/
-    ├── v0.112.0/
-    │   └── ...
-    ├── v0.113.0/
-    │   └── ...
-    └── v0.114.0-SNAPSHOT/
-        └── ...
+collector-metadata/{distribution}/{version}/{component_type}.yaml
 ```
 
-Each version directory contains separate YAML files per component type. Each file contains:
-
+Example structure:
 ```yaml
 distribution: contrib
 version: v0.113.0
@@ -172,34 +125,38 @@ component_type: receiver
 components:
   - name: otlpreceiver
     metadata:
-      type: otlp
       status:
-        distributions: [core, contrib]  # Which distributions include this component
+        distributions: [core, contrib]
         stability:
-          stable: [metrics, traces]
+          stable: [traces, metrics, logs]
 ```
 
-Key principles:
-- **Distributions are tracked separately**: Core and contrib each have their own version directories
-- **Only finalized releases are tracked permanently**: Each release tag gets its own directory
-- **Only ONE snapshot exists at a time**: The latest `-SNAPSHOT` version representing the main branch
-- **Timestamps excluded**: Files only change when component metadata or existence changes, making git diffs meaningful
-- **Distribution metadata**: Components specify which distributions (core, contrib, k8s, etc.) include them
+## Development
+
+### Setup
+
+Install [uv](https://docs.astral.sh/uv/) for dependency management:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv sync  # Install dependencies
+```
+
+### Testing
+
+```bash
+# Run tests
+uv run pytest tests/
+
+# With coverage
+uv run pytest tests/ --cov=src
+
+# Lint and format
+uv run ruff check src/ tests/
+uv run ruff format src/ tests/
+```
 
 ## GitHub Actions
 
-### CI Workflow
-Runs on all pull requests:
-- Linting with ruff
-- Code formatting checks
-- Type checking with mypy
-- Test suite with coverage reporting
-
-### Monitoring Workflow
-Runs daily to monitor both core and contrib repositories:
-- Checks for new release versions in both repositories
-- Scans and saves any new releases found
-- Updates SNAPSHOT versions from main branch
-- Cleans up old SNAPSHOT directories
-- Opens PR with updated versioned inventory files if changes detected
-- Changes are visible via git diff in the PR showing new/updated version directories
+- **CI workflow**: Runs tests, linting, and type checking on PRs
+- **Monitoring workflow**: Runs daily to check for new releases and update inventory

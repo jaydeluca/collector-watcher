@@ -11,6 +11,10 @@ dependencies = [
     "pytest>=7.4.3",
 ]
 
+[project.scripts]
+collector-scan = "collector_watcher.scan_inventory:main"
+collector-docs = "docs_automation.update_docs:main"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

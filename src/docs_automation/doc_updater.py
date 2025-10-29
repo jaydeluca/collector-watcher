@@ -54,16 +54,12 @@ class DocUpdater:
         """
         begin_marker, end_marker = self.get_marker_pattern(marker_id)
 
-        # Create regex pattern to match content between markers
-        # Use DOTALL to match across newlines
         pattern = re.escape(begin_marker) + r".*?" + re.escape(end_marker)
         regex = re.compile(pattern, re.DOTALL)
 
-        # Check if markers exist
         if not regex.search(content):
             return content, False
 
-        # Replace content between markers
         replacement = f"{begin_marker}\n{new_content}\n{end_marker}"
         updated_content = regex.sub(replacement, content)
 
@@ -114,16 +110,12 @@ class DocUpdater:
         if not file_path.exists():
             raise FileNotFoundError(f"File not found: {file_path}")
 
-        # Read existing content
         original_content = file_path.read_text()
-
-        # Update section
         updated_content, was_updated = self.update_section(original_content, marker_id, new_content)
 
         if not was_updated:
             return False
 
-        # Write back to file
         file_path.write_text(updated_content)
         return True
 
@@ -148,13 +140,9 @@ class DocUpdater:
         if not file_path.exists():
             raise FileNotFoundError(f"File not found: {file_path}")
 
-        # Read existing content
         original_content = file_path.read_text()
-
-        # Update sections
         updated_content, results = self.update_multiple_sections(original_content, updates)
 
-        # Only write if at least one section was updated
         if any(results.values()):
             file_path.write_text(updated_content)
 
@@ -174,11 +162,9 @@ class DocUpdater:
         """
         begin_marker, end_marker = self.get_marker_pattern(marker_id)
 
-        # Check if markers already exist
         if begin_marker in content and end_marker in content:
             return content
 
-        # Add markers
         marker_block = f"\n{begin_marker}\n\n{end_marker}\n"
 
         if at_end:
@@ -197,9 +183,7 @@ class DocUpdater:
             Dictionary mapping marker_id to whether it's valid
             (has both begin and end markers)
         """
-        # Find all BEGIN markers
         begin_pattern = re.compile(rf"<!-- BEGIN {re.escape(self.marker_prefix)}: ([a-z0-9-]+) -->")
-        # Find all END markers
         end_pattern = re.compile(rf"<!-- END {re.escape(self.marker_prefix)}: ([a-z0-9-]+) -->")
 
         begin_markers = set(begin_pattern.findall(content))
@@ -207,11 +191,9 @@ class DocUpdater:
 
         results = {}
 
-        # Check each begin marker has corresponding end
         for marker_id in begin_markers:
             results[marker_id] = marker_id in end_markers
 
-        # Check for orphaned end markers
         for marker_id in end_markers:
             if marker_id not in begin_markers:
                 results[marker_id] = False

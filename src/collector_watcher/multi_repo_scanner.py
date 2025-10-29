@@ -28,15 +28,12 @@ class MultiRepoScanner:
         Returns:
             Merged inventory with all components from all repos
         """
-        # Scan each repository
         inventories = {}
         for name, scanner in self.scanners.items():
             components = scanner.scan_all_components()
             inventories[name] = components
 
-        # Merge the results
         merged = self._merge_inventories(inventories)
-
         return merged
 
     def _merge_inventories(self, inventories: dict[str, dict[str, Any]]) -> dict[str, Any]:
@@ -49,17 +46,11 @@ class MultiRepoScanner:
         Returns:
             Merged inventory combining all components
         """
-        # Start with empty merged inventory
         merged = {"repository": "opentelemetry-collector (merged)", "components": {}}
-
-        # Component type order
         component_types = ["receiver", "processor", "exporter", "connector", "extension"]
 
-        # For each component type
         for component_type in component_types:
             merged["components"][component_type] = []
-
-            # Collect all components of this type from all repos
             components_by_name = {}
 
             for repo_name, inventory in inventories.items():
@@ -70,28 +61,22 @@ class MultiRepoScanner:
                         continue
 
                     if name not in components_by_name:
-                        # First time seeing this component
                         components_by_name[name] = {"repos": [repo_name], "component": component}
                     else:
-                        # Component exists in multiple repos - merge them
                         components_by_name[name]["repos"].append(repo_name)
-                        # Merge with preference to contrib metadata
                         if repo_name == "contrib":
                             components_by_name[name]["component"] = component
 
-            # Build final component list with merged distribution info
             for _name, data in components_by_name.items():
                 component = data["component"].copy()
                 repos = data["repos"]
 
-                # Update distributions in metadata
                 if "metadata" not in component:
                     component["metadata"] = {}
 
                 if "status" not in component["metadata"]:
                     component["metadata"]["status"] = {}
 
-                # Set distributions based on which repos have this component
                 distributions = []
                 if "core" in repos:
                     distributions.append("core")
@@ -99,10 +84,8 @@ class MultiRepoScanner:
                     distributions.append("contrib")
 
                 component["metadata"]["status"]["distributions"] = sorted(distributions)
-
                 merged["components"][component_type].append(component)
 
-            # Sort components alphabetically within each type
             merged["components"][component_type].sort(key=lambda c: c.get("name", ""))
 
         return merged

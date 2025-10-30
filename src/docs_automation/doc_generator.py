@@ -81,6 +81,29 @@ class DocGenerator:
 
         return ", ".join(distributions)
 
+    def _is_unmaintained(self, component: dict[str, Any]) -> bool:
+        """
+        Check if a component is unmaintained.
+
+        A component is considered unmaintained if any of its signals
+        have an "unmaintained" stability level.
+
+        Args:
+            component: Component data
+
+        Returns:
+            True if component is unmaintained
+        """
+        metadata = component.get("metadata", {})
+        if not metadata:
+            return False
+
+        status = metadata.get("status", {})
+        stability = status.get("stability", {})
+
+        # Check if "unmaintained" is one of the stability levels
+        return "unmaintained" in stability
+
     def _generate_component_table(
         self, component_type: str, components: list[dict[str, Any]]
     ) -> str:
@@ -122,6 +145,10 @@ class DocGenerator:
             readme_link = f"{repo_url}/tree/main/{component_path}"
             name_link = f"[{name}]({readme_link})"
 
+            # Add unmaintained emoji if component has no active maintainers
+            if self._is_unmaintained(component):
+                name_link += " ⚠️"
+
             if component_type == "extension":
                 stability = stability_map.get("extension", "N/A")
                 table_content += f"| {name_link} | {distributions_str} | {stability} |\n"
@@ -137,6 +164,7 @@ class DocGenerator:
         stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
 
         table_content += (
+            "⚠️ **Note:** Components marked with ⚠️ are unmaintained and have no active codeowners. They may not receive regular updates or bug fixes.\n\n"
             "[^1]: Shows which distributions (core, contrib, k8s, etc.) include this component.\n"
             f"[^2]: For details about component stability levels, see the [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
         )

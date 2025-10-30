@@ -85,11 +85,11 @@ jobs:
             ## Component Inventory Update
 
             Automated nightly scan detected changes in OpenTelemetry Collector components.
-            
+
             This includes:
             - New release versions (if any)
             - Updated SNAPSHOT versions from main branch
-            
+
             ---
-            
+
             _This PR is automatically updated by the nightly scan._

@@ -62,6 +62,54 @@ class TestGetStabilityBySignal:
         assert result == {"extension": "unmaintained"}
 
 
+class TestIsUnmaintained:
+    """Tests for _is_unmaintained method."""
+
+    def test_is_unmaintained_with_unmaintained_stability(self, doc_generator):
+        """Test component with unmaintained stability level is unmaintained."""
+        component = {
+            "name": "oldreceiver",
+            "metadata": {"status": {"stability": {"unmaintained": ["metrics"]}}},
+        }
+        assert doc_generator._is_unmaintained(component) is True
+
+    def test_is_unmaintained_with_normal_stability(self, doc_generator):
+        """Test component with normal stability levels is not unmaintained."""
+        component = {
+            "name": "activereceiver",
+            "metadata": {"status": {"stability": {"beta": ["traces", "metrics"]}}},
+        }
+        assert doc_generator._is_unmaintained(component) is False
+
+    def test_is_unmaintained_no_stability_field(self, doc_generator):
+        """Test component without stability field is not considered unmaintained."""
+        component = {
+            "name": "somereceiver",
+            "metadata": {"status": {}},
+        }
+        assert doc_generator._is_unmaintained(component) is False
+
+    def test_is_unmaintained_no_metadata(self, doc_generator):
+        """Test component without metadata is not considered unmaintained."""
+        component = {"name": "somereceiver"}
+        assert doc_generator._is_unmaintained(component) is False
+
+    def test_is_unmaintained_multiple_stability_levels(self, doc_generator):
+        """Test component with unmaintained among other levels is unmaintained."""
+        component = {
+            "name": "oldreceiver",
+            "metadata": {
+                "status": {
+                    "stability": {
+                        "beta": ["traces"],
+                        "unmaintained": ["metrics"],
+                    }
+                }
+            },
+        }
+        assert doc_generator._is_unmaintained(component) is True
+
+
 class TestGenerateComponentTable:
     """Tests for generate_component_table function (marker-based approach)."""
 
@@ -80,7 +128,10 @@ class TestGenerateComponentTable:
             {
                 "name": "jaegerreceiver",
                 "metadata": {
-                    "status": {"stability": {"beta": ["traces"]}, "distributions": ["contrib"]}
+                    "status": {
+                        "stability": {"beta": ["traces"]},
+                        "distributions": ["contrib"],
+                    }
                 },
             },
         ]
@@ -234,6 +285,63 @@ class TestGenerateComponentTable:
             )
             == 0
         )
+
+    def test_generate_component_table_unmaintained_component(self, doc_generator):
+        """Test that unmaintained components get a warning emoji."""
+        components = [
+            {
+                "name": "oldreceiver",
+                "metadata": {
+                    "status": {
+                        "stability": {"unmaintained": ["metrics"]},
+                        "distributions": ["contrib"],
+                    }
+                },
+            },
+            {
+                "name": "activereceiver",
+                "metadata": {
+                    "status": {
+                        "stability": {"beta": ["traces"]},
+                        "distributions": ["contrib"],
+                    }
+                },
+            },
+        ]
+
+        table_content = doc_generator.generate_component_table("receiver", components)
+
+        # Unmaintained component should have emoji
+        assert "[oldreceiver]" in table_content
+        assert "oldreceiver) ⚠️" in table_content
+
+        # Active component should not have emoji
+        assert "[activereceiver]" in table_content
+        assert "activereceiver) ⚠️" not in table_content
+
+        # Should have note about unmaintained components
+        assert "⚠️ **Note:** Components marked with ⚠️ are unmaintained" in table_content
+
+    def test_generate_component_table_unmaintained_extension(self, doc_generator):
+        """Test that unmaintained extensions also get warning emoji."""
+        components = [
+            {
+                "name": "oldextension",
+                "metadata": {
+                    "status": {
+                        "stability": {"unmaintained": ["extension"]},
+                        "distributions": ["contrib"],
+                    }
+                },
+            }
+        ]
+
+        table_content = doc_generator.generate_component_table("extension", components)
+
+        # Should have emoji
+        assert "oldextension) ⚠️" in table_content
+        # Should have note
+        assert "⚠️ **Note:**" in table_content
 
 
 class TestGenerateAllComponentTables:

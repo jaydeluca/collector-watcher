@@ -4090,6 +4090,8 @@ components:
           aggregation_temporality: cumulative
           value_type: int
         attributes: []
+        stability:
+          level: development
       elasticsearch.node.operations.completed:
         description: The number of operations completed by a node.
         unit: '{operations}'

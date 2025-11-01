@@ -383,7 +383,7 @@ components:
     status:
       class: processor
       stability:
-        alpha:
+        beta:
         - metrics
       distributions:
       - contrib

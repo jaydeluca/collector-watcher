@@ -1,5 +1,5 @@
 distribution: contrib
-version: v0.138.1-SNAPSHOT
+version: v0.139.0
 repository: opentelemetry-collector-contrib
 component_type: receiver
 components:
@@ -2240,7 +2240,7 @@ components:
     status:
       class: receiver
       stability:
-        development:
+        alpha:
         - metrics
       distributions: []
       codeowners:
@@ -16196,6 +16196,8 @@ components:
         - splunk.license.type
         - splunk.splunkd.build
         - splunk.splunkd.version
+        stability:
+          level: development
       splunk.license.index.usage:
         description: Gauge tracking the indexed license usage per index
         unit: By

@@ -1,0 +1,87 @@
+distribution: core
+version: v0.139.0
+repository: opentelemetry-collector
+component_type: exporter
+components:
+- name: debugexporter
+  metadata:
+    type: debug
+    status:
+      class: exporter
+      stability:
+        alpha:
+        - logs
+        - metrics
+        - traces
+        development:
+        - profiles
+      distributions:
+      - contrib
+      - core
+      - k8s
+      codeowners:
+        active:
+        - andrzej-stencel
+- name: nopexporter
+  metadata:
+    type: nop
+    status:
+      class: exporter
+      stability:
+        beta:
+        - logs
+        - metrics
+        - traces
+      distributions:
+      - contrib
+      - core
+      - k8s
+      codeowners:
+        active:
+        - evan-bradley
+- name: otlpexporter
+  metadata:
+    type: otlp
+    status:
+      class: exporter
+      stability:
+        development:
+        - profiles
+        stable:
+        - logs
+        - metrics
+        - traces
+      distributions:
+      - contrib
+      - core
+      - k8s
+      - otlp
+- name: otlphttpexporter
+  metadata:
+    type: otlphttp
+    status:
+      class: exporter
+      stability:
+        development:
+        - profiles
+        stable:
+        - logs
+        - metrics
+        - traces
+      distributions:
+      - contrib
+      - core
+      - k8s
+      - otlp
+- name: xexporter
+  metadata:
+    type: xexporter
+    status:
+      class: pkg
+      stability:
+        development:
+        - profiles
+      codeowners:
+        active:
+        - mx-psi
+        - dmathieu

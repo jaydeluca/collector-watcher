@@ -82,14 +82,6 @@ class Version:
         """Return next patch version."""
         return Version(self.major, self.minor, self.patch + 1)
 
-    def next_minor(self) -> "Version":
-        """Return next minor version."""
-        return Version(self.major, self.minor + 1, 0)
-
-    def next_major(self) -> "Version":
-        """Return next major version."""
-        return Version(self.major + 1, 0, 0)
-
 
 DistributionName = Literal["core", "contrib"]
 
@@ -179,15 +171,6 @@ class VersionDetector:
             except git.exc.GitCommandError as e:
                 raise ValueError(f"Failed to checkout main/master branch: {e}") from e
 
-    def get_current_branch(self) -> str:
-        """
-        Get the current branch name.
-
-        Returns:
-            Current branch name
-        """
-        return self.repo.active_branch.name
-
     def determine_next_snapshot_version(self) -> Version:
         """
         Determine the next snapshot version based on latest release.
@@ -202,45 +185,3 @@ class VersionDetector:
         next_version = latest.next_patch()
         next_version.is_snapshot = True
         return next_version
-
-
-def get_distribution_versions(metadata_dir: Path, distribution: DistributionName) -> list[Version]:
-    """
-    Get all existing versions for a distribution from the metadata directory.
-
-    Args:
-        metadata_dir: Base metadata directory (collector-metadata/)
-        distribution: Distribution name (core or contrib)
-
-    Returns:
-        List of versions, sorted newest to oldest
-    """
-    dist_dir = metadata_dir / distribution
-    if not dist_dir.exists():
-        return []
-
-    versions = []
-    for item in dist_dir.iterdir():
-        if item.is_dir():
-            try:
-                version = Version.from_string(item.name)
-                versions.append(version)
-            except ValueError:
-                continue
-
-    return sorted(versions, reverse=True)
-
-
-def get_snapshot_versions(metadata_dir: Path, distribution: DistributionName) -> list[Version]:
-    """
-    Get all snapshot versions for a distribution.
-
-    Args:
-        metadata_dir: Base metadata directory
-        distribution: Distribution name
-
-    Returns:
-        List of snapshot versions
-    """
-    all_versions = get_distribution_versions(metadata_dir, distribution)
-    return [v for v in all_versions if v.is_snapshot]

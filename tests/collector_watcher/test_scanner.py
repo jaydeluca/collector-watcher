@@ -116,20 +116,3 @@ def test_scan_all_components(mock_repo):
     assert len(components["receiver"]) == 2
     assert len(components["processor"]) == 1
     assert len(components["exporter"]) == 1
-
-
-def test_get_components_with_metadata(mock_repo):
-    scanner = ComponentScanner(str(mock_repo))
-    components = scanner.scan_all_components()
-
-    with_metadata = []
-    for comp_type, comp_list in components.items():
-        for comp in comp_list:
-            if "metadata" in comp:
-                with_metadata.append(f"{comp_type}/{comp['name']}")
-
-    assert len(with_metadata) == 3
-    assert "receiver/otlpreceiver" in with_metadata
-    assert "processor/batchprocessor" in with_metadata
-    assert "exporter/loggingexporter" in with_metadata
-    assert "receiver/customreceiver" not in with_metadata

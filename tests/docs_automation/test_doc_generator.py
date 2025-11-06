@@ -174,6 +174,56 @@ class TestGenerateComponentTable:
             in table_content
         )
 
+    def test_generate_component_table_connector(self, doc_generator):
+        """Test generating a connector table without stability columns."""
+        components = [
+            {
+                "name": "spanmetricsconnector",
+                "metadata": {
+                    "status": {
+                        "stability": {"beta": ["traces_to_metrics"]},
+                        "distributions": ["contrib"],
+                    }
+                },
+            },
+            {
+                "name": "countconnector",
+                "source_repo": "contrib",
+                "metadata": {
+                    "status": {
+                        "stability": {"alpha": ["metrics_to_metrics"]},
+                        "distributions": ["contrib"],
+                    }
+                },
+            },
+        ]
+
+        table_content = doc_generator.generate_component_table("connector", components)
+
+        # Should have simplified header without stability columns
+        assert "| Name | Distributions[^1] |" in table_content
+        # Should not have Traces/Metrics/Logs columns
+        assert "Traces[^2]" not in table_content
+        assert "Metrics[^2]" not in table_content
+        assert "Logs[^2]" not in table_content
+
+        # Should have distributions footnote but not stability footnote
+        assert "[^1]: Shows which distributions" in table_content
+        assert "[^2]: For details about component stability levels" not in table_content
+
+        # Should not have unmaintained note since connectors don't show stability
+        assert "⚠️ **Note:** Components marked with ⚠️ are unmaintained" not in table_content
+
+        # Should have component rows with only name and distributions
+        assert (
+            "| [countconnector](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/connector/countconnector) | contrib |"
+            in table_content
+        )
+        assert (
+            "| [spanmetricsconnector](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/connector/spanmetricsconnector) | contrib |"
+            in table_content
+        )
+
     def test_generate_component_table_with_distributions(self, doc_generator):
         """Test that distributions column shows correct values."""
         components = [
@@ -343,6 +393,27 @@ class TestGenerateComponentTable:
         # Should have note
         assert "⚠️ **Note:**" in table_content
 
+    def test_generate_component_table_unmaintained_connector(self, doc_generator):
+        """Test that unmaintained connectors don't get warning emoji (since stability isn't shown)."""
+        components = [
+            {
+                "name": "oldconnector",
+                "metadata": {
+                    "status": {
+                        "stability": {"unmaintained": ["traces_to_metrics"]},
+                        "distributions": ["contrib"],
+                    }
+                },
+            }
+        ]
+
+        table_content = doc_generator.generate_component_table("connector", components)
+
+        # Should NOT have emoji for connectors
+        assert "oldconnector) ⚠️" not in table_content
+        # Should NOT have unmaintained note for connectors
+        assert "⚠️ **Note:**" not in table_content
+
 
 class TestGenerateAllComponentTables:
     """Tests for generate_all_component_tables function."""
@@ -432,7 +503,11 @@ class TestGenerateAllComponentTables:
         assert "extension" in tables
 
         # Each table should have structure but no components
-        for _component_type, table in tables.items():
+        for component_type, table in tables.items():
             assert "| Name |" in table
             assert "[^1]:" in table
-            assert "[^2]:" in table
+            # Connectors don't have stability footnote
+            if component_type != "connector":
+                assert "[^2]:" in table
+            else:
+                assert "[^2]:" not in table

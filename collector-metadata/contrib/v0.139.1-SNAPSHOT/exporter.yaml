@@ -427,8 +427,10 @@ components:
     status:
       class: exporter
       stability:
-        development:
+        alpha:
         - logs
+      distributions:
+      - contrib
       codeowners:
         active:
         - constanca-m

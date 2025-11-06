@@ -1,0 +1,166 @@
+name: Update OpenTelemetry.io Documentation
+
+on:
+  schedule:
+    # Run nightly at 3 AM UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch: # Allow manual triggers
+    inputs:
+      version:
+        description: 'Specific version to generate docs for (e.g., v0.138.0). Leave empty to use latest.'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout collector-watcher
+        uses: actions/checkout@v4
+        with:
+          path: collector-watcher
+
+      - name: Checkout opentelemetry-collector-contrib
+        uses: actions/checkout@v4
+        with:
+          repository: open-telemetry/opentelemetry-collector-contrib
+          path: opentelemetry-collector-contrib
+          fetch-depth: 1
+
+      - name: Checkout opentelemetry-collector (core)
+        uses: actions/checkout@v4
+        with:
+          repository: open-telemetry/opentelemetry-collector
+          path: opentelemetry-collector
+          fetch-depth: 1
+
+      - name: Checkout upstream opentelemetry.io
+        uses: actions/checkout@v4
+        with:
+          repository: open-telemetry/opentelemetry.io
+          path: opentelemetry.io
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Set up Python
+        run: uv python install
+        working-directory: collector-watcher
+
+      - name: Install Python dependencies
+        run: uv sync
+        working-directory: collector-watcher
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: opentelemetry.io/package-lock.json
+
+      - name: Install Node.js dependencies
+        run: npm ci
+        working-directory: opentelemetry.io
+
+      - name: Generate documentation
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            uv run python -m docs_automation.update_docs \
+              --docs-repo=../opentelemetry.io \
+              --version=${{ inputs.version }}
+          else
+            uv run python -m docs_automation.update_docs \
+              --docs-repo=../opentelemetry.io
+          fi
+        working-directory: collector-watcher
+
+      - name: Format and fix documentation
+        run: npm run test-and-fix
+        working-directory: opentelemetry.io
+
+      - name: Check for documentation changes
+        id: check_changes
+        run: |
+          cd opentelemetry.io
+          if git diff --quiet content/en/docs/collector/components/; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No documentation changes detected"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Documentation changes detected:"
+            git --no-pager diff --name-only content/en/docs/collector/components/
+          fi
+
+      - name: Get version info
+        if: steps.check_changes.outputs.has_changes == 'true'
+        id: version_info
+        run: |
+          cd collector-watcher
+          if [ -n "${{ inputs.version }}" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            # Get the latest version from inventory
+            VERSION=$(ls -1 collector-metadata/contrib | grep -v SNAPSHOT | sort -V | tail -1)
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          # Create a sanitized branch name (replace dots with dashes)
+          BRANCH_NAME="collector-docs-${VERSION//\./-}"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      - name: Configure git
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          cd opentelemetry.io
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create branch and commit changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          cd opentelemetry.io
+          git checkout -b ${{ steps.version_info.outputs.branch_name }}
+          git add content/en/docs/collector/components/*.md
+          git commit -m "Update Collector component tables for ${{ steps.version_info.outputs.version }}"
+
+      - name: Push to fork and create PR
+        if: steps.check_changes.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+          FORK_OWNER: ${{ secrets.DOCS_REPO_OWNER || github.repository_owner }}
+        run: |
+          cd opentelemetry.io
+
+          git config --local credential.helper '!f() { echo "username=x-access-token"; echo "password=${GH_TOKEN}"; }; f'
+
+          git remote add fork https://github.com/${FORK_OWNER}/opentelemetry.io.git
+
+          git push -f fork ${{ steps.version_info.outputs.branch_name }}
+
+          # Clean up credential helper
+          git config --local --unset credential.helper
+
+          # Create PR from fork to upstream using gh cli
+          gh pr create \
+            --repo open-telemetry/opentelemetry.io \
+            --head ${FORK_OWNER}:${{ steps.version_info.outputs.branch_name }} \
+            --title "Update Collector component tables for ${{ steps.version_info.outputs.version }}" \
+            --body "## Update Collector Component Documentation
+
+          This PR updates the OpenTelemetry Collector component tables for version **${{ steps.version_info.outputs.version }}**.
+
+          ### Changes
+
+          Updated component documentation tables in:
+          - \`content/en/docs/collector/components/receiver.md\`
+          - \`content/en/docs/collector/components/processor.md\`
+          - \`content/en/docs/collector/components/exporter.md\`
+          - \`content/en/docs/collector/components/connector.md\`
+          - \`content/en/docs/collector/components/extension.md\`
+
+          ---
+
+          🤖 _This PR was automatically generated by [collector-watcher](https://github.com/${{ github.repository }})_" \
+            --label "documentation,collector"

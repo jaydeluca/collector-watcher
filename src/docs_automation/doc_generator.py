@@ -79,7 +79,16 @@ class DocGenerator:
         if not distributions:
             return "-"
 
-        return ", ".join(distributions)
+        # Capitalize distribution names to match textlint terminology rules
+        # (e.g., "k8s" -> "K8s")
+        capitalized = []
+        for dist in distributions:
+            if dist.lower() == "k8s":
+                capitalized.append("K8s")
+            else:
+                capitalized.append(dist)
+
+        return ", ".join(capitalized)
 
     def _is_unmaintained(self, component: dict[str, Any]) -> bool:
         """

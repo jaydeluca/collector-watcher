@@ -16,7 +16,6 @@ Collector Watcher scans OpenTelemetry Collector repositories and:
 The easiest way to run the full workflow locally:
 
 ```bash
-# Run end-to-end validation
 ./validate_workflow.sh
 ```
 
@@ -54,10 +53,6 @@ collector-docs
 
 # Or specify a custom path
 collector-docs --docs-repo=/path/to/opentelemetry.io
-
-# Preview changes
-cd /path/to/opentelemetry.io
-hugo server  # Open http://localhost:1313/docs/collector/components/
 ```
 
 ## Project Structure
@@ -155,8 +150,3 @@ uv run pytest tests/ --cov=src
 uv run ruff check src/ tests/
 uv run ruff format src/ tests/
 ```
-
-## GitHub Actions
-
-- **CI workflow**: Runs tests, linting, and type checking on PRs
-- **Monitoring workflow**: Runs daily to check for new releases and update inventory

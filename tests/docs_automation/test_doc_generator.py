@@ -139,7 +139,7 @@ class TestGenerateComponentTable:
         table_content = doc_generator.generate_component_table("receiver", components)
 
         assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in table_content
-        assert "[^1]: Shows which distributions" in table_content
+        assert "[^1]: Shows which [distributions]" in table_content
         assert "[^2]: For details about component stability levels" in table_content
         assert "component-stability.md" in table_content
 
@@ -166,7 +166,7 @@ class TestGenerateComponentTable:
         table_content = doc_generator.generate_component_table("extension", components)
 
         assert "| Name | Distributions[^1] | Stability[^2] |" in table_content
-        assert "[^1]: Shows which distributions" in table_content
+        assert "[^1]: Shows which [distributions]" in table_content
         assert "[^2]: For details about component stability levels" in table_content
 
         assert (
@@ -208,7 +208,7 @@ class TestGenerateComponentTable:
         assert "Logs[^2]" not in table_content
 
         # Should have distributions footnote but not stability footnote
-        assert "[^1]: Shows which distributions" in table_content
+        assert "[^1]: Shows which [distributions]" in table_content
         assert "[^2]: For details about component stability levels" not in table_content
 
         # Should not have unmaintained note since connectors don't show stability
@@ -271,6 +271,24 @@ class TestGenerateComponentTable:
             in table_content
         )
 
+    def test_format_distributions_capitalizes_k8s(self, doc_generator):
+        """Test that k8s is capitalized to K8s to match textlint terminology rules."""
+        component = {
+            "name": "countconnector",
+            "source_repo": "contrib",
+            "metadata": {
+                "status": {
+                    "distributions": ["contrib", "k8s"],
+                }
+            },
+        }
+
+        table_content = doc_generator.generate_component_table("connector", [component])
+
+        # Should have K8s capitalized, not k8s
+        assert "contrib, K8s" in table_content
+        assert "contrib, k8s" not in table_content
+
     def test_generate_component_table_sorting(self, doc_generator):
         """Test components are sorted alphabetically."""
         components = [
@@ -320,7 +338,7 @@ class TestGenerateComponentTable:
 
         # Should still have table structure
         assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in table_content
-        assert "[^1]: Shows which distributions" in table_content
+        assert "[^1]: Shows which [distributions]" in table_content
 
         # But no component rows (only headers)
         lines = table_content.strip().split("\n")

@@ -2449,6 +2449,7 @@ components:
       class: receiver
       stability:
         alpha:
+        - logs
         - metrics
         - traces
       distributions:

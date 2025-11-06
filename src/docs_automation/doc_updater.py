@@ -2,15 +2,6 @@
 
 import re
 from pathlib import Path
-from typing import Protocol
-
-
-class ContentGenerator(Protocol):
-    """Protocol for content generators that provide generated content."""
-
-    def generate_content(self) -> str:
-        """Generate the content to be inserted between markers."""
-        ...
 
 
 class DocUpdater:
@@ -145,57 +136,5 @@ class DocUpdater:
 
         if any(results.values()):
             file_path.write_text(updated_content)
-
-        return results
-
-    def add_markers(self, content: str, marker_id: str, at_end: bool = True) -> str:
-        """
-        Add markers to content if they don't exist.
-
-        Args:
-            content: Original content
-            marker_id: Marker identifier to add
-            at_end: If True, add at end of content; if False, add at beginning
-
-        Returns:
-            Content with markers added
-        """
-        begin_marker, end_marker = self.get_marker_pattern(marker_id)
-
-        if begin_marker in content and end_marker in content:
-            return content
-
-        marker_block = f"\n{begin_marker}\n\n{end_marker}\n"
-
-        if at_end:
-            return content + marker_block
-        else:
-            return marker_block + content
-
-    def validate_markers(self, content: str) -> dict[str, bool]:
-        """
-        Validate that all markers in content are properly paired.
-
-        Args:
-            content: Content to validate
-
-        Returns:
-            Dictionary mapping marker_id to whether it's valid
-            (has both begin and end markers)
-        """
-        begin_pattern = re.compile(rf"<!-- BEGIN {re.escape(self.marker_prefix)}: ([a-z0-9-]+) -->")
-        end_pattern = re.compile(rf"<!-- END {re.escape(self.marker_prefix)}: ([a-z0-9-]+) -->")
-
-        begin_markers = set(begin_pattern.findall(content))
-        end_markers = set(end_pattern.findall(content))
-
-        results = {}
-
-        for marker_id in begin_markers:
-            results[marker_id] = marker_id in end_markers
-
-        for marker_id in end_markers:
-            if marker_id not in begin_markers:
-                results[marker_id] = False
 
         return results

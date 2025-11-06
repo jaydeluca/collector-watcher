@@ -83,19 +83,3 @@ class TestVersion:
         assert next_v.major == 0
         assert next_v.minor == 112
         assert next_v.patch == 1
-
-    def test_next_minor(self):
-        """Test getting next minor version."""
-        v = Version(0, 112, 5)
-        next_v = v.next_minor()
-        assert next_v.major == 0
-        assert next_v.minor == 113
-        assert next_v.patch == 0
-
-    def test_next_major(self):
-        """Test getting next major version."""
-        v = Version(0, 112, 5)
-        next_v = v.next_major()
-        assert next_v.major == 1
-        assert next_v.minor == 0
-        assert next_v.patch == 0

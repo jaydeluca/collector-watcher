@@ -58,12 +58,12 @@ jobs:
         working-directory: collector-watcher
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '24'
+          node-version-file: opentelemetry.io/.nvmrc
 
       - name: Install Node.js dependencies
-        run: npm ci
+        run: npm install --omit=optional
         working-directory: opentelemetry.io
 
       - name: Generate documentation

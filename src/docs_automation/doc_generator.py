@@ -79,7 +79,16 @@ class DocGenerator:
         if not distributions:
             return "-"
 
-        return ", ".join(distributions)
+        # Capitalize distribution names to match textlint terminology rules
+        # (e.g., "k8s" -> "K8s")
+        capitalized = []
+        for dist in distributions:
+            if dist.lower() == "k8s":
+                capitalized.append("K8s")
+            else:
+                capitalized.append(dist)
+
+        return ", ".join(capitalized)
 
     def _is_unmaintained(self, component: dict[str, Any]) -> bool:
         """
@@ -122,6 +131,10 @@ class DocGenerator:
         if component_type == "extension":
             table_content += "| Name | Distributions[^1] | Stability[^2] |\n"
             table_content += "|------|-------------------|---------------|\n"
+        elif component_type == "connector":
+            # Connectors don't have stability columns due to different stability definitions
+            table_content += "| Name | Distributions[^1] |\n"
+            table_content += "|------|-------------------|\n"
         else:
             table_content += "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |\n"
             table_content += "|------|-------------------|------------|-------------|----------|\n"
@@ -146,12 +159,16 @@ class DocGenerator:
             name_link = f"[{name}]({readme_link})"
 
             # Add unmaintained emoji if component has no active maintainers
-            if self._is_unmaintained(component):
+            # (Skip for connectors since we don't show stability columns)
+            if component_type != "connector" and self._is_unmaintained(component):
                 name_link += " ⚠️"
 
             if component_type == "extension":
                 stability = stability_map.get("extension", "N/A")
                 table_content += f"| {name_link} | {distributions_str} | {stability} |\n"
+            elif component_type == "connector":
+                # Connectors only show name and distributions
+                table_content += f"| {name_link} | {distributions_str} |\n"
             else:
                 traces = stability_map.get("traces", "-")
                 metrics = stability_map.get("metrics", "-")
@@ -163,11 +180,15 @@ class DocGenerator:
         table_content += "\n"
         stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
 
-        table_content += (
-            "⚠️ **Note:** Components marked with ⚠️ are unmaintained and have no active codeowners. They may not receive regular updates or bug fixes.\n\n"
-            "[^1]: Shows which distributions (core, contrib, k8s, etc.) include this component.\n"
-            f"[^2]: For details about component stability levels, see the [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
-        )
+        # Only add unmaintained note for non-connector components (since connectors don't show stability)
+        if component_type != "connector":
+            table_content += "⚠️ **Note:** Components marked with ⚠️ are unmaintained and have no active codeowners. They may not receive regular updates or bug fixes.\n\n"
+
+        table_content += "[^1]: Shows which [distributions](/docs/collector/distributions/) (core, contrib, K8s, etc.) include this component.\n"
+
+        # Only add stability footnote for non-connector components
+        if component_type != "connector":
+            table_content += f"[^2]: For details about component stability levels, see the [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
 
         return table_content
 

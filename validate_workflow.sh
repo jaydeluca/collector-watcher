@@ -37,9 +37,13 @@ clone_or_update_repo() {
     if [ -d "$repo_path/.git" ]; then
         echo -e "${YELLOW}Updating $repo_name...${NC}"
         cd "$repo_path"
+        # Clean any local changes and fetch latest
+        git reset --hard HEAD
+        git clean -fd
         git fetch origin
-        git pull origin main
         git fetch --tags
+        # Reset to latest main without requiring merge
+        git reset --hard origin/main
         cd - > /dev/null
         echo -e "${GREEN}✓ $repo_name updated${NC}"
     else
@@ -159,7 +163,7 @@ else
     echo -e "${GREEN}Documentation has been updated!${NC}"
     echo ""
     echo "Changed files:"
-    git diff --name-only content/en/docs/collector/components/
+    git --no-pager diff --name-only content/en/docs/collector/components/
     echo ""
     echo "To review changes:"
     echo "  cd $DOCS_REPO_PATH"

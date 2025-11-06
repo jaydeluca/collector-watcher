@@ -139,7 +139,7 @@ class TestGenerateComponentTable:
         table_content = doc_generator.generate_component_table("receiver", components)
 
         assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in table_content
-        assert "[^1]: Shows which distributions" in table_content
+        assert "[^1]: Shows which [distributions]" in table_content
         assert "[^2]: For details about component stability levels" in table_content
         assert "component-stability.md" in table_content
 
@@ -166,11 +166,61 @@ class TestGenerateComponentTable:
         table_content = doc_generator.generate_component_table("extension", components)
 
         assert "| Name | Distributions[^1] | Stability[^2] |" in table_content
-        assert "[^1]: Shows which distributions" in table_content
+        assert "[^1]: Shows which [distributions]" in table_content
         assert "[^2]: For details about component stability levels" in table_content
 
         assert (
             "| [healthcheckextension](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/healthcheckextension) | contrib | beta |"
+            in table_content
+        )
+
+    def test_generate_component_table_connector(self, doc_generator):
+        """Test generating a connector table without stability columns."""
+        components = [
+            {
+                "name": "spanmetricsconnector",
+                "metadata": {
+                    "status": {
+                        "stability": {"beta": ["traces_to_metrics"]},
+                        "distributions": ["contrib"],
+                    }
+                },
+            },
+            {
+                "name": "countconnector",
+                "source_repo": "contrib",
+                "metadata": {
+                    "status": {
+                        "stability": {"alpha": ["metrics_to_metrics"]},
+                        "distributions": ["contrib"],
+                    }
+                },
+            },
+        ]
+
+        table_content = doc_generator.generate_component_table("connector", components)
+
+        # Should have simplified header without stability columns
+        assert "| Name | Distributions[^1] |" in table_content
+        # Should not have Traces/Metrics/Logs columns
+        assert "Traces[^2]" not in table_content
+        assert "Metrics[^2]" not in table_content
+        assert "Logs[^2]" not in table_content
+
+        # Should have distributions footnote but not stability footnote
+        assert "[^1]: Shows which [distributions]" in table_content
+        assert "[^2]: For details about component stability levels" not in table_content
+
+        # Should not have unmaintained note since connectors don't show stability
+        assert "⚠️ **Note:** Components marked with ⚠️ are unmaintained" not in table_content
+
+        # Should have component rows with only name and distributions
+        assert (
+            "| [countconnector](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/connector/countconnector) | contrib |"
+            in table_content
+        )
+        assert (
+            "| [spanmetricsconnector](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/connector/spanmetricsconnector) | contrib |"
             in table_content
         )
 
@@ -221,6 +271,24 @@ class TestGenerateComponentTable:
             in table_content
         )
 
+    def test_format_distributions_capitalizes_k8s(self, doc_generator):
+        """Test that k8s is capitalized to K8s to match textlint terminology rules."""
+        component = {
+            "name": "countconnector",
+            "source_repo": "contrib",
+            "metadata": {
+                "status": {
+                    "distributions": ["contrib", "k8s"],
+                }
+            },
+        }
+
+        table_content = doc_generator.generate_component_table("connector", [component])
+
+        # Should have K8s capitalized, not k8s
+        assert "contrib, K8s" in table_content
+        assert "contrib, k8s" not in table_content
+
     def test_generate_component_table_sorting(self, doc_generator):
         """Test components are sorted alphabetically."""
         components = [
@@ -270,7 +338,7 @@ class TestGenerateComponentTable:
 
         # Should still have table structure
         assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in table_content
-        assert "[^1]: Shows which distributions" in table_content
+        assert "[^1]: Shows which [distributions]" in table_content
 
         # But no component rows (only headers)
         lines = table_content.strip().split("\n")
@@ -342,6 +410,27 @@ class TestGenerateComponentTable:
         assert "oldextension) ⚠️" in table_content
         # Should have note
         assert "⚠️ **Note:**" in table_content
+
+    def test_generate_component_table_unmaintained_connector(self, doc_generator):
+        """Test that unmaintained connectors don't get warning emoji (since stability isn't shown)."""
+        components = [
+            {
+                "name": "oldconnector",
+                "metadata": {
+                    "status": {
+                        "stability": {"unmaintained": ["traces_to_metrics"]},
+                        "distributions": ["contrib"],
+                    }
+                },
+            }
+        ]
+
+        table_content = doc_generator.generate_component_table("connector", components)
+
+        # Should NOT have emoji for connectors
+        assert "oldconnector) ⚠️" not in table_content
+        # Should NOT have unmaintained note for connectors
+        assert "⚠️ **Note:**" not in table_content
 
 
 class TestGenerateAllComponentTables:
@@ -432,7 +521,11 @@ class TestGenerateAllComponentTables:
         assert "extension" in tables
 
         # Each table should have structure but no components
-        for _component_type, table in tables.items():
+        for component_type, table in tables.items():
             assert "| Name |" in table
             assert "[^1]:" in table
-            assert "[^2]:" in table
+            # Connectors don't have stability footnote
+            if component_type != "connector":
+                assert "[^2]:" in table
+            else:
+                assert "[^2]:" not in table

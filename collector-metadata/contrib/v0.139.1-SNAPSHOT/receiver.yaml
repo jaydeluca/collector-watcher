@@ -5643,6 +5643,18 @@ components:
         - TylerHelmuth
         emeritus:
         - abhishek-at-cloudwerx
+- name: googlecloudpubsubpushreceiver
+  metadata:
+    type: googlecloudpubsubpush
+    status:
+      class: receiver
+      stability:
+        development:
+        - logs
+      codeowners:
+        active:
+        - axw
+        - constanca-m
 - name: googlecloudpubsubreceiver
   metadata:
     type: googlecloudpubsub

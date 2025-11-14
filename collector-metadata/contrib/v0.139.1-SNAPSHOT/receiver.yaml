@@ -11979,6 +11979,7 @@ components:
         active:
         - antonblock
         - ishleenk17
+        - Caleb-Hurshman
         seeking_new: true
         emeritus:
         - djaglowski
@@ -13867,6 +13868,14 @@ components:
           value_type: int
         stability:
           level: development
+      redis.cluster.cluster_enabled:
+        description: Indicate Redis cluster is enabled
+        unit: '1'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
       redis.cluster.known_nodes:
         description: Number of known nodes in the cluster
         unit: '{node}'
@@ -14185,6 +14194,27 @@ components:
           value_type: int
         stability:
           level: development
+      redis.memory.used_memory_overhead:
+        description: The sum in bytes of all overheads that the server allocated for
+          managing its internal data structures
+        unit: By
+        enabled: false
+        sum:
+          value_type: int
+          monotonic: false
+          aggregation_temporality: cumulative
+        stability:
+          level: development
+      redis.memory.used_memory_startup:
+        description: Initial amount of memory consumed by Redis at startup in bytes
+        unit: By
+        enabled: false
+        sum:
+          value_type: int
+          monotonic: false
+          aggregation_temporality: cumulative
+        stability:
+          level: development
       redis.net.input:
         description: The total number of bytes read from the network
         unit: By
@@ -14255,6 +14285,16 @@ components:
         description: Number of connected replicas
         unit: '{replica}'
         enabled: true
+        sum:
+          value_type: int
+          monotonic: false
+          aggregation_temporality: cumulative
+        stability:
+          level: development
+      redis.tracking_total_keys:
+        description: Number of keys being tracked by the server
+        unit: '{key}'
+        enabled: false
         sum:
           value_type: int
           monotonic: false

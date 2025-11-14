@@ -13,6 +13,8 @@ components:
         - logs_to_logs
         - metrics_to_metrics
         - traces_to_traces
+        development:
+        - profiles_to_profiles
       distributions:
       - contrib
       - core

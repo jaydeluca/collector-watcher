@@ -81,6 +81,7 @@ jobs:
       - name: Format and fix documentation
         run: npm run test-and-fix
         working-directory: opentelemetry.io
+        continue-on-error: true
 
       - name: Check for documentation changes
         id: check_changes

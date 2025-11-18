@@ -45,6 +45,60 @@ jobs:
         with:
           repository: open-telemetry/opentelemetry.io
           path: opentelemetry.io
+          persist-credentials: false
+
+      - name: Test PAT authentication (TEMPORARY - remove after fixing)
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+          FORK_OWNER: ${{ secrets.DOCS_REPO_OWNER || github.repository_owner }}
+        run: |
+          echo "Testing PAT authentication to fork..."
+
+          # Check if token is set
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "❌ ERROR: PAT_TOKEN secret is not set"
+            exit 1
+          fi
+          echo "✓ PAT_TOKEN is set"
+
+          # Test API access to fork
+          echo "Testing API access to ${FORK_OWNER}/opentelemetry.io..."
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            -H "Authorization: token ${GH_TOKEN}" \
+            "https://api.github.com/repos/${FORK_OWNER}/opentelemetry.io")
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "❌ ERROR: API request failed with HTTP $HTTP_CODE"
+            echo "Response: $(echo "$RESPONSE" | head -n-1)"
+            exit 1
+          fi
+          echo "✓ API access successful"
+
+          # Test git push access with a test branch
+          cd opentelemetry.io
+          git config --unset-all http.https://github.com/.extraheader || true
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create a test branch
+          TEST_BRANCH="test-auth-$(date +%s)"
+          git checkout -b "${TEST_BRANCH}"
+          git commit --allow-empty -m "Test commit for authentication"
+
+          # Try to push
+          echo "Testing git push to fork..."
+          git remote add fork "https://x-access-token:${GH_TOKEN}@github.com/${FORK_OWNER}/opentelemetry.io.git"
+
+          if git push fork "${TEST_BRANCH}"; then
+            echo "✓ Git push successful"
+            # Clean up test branch
+            git push fork --delete "${TEST_BRANCH}" || true
+            echo "✓ Authentication test passed! Proceeding with workflow..."
+          else
+            echo "❌ ERROR: Git push failed"
+            exit 1
+          fi
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4
@@ -139,6 +193,15 @@ jobs:
           FORK_OWNER: ${{ secrets.DOCS_REPO_OWNER || github.repository_owner }}
         run: |
           cd opentelemetry.io
+
+          # Clear any existing git credentials
+          git config --unset-all http.https://github.com/.extraheader || true
+
+          # Verify token is set
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "ERROR: GH_TOKEN is not set. Please configure PAT_TOKEN secret."
+            exit 1
+          fi
 
           # Add fork as remote with token authentication
           git remote add fork https://x-access-token:${GH_TOKEN}@github.com/${FORK_OWNER}/opentelemetry.io.git

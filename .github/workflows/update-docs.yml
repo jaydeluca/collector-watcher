@@ -47,7 +47,7 @@ jobs:
           path: opentelemetry.io
           persist-credentials: false
 
-      - name: Test PAT authentication (TEMPORARY - remove after fixing)
+      - name: Test PAT authentication
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
           FORK_OWNER: ${{ secrets.DOCS_REPO_OWNER || github.repository_owner }}
@@ -94,6 +94,8 @@ jobs:
             echo "✓ Git push successful"
             # Clean up test branch
             git push fork --delete "${TEST_BRANCH}" || true
+            # Remove the fork remote so it doesn't conflict later
+            git remote remove fork
             echo "✓ Authentication test passed! Proceeding with workflow..."
           else
             echo "❌ ERROR: Git push failed"
@@ -203,7 +205,8 @@ jobs:
             exit 1
           fi
 
-          # Add fork as remote with token authentication
+          # Add fork as remote with token authentication (remove first if exists)
+          git remote remove fork 2>/dev/null || true
           git remote add fork https://x-access-token:${GH_TOKEN}@github.com/${FORK_OWNER}/opentelemetry.io.git
 
           # Push branch to fork

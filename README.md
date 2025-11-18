@@ -74,4 +74,7 @@ Run tests and linting:
 ```bash
 uv run pytest tests/ --cov=src
 uv run ruff check src/ tests/
+
+# fix them
+uv run ruff format --check src/ tests/ 
 ```

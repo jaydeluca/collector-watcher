@@ -1,8 +1,5 @@
 name: Update OpenTelemetry.io Documentation
 
-env:
-  PR_TARGET: "fork"  # Change to "upstream" when ready for production
-
 on:
   schedule:
     # Run nightly at 3 AM UTC
@@ -13,6 +10,11 @@ on:
         description: 'Specific version to generate docs for (e.g., v0.138.0). Leave empty to use latest.'
         required: false
         type: string
+      target_repo_owner:
+        description: 'Repository owner to create PR against (e.g., "jaydeluca" for fork, "open-telemetry" for upstream)'
+        required: false
+        type: string
+        default: 'jaydeluca'
 
 permissions:
   contents: read
@@ -45,6 +47,62 @@ jobs:
         with:
           repository: open-telemetry/opentelemetry.io
           path: opentelemetry.io
+          persist-credentials: false
+
+      - name: Test PAT authentication
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+          FORK_OWNER: ${{ secrets.DOCS_REPO_OWNER || github.repository_owner }}
+        run: |
+          echo "Testing PAT authentication to fork..."
+
+          # Check if token is set
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "❌ ERROR: PAT_TOKEN secret is not set"
+            exit 1
+          fi
+          echo "✓ PAT_TOKEN is set"
+
+          # Test API access to fork
+          echo "Testing API access to ${FORK_OWNER}/opentelemetry.io..."
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            -H "Authorization: token ${GH_TOKEN}" \
+            "https://api.github.com/repos/${FORK_OWNER}/opentelemetry.io")
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "❌ ERROR: API request failed with HTTP $HTTP_CODE"
+            echo "Response: $(echo "$RESPONSE" | head -n-1)"
+            exit 1
+          fi
+          echo "✓ API access successful"
+
+          # Test git push access with a test branch
+          cd opentelemetry.io
+          git config --unset-all http.https://github.com/.extraheader || true
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create a test branch
+          TEST_BRANCH="test-auth-$(date +%s)"
+          git checkout -b "${TEST_BRANCH}"
+          git commit --allow-empty -m "Test commit for authentication"
+
+          # Try to push
+          echo "Testing git push to fork..."
+          git remote add fork "https://x-access-token:${GH_TOKEN}@github.com/${FORK_OWNER}/opentelemetry.io.git"
+
+          if git push fork "${TEST_BRANCH}"; then
+            echo "✓ Git push successful"
+            # Clean up test branch
+            git push fork --delete "${TEST_BRANCH}" || true
+            # Remove the fork remote so it doesn't conflict later
+            git remote remove fork
+            echo "✓ Authentication test passed! Proceeding with workflow..."
+          else
+            echo "❌ ERROR: Git push failed"
+            exit 1
+          fi
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4
@@ -77,6 +135,11 @@ jobs:
               --docs-repo=../opentelemetry.io
           fi
         working-directory: collector-watcher
+
+      - name: Fix spelling errors (add component names to dictionary)
+        run: uv run python -m docs_automation.fix_spelling ../opentelemetry.io
+        working-directory: collector-watcher
+        continue-on-error: true
 
       - name: Format and fix documentation
         run: npm run test-and-fix
@@ -132,35 +195,37 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
           FORK_OWNER: ${{ secrets.DOCS_REPO_OWNER || github.repository_owner }}
+          TARGET_OWNER: ${{ inputs.target_repo_owner || 'jaydeluca' }}
         run: |
           cd opentelemetry.io
 
-          # Configure git credential helper
-          git config --local credential.helper '!f() { echo "username=x-access-token"; echo "password=${GH_TOKEN}"; }; f'
+          # Clear any existing git credentials
+          git config --unset-all http.https://github.com/.extraheader || true
 
-          # Add fork as remote
-          git remote add fork https://github.com/${FORK_OWNER}/opentelemetry.io.git
-
-          # Push branch to fork
-          git push -f fork ${{ steps.version_info.outputs.branch_name }}
-
-          # Clean up credential helper
-          git config --local --unset credential.helper
-
-          # Create PR based on PR_TARGET configuration
-          if [ "${{ env.PR_TARGET }}" = "upstream" ]; then
-            echo "Creating PR to upstream open-telemetry/opentelemetry.io"
-            PR_REPO="open-telemetry/opentelemetry.io"
-            PR_HEAD="${FORK_OWNER}:${{ steps.version_info.outputs.branch_name }}"
-          else
-            echo "Creating PR to fork ${FORK_OWNER}/opentelemetry.io (testing mode)"
-            PR_REPO="${FORK_OWNER}/opentelemetry.io"
-            PR_HEAD="${{ steps.version_info.outputs.branch_name }}"
+          # Verify token is set
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "ERROR: GH_TOKEN is not set. Please configure PAT_TOKEN secret."
+            exit 1
           fi
 
-          # Create PR using gh cli
+          # Add fork as remote with token authentication (remove first if exists)
+          git remote remove fork 2>/dev/null || true
+          git remote add fork https://x-access-token:${GH_TOKEN}@github.com/${FORK_OWNER}/opentelemetry.io.git
+
+          # Push branch to fork
+          BRANCH="${{ steps.version_info.outputs.branch_name }}"
+          git push -f fork "$BRANCH"
+
+          # Determine PR head format (cross-repo PRs need "owner:branch" format)
+          if [ "${TARGET_OWNER}" = "${FORK_OWNER}" ]; then
+            PR_HEAD="$BRANCH"
+          else
+            PR_HEAD="${FORK_OWNER}:${BRANCH}"
+          fi
+
+          # Create PR to target owner
           gh pr create \
-            --repo "${PR_REPO}" \
+            --repo "${TARGET_OWNER}/opentelemetry.io" \
             --head "${PR_HEAD}" \
             --title "Update Collector component tables for ${{ steps.version_info.outputs.version }}" \
             --body "## Update Collector Component Documentation
@@ -169,7 +234,7 @@ jobs:
 
           ### Changes
 
-          Updated component documentation tables in:
+          Updated component documentation tables (where applicable) in:
           - \`content/en/docs/collector/components/receiver.md\`
           - \`content/en/docs/collector/components/processor.md\`
           - \`content/en/docs/collector/components/exporter.md\`
@@ -180,5 +245,4 @@ jobs:
 
           🤖 _This PR was automatically generated by [collector-watcher](https://github.com/${{ github.repository }})_
 
-          **Target:** ${PR_REPO} (mode: ${{ env.PR_TARGET }})" \
-            --label "documentation,collector"
+          **Target:** ${TARGET_OWNER}/opentelemetry.io"

@@ -11,10 +11,9 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Set
 
 
-def run_cspell(docs_repo_path: Path) -> Dict[str, List[str]]:
+def run_cspell(docs_repo_path: Path) -> dict[str, list[str]]:
     """
     Run cspell on collector component documentation.
 
@@ -47,7 +46,7 @@ def run_cspell(docs_repo_path: Path) -> Dict[str, List[str]]:
 
         # Parse cspell output to extract misspelled words
         # cspell output format: "filename:line:col - Unknown word (word)"
-        misspellings: Dict[str, List[str]] = {}
+        misspellings: dict[str, list[str]] = {}
         pattern = r"^(.+?):(\d+):(\d+)\s+-\s+Unknown word \((.+?)\)"
 
         for line in result.stdout.split("\n"):
@@ -70,7 +69,7 @@ def run_cspell(docs_repo_path: Path) -> Dict[str, List[str]]:
         sys.exit(1)
 
 
-def load_component_names(inventory_path: Path) -> Set[str]:
+def load_component_names(inventory_path: Path) -> set[str]:
     """
     Load all component names from the inventory.
 
@@ -112,7 +111,7 @@ def load_component_names(inventory_path: Path) -> Set[str]:
     return component_names
 
 
-def update_frontmatter_ignore_list(file_path: Path, new_words: Set[str]) -> bool:
+def update_frontmatter_ignore_list(file_path: Path, new_words: set[str]) -> bool:
     """
     Update the cSpell:ignore line in the markdown front matter.
 
@@ -219,7 +218,7 @@ def main():
 
         if not component_words:
             print(f"\n{file_path.name}:")
-            print(f"  ⚠️  No component names found in spelling errors")
+            print("  ⚠️  No component names found in spelling errors")
             print(f"  Words: {', '.join(sorted(set(words)))}")
             continue
 

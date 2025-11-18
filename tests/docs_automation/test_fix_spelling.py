@@ -1,6 +1,5 @@
 """Tests for spelling fix functionality."""
 
-import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -289,7 +288,7 @@ cSpell:ignore: existingword
 
     # Try to add empty set of words
     new_words = set()
-    result = update_frontmatter_ignore_list(test_file, new_words)
+    update_frontmatter_ignore_list(test_file, new_words)
 
     # Should still return True as the function can process the file
     # But the content should remain unchanged

@@ -146,7 +146,17 @@ echo ""
 echo -e "${GREEN}✓ Documentation updated${NC}"
 echo ""
 
-echo -e "${BLUE}Step 6: Formatting Documentation${NC}"
+echo -e "${BLUE}Step 6: Fixing Spelling Errors${NC}"
+echo "Adding component names to cSpell:ignore lists..."
+echo ""
+
+uv run python -m docs_automation.fix_spelling "$DOCS_REPO_PATH"
+
+echo ""
+echo -e "${GREEN}✓ Spelling errors fixed${NC}"
+echo ""
+
+echo -e "${BLUE}Step 7: Formatting Documentation${NC}"
 echo "Running npm run fix:format..."
 cd "$DOCS_REPO_PATH"
 npm run fix:format
@@ -155,7 +165,7 @@ echo ""
 echo -e "${GREEN}✓ Documentation formatted${NC}"
 echo ""
 
-echo -e "${BLUE}Step 7: Documentation Changes${NC}"
+echo -e "${BLUE}Step 8: Documentation Changes${NC}"
 cd "$DOCS_REPO_PATH"
 if git diff --quiet content/en/docs/collector/components/; then
     echo -e "${YELLOW}No changes detected in documentation${NC}"

@@ -78,6 +78,11 @@ jobs:
           fi
         working-directory: collector-watcher
 
+      - name: Fix spelling errors (add component names to dictionary)
+        run: uv run python -m docs_automation.fix_spelling ../opentelemetry.io
+        working-directory: collector-watcher
+        continue-on-error: true
+
       - name: Format and fix documentation
         run: npm run test-and-fix
         working-directory: opentelemetry.io
@@ -135,17 +140,11 @@ jobs:
         run: |
           cd opentelemetry.io
 
-          # Configure git credential helper
-          git config --local credential.helper '!f() { echo "username=x-access-token"; echo "password=${GH_TOKEN}"; }; f'
-
-          # Add fork as remote
-          git remote add fork https://github.com/${FORK_OWNER}/opentelemetry.io.git
+          # Add fork as remote with token authentication
+          git remote add fork https://x-access-token:${GH_TOKEN}@github.com/${FORK_OWNER}/opentelemetry.io.git
 
           # Push branch to fork
           git push -f fork ${{ steps.version_info.outputs.branch_name }}
-
-          # Clean up credential helper
-          git config --local --unset credential.helper
 
           # Create PR based on PR_TARGET configuration
           if [ "${{ env.PR_TARGET }}" = "upstream" ]; then

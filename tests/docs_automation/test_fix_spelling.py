@@ -369,4 +369,4 @@ cSpell:ignore: activedirectorydsreceiver aerospikereceiver apachereceiver awsclo
 
     # Should preserve other content
     assert "# prettier-ignore" in updated_content
-    assert "{{< collector-components/table component=\"receiver\" >}}" in updated_content
+    assert '{{< collector-components/table component="receiver" >}}' in updated_content

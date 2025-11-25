@@ -1,5 +1,5 @@
 distribution: contrib
-version: v0.140.1-SNAPSHOT
+version: v0.140.2-SNAPSHOT
 repository: opentelemetry-collector-contrib
 component_type: receiver
 components:
@@ -1689,6 +1689,7 @@ components:
       stability:
         development:
         - logs
+        - metrics
       distributions: []
       codeowners:
         active:
@@ -1773,9 +1774,10 @@ components:
       - contrib
       codeowners:
         active:
-        - nslaughter
         - celian-garcia
         - ishleenk17
+        emeritus:
+        - nslaughter
     resource_attributes:
       azuremonitor.subscription:
         description: Azure subscription name
@@ -8201,6 +8203,20 @@ components:
       codeowners:
         active:
         - mar4uk
+- name: macosunifiedloggingreceiver
+  metadata:
+    type: macosunifiedlogging
+    status:
+      class: receiver
+      stability:
+        development:
+        - logs
+      codeowners:
+        active:
+        - Caleb-Hurshman
+      unsupported_platforms:
+      - linux
+      - windows
 - name: memcachedreceiver
   metadata:
     type: memcached
@@ -11784,8 +11800,9 @@ components:
         - logs
       codeowners:
         active:
-        - nslaughter
         - smithclay
+        emeritus:
+        - nslaughter
 - name: otelarrowreceiver
   metadata:
     type: otelarrow
@@ -13808,6 +13825,13 @@ components:
       db:
         description: Redis database identifier
         type: string
+      mode:
+        description: Redis server mode
+        type: string
+        enum:
+        - cluster
+        - sentinel
+        - standalone
       percentile:
         description: Percentile
         type: string
@@ -14215,6 +14239,16 @@ components:
           aggregation_temporality: cumulative
         stability:
           level: development
+      redis.mode:
+        description: Redis server mode
+        unit: '{mode}'
+        enabled: false
+        gauge:
+          value_type: int
+        attributes:
+        - mode
+        stability:
+          level: development
       redis.net.input:
         description: The total number of bytes read from the network
         unit: By
@@ -14279,6 +14313,56 @@ components:
           aggregation_temporality: cumulative
         attributes:
         - role
+        stability:
+          level: development
+      redis.sentinel.masters:
+        description: Number of masters monitored by Sentinel.
+        unit: '{master}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.sentinel.running_scripts:
+        description: Number of running Sentinel scripts.
+        unit: '{script}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.sentinel.scripts_queue_length:
+        description: Length of Sentinel scripts queue.
+        unit: '{script}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.sentinel.simulate_failure_flags:
+        description: Simulated failure flags bitmask.
+        unit: '{flag}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.sentinel.tilt_since_seconds:
+        description: Duration in seconds of current TILT, or -1 if not in TILT mode.
+        unit: s
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.sentinel.total_tilt:
+        description: Total TILT occurrences since start.
+        unit: '{event}'
+        enabled: false
+        sum:
+          value_type: int
+          monotonic: true
+          aggregation_temporality: cumulative
         stability:
           level: development
       redis.slaves.connected:
@@ -17415,7 +17499,7 @@ components:
       distributions:
       - contrib
       codeowners:
-        active:
+        emeritus:
         - nslaughter
     attributes:
       error.message:

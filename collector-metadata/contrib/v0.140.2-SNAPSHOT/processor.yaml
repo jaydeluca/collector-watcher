@@ -485,6 +485,7 @@ components:
         active:
         - Aneurysm9
         - dashpole
+        seeking_new: true
 - name: resourceprocessor
   metadata:
     type: resource

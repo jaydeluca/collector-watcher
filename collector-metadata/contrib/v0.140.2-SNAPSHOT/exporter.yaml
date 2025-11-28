@@ -179,21 +179,6 @@ components:
         - bertysentry
         - NassimBtk
         - MovieStoreGuy
-- name: carbonexporter
-  metadata:
-    type: carbon
-    status:
-      class: exporter
-      stability:
-        unmaintained:
-        - metrics
-      distributions:
-      - contrib
-      codeowners:
-        active: []
-        emeritus:
-        - aboguszewski-sumo
-        seeking_new: true
 - name: cassandraexporter
   metadata:
     type: cassandra

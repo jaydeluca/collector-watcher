@@ -7274,12 +7274,13 @@ components:
     status:
       class: receiver
       stability:
-        development:
+        unmaintained:
         - logs
       codeowners:
-        active:
+        emeritus:
         - h0cheung
         - TylerHelmuth
+        seeking_new: true
 - name: k8sobjectsreceiver
   metadata:
     type: k8sobjects

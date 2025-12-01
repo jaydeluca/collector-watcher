@@ -23,6 +23,7 @@ from pathlib import Path
 
 from collector_watcher.inventory import InventoryManager
 from collector_watcher.version_detector import Version
+from docs_automation.changelog_generator import ChangelogGenerator
 from docs_automation.doc_generator import DocGenerator
 from docs_automation.doc_updater import DocUpdater
 
@@ -110,6 +111,42 @@ def merge_inventories(core_inventory: dict, contrib_inventory: dict) -> dict:
     return merged
 
 
+def get_best_available_version(
+    inv_mgr: InventoryManager, distribution: str, target_version: Version
+) -> Version:
+    """
+    Get the best available version for a distribution.
+
+    If the target version doesn't exist, fall back to the latest available version
+    that is not newer than the target.
+
+    Args:
+        inv_mgr: Inventory manager
+        distribution: Distribution name
+        target_version: Desired version
+
+    Returns:
+        Best available version (may be older than target if target doesn't exist)
+    """
+    if inv_mgr.version_exists(distribution, target_version):
+        return target_version
+
+    # Get all non-snapshot versions
+    all_versions = [v for v in inv_mgr.list_versions(distribution) if not v.is_snapshot]
+
+    if not all_versions:
+        raise ValueError(f"No versions found for {distribution}")
+
+    # Find the latest version that's not newer than target
+    # (versions are sorted newest to oldest)
+    for version in all_versions:
+        if version <= target_version:
+            return version
+
+    # If no suitable version found, use the oldest available
+    return all_versions[-1]
+
+
 def main():
     """Update docs in local opentelemetry.io repository."""
     # Parse arguments
@@ -144,14 +181,26 @@ def main():
 
         version = release_versions[0]
 
-    print(f"Using version: {version}")
+    print(f"Target version: {version}")
+
+    # Get best available versions for each distribution
+    core_version = get_best_available_version(inv_mgr, "core", version)
+    contrib_version = get_best_available_version(inv_mgr, "contrib", version)
+
+    if core_version != version or contrib_version != version:
+        print("\n⚠️  Version mismatch detected:")
+        print(f"   Core:    {core_version}" + (" (fallback)" if core_version != version else ""))
+        print(
+            f"   Contrib: {contrib_version}" + (" (fallback)" if contrib_version != version else "")
+        )
+        print()
 
     # Load both core and contrib inventories
-    print("Loading core inventory...")
-    core_inventory = inv_mgr.load_versioned_inventory("core", version)
+    print(f"Loading core inventory ({core_version})...")
+    core_inventory = inv_mgr.load_versioned_inventory("core", core_version)
 
-    print("Loading contrib inventory...")
-    contrib_inventory = inv_mgr.load_versioned_inventory("contrib", version)
+    print(f"Loading contrib inventory ({contrib_version})...")
+    contrib_inventory = inv_mgr.load_versioned_inventory("contrib", contrib_version)
 
     # Merge inventories
     print("Merging inventories...")
@@ -159,6 +208,33 @@ def main():
 
     total_components = sum(len(comps) for comps in merged_inventory["components"].values())
     print(f"Loaded {total_components} total components")
+
+    # Generate changelog if we have a previous version
+    changelog_summary = None
+    try:
+        # Find the previous version for comparison
+        all_versions = [v for v in inv_mgr.list_versions("contrib") if not v.is_snapshot]
+        if len(all_versions) > 1:
+            # Get the version before the current one
+            current_idx = all_versions.index(contrib_version)
+            if current_idx < len(all_versions) - 1:
+                prev_version = all_versions[current_idx + 1]
+                print(f"\nGenerating changelog (comparing {prev_version} → {contrib_version})...")
+
+                # Load previous inventories
+                prev_core_version = get_best_available_version(inv_mgr, "core", prev_version)
+                prev_contrib_version = get_best_available_version(inv_mgr, "contrib", prev_version)
+
+                prev_core_inv = inv_mgr.load_versioned_inventory("core", prev_core_version)
+                prev_contrib_inv = inv_mgr.load_versioned_inventory("contrib", prev_contrib_version)
+                prev_merged = merge_inventories(prev_core_inv, prev_contrib_inv)
+
+                # Generate changelog
+                changelog_gen = ChangelogGenerator()
+                changelog_summary = changelog_gen.generate_summary(prev_merged, merged_inventory)
+                print(changelog_summary)
+    except Exception as e:
+        print(f"⚠️  Could not generate changelog: {e}")
 
     # Generate table content
     print("\nGenerating component tables...")

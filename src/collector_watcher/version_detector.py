@@ -67,6 +67,18 @@ class Version:
             return self.is_snapshot
         return False
 
+    def __le__(self, other: "Version") -> bool:
+        """Less than or equal comparison."""
+        return self == other or self < other
+
+    def __gt__(self, other: "Version") -> bool:
+        """Greater than comparison."""
+        return not self <= other
+
+    def __ge__(self, other: "Version") -> bool:
+        """Greater than or equal comparison."""
+        return not self < other
+
     def __eq__(self, other: object) -> bool:
         """Check equality."""
         if not isinstance(other, Version):

@@ -17632,9 +17632,10 @@ components:
     status:
       class: receiver
       stability:
-        development:
+        alpha:
         - metrics
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - atoulme
@@ -17644,6 +17645,12 @@ components:
       - darwin
       - windows
     attributes:
+      cpu.mode:
+        description: Breakdown of CPU usage by type.
+        type: string
+        enum:
+        - system
+        - user
       systemd.unit.active_state:
         description: The active state of the unit (https://www.freedesktop.org/software/systemd/man/latest/systemd.html#Units)
         type: string
@@ -17657,6 +17664,18 @@ components:
         - refreshing
         - reloading
     metrics:
+      systemd.unit.cpu.time:
+        description: Total CPU time spent by this unit.
+        unit: us
+        enabled: true
+        sum:
+          value_type: int
+          aggregation_temporality: cumulative
+          monotonic: true
+        attributes:
+        - cpu.mode
+        stability:
+          level: development
       systemd.unit.state:
         description: 1 if the check resulted in active_state matching the current
           state, otherwise 0.
@@ -17669,7 +17688,7 @@ components:
         attributes:
         - systemd.unit.active_state
         stability:
-          level: development
+          level: alpha
     resource_attributes:
       systemd.unit.name:
         description: Name of the systemd unit

@@ -1,9 +1,9 @@
 name: Update OpenTelemetry.io Documentation
 
 on:
-  # schedule:
+  schedule:
     # Run nightly at 3 AM UTC
-    # - cron: '0 3 * * *'
+    - cron: '0 3 * * *'
   workflow_dispatch: # Allow manual triggers
     inputs:
       version:
@@ -18,6 +18,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   update-docs:
@@ -42,12 +43,54 @@ jobs:
           path: opentelemetry-collector
           fetch-depth: 1
 
-      - name: Checkout upstream opentelemetry.io
+      - name: Determine target repository
+        id: target_repo
+        run: |
+          # Determine which opentelemetry.io repo to use
+          TARGET_OWNER="${{ inputs.target_repo_owner || 'jaydeluca' }}"
+          FORK_OWNER="${{ secrets.DOCS_REPO_OWNER || github.repository_owner }}"
+
+          # Check if targeting a fork (not open-telemetry)
+          if [ "$TARGET_OWNER" != "open-telemetry" ]; then
+            echo "is_fork=true" >> $GITHUB_OUTPUT
+            echo "repo_owner=$FORK_OWNER" >> $GITHUB_OUTPUT
+            echo "Using fork: $FORK_OWNER/opentelemetry.io"
+          else
+            echo "is_fork=false" >> $GITHUB_OUTPUT
+            echo "repo_owner=open-telemetry" >> $GITHUB_OUTPUT
+            echo "Using upstream: open-telemetry/opentelemetry.io"
+          fi
+
+      - name: Checkout opentelemetry.io
         uses: actions/checkout@v4
         with:
-          repository: open-telemetry/opentelemetry.io
+          repository: ${{ steps.target_repo.outputs.repo_owner }}/opentelemetry.io
           path: opentelemetry.io
+          token: ${{ secrets.PAT_TOKEN || github.token }}
           persist-credentials: false
+
+      - name: Sync fork with upstream
+        if: steps.target_repo.outputs.is_fork == 'true'
+        run: |
+          cd opentelemetry.io
+
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Add upstream remote if it doesn't exist
+          git remote add upstream https://github.com/open-telemetry/opentelemetry.io.git || true
+
+          # Fetch upstream changes
+          git fetch upstream
+
+          # Sync main branch with upstream
+          git checkout main
+          git merge upstream/main --no-edit || echo "Already up to date"
+
+          # Push synced changes back to fork
+          git push origin main || echo "Nothing to push"
+        continue-on-error: false
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4
@@ -59,6 +102,15 @@ jobs:
       - name: Install Python dependencies
         run: uv sync
         working-directory: collector-watcher
+
+      - name: Scan collector repositories for updates
+        run: |
+          uv run collector-scan \
+            ../opentelemetry-collector-contrib \
+            --core-repo=../opentelemetry-collector \
+            --mode=nightly
+        working-directory: collector-watcher
+        continue-on-error: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
@@ -131,7 +183,18 @@ jobs:
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
           cd opentelemetry.io
+
+          # Ensure we're on main and it's clean
+          git checkout main
+          git reset --hard HEAD
+
+          # Delete branch if it already exists (locally and remotely)
+          git branch -D ${{ steps.version_info.outputs.branch_name }} 2>/dev/null || true
+
+          # Create fresh branch from current main (which is synced with upstream)
           git checkout -b ${{ steps.version_info.outputs.branch_name }}
+
+          # Add and commit only the documentation changes
           git add content/en/docs/collector/components/*.md
           git commit -m "Update Collector component tables for ${{ steps.version_info.outputs.version }}"
 
@@ -157,9 +220,12 @@ jobs:
           git remote remove fork 2>/dev/null || true
           git remote add fork https://x-access-token:${GH_TOKEN}@github.com/${FORK_OWNER}/opentelemetry.io.git
 
-          # Push branch to fork
+          # Delete remote branch if it exists (to ensure clean state)
           BRANCH="${{ steps.version_info.outputs.branch_name }}"
-          git push -f fork "$BRANCH"
+          git push fork --delete "$BRANCH" 2>/dev/null || echo "Branch doesn't exist on remote, skipping delete"
+
+          # Push fresh branch to fork
+          git push fork "$BRANCH"
 
           # Determine PR head format (cross-repo PRs need "owner:branch" format)
           if [ "${TARGET_OWNER}" = "${FORK_OWNER}" ]; then
@@ -167,6 +233,12 @@ jobs:
           else
             PR_HEAD="${FORK_OWNER}:${BRANCH}"
           fi
+
+          # Close any existing PR for this branch (prevents duplicates)
+          gh pr close "${PR_HEAD}" \
+            --repo "${TARGET_OWNER}/opentelemetry.io" \
+            --delete-branch \
+            --comment "Closing to create fresh PR with updated changes" 2>/dev/null || echo "No existing PR to close"
 
           # Create PR to target owner
           gh pr create \

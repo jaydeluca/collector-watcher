@@ -71,6 +71,9 @@ jobs:
 
       - name: Sync fork with upstream
         if: steps.target_repo.outputs.is_fork == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+          FORK_OWNER: ${{ secrets.DOCS_REPO_OWNER || github.repository_owner }}
         run: |
           cd opentelemetry.io
 
@@ -78,7 +81,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Add upstream remote if it doesn't exist
+          # Add upstream remote
           git remote add upstream https://github.com/open-telemetry/opentelemetry.io.git || true
 
           # Fetch upstream changes
@@ -87,6 +90,9 @@ jobs:
           # Sync main branch with upstream
           git checkout main
           git merge upstream/main --no-edit || echo "Already up to date"
+
+          # Add authenticated origin remote for pushing
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${FORK_OWNER}/opentelemetry.io.git
 
           # Push synced changes back to fork
           git push origin main || echo "Nothing to push"

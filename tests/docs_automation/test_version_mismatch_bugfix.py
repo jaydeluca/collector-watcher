@@ -46,9 +46,9 @@ def test_version_mismatch_bugfix_with_real_metadata():
 
     # The bug was that memorylimiterextension was missing
     # This should now be present
-    assert (
-        "memorylimiterextension" in extension_names
-    ), "memorylimiterextension should be present in merged inventory"
+    assert "memorylimiterextension" in extension_names, (
+        "memorylimiterextension should be present in merged inventory"
+    )
 
     # Verify it's marked as coming from core
     memory_limiter = next(ext for ext in extensions if ext["name"] == "memorylimiterextension")
@@ -92,9 +92,9 @@ def test_version_mismatch_does_not_cause_data_loss():
 
     # The merged count should be at least as many as the contrib count
     # (since some components are in both, merged count < core + contrib)
-    assert (
-        merged_component_count >= contrib_component_count
-    ), "Merged inventory should not lose components"
+    assert merged_component_count >= contrib_component_count, (
+        "Merged inventory should not lose components"
+    )
 
     # Core should have contributed at least some components
     # (Check that core inventory was not empty)

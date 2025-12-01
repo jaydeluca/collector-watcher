@@ -109,14 +109,32 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv sync
 ```
 
+Install pre-commit hooks (do this once):
+
+```bash
+uv run pre-commit install
+```
+
 Run tests and linting:
 
 ```bash
+# Run tests with coverage
 uv run pytest tests/ --cov=src
+
+# Check code quality (reports issues)
 uv run ruff check src/ tests/
 
-# fix them
+# Fix code quality issues automatically
+uv run ruff check --fix src/ tests/
+
+# Check code formatting
 uv run ruff format --check src/ tests/
+
+# Apply code formatting
+uv run ruff format src/ tests/
+
+# Or just use pre-commit to run everything
+uv run pre-commit run --all-files
 ```
 
 ### Running Specific Tests

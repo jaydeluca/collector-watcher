@@ -2,15 +2,23 @@
 # See https://pre-commit.com for more information
 
 repos:
-  # Ruff - Fast Python linter and formatter
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.4
+  # Ruff - Fast Python linter and formatter (using local uv-managed version)
+  - repo: local
     hooks:
       # Run the linter
       - id: ruff
-        args: [--fix]
+        name: ruff
+        entry: uv run ruff check --fix
+        language: system
+        types: [python]
+        require_serial: true
       # Run the formatter
       - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format
+        language: system
+        types: [python]
+        require_serial: true
 
   # Standard pre-commit hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks

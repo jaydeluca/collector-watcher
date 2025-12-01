@@ -188,11 +188,8 @@ jobs:
           git checkout main
           git reset --hard HEAD
 
-          # Delete branch if it already exists (locally and remotely)
-          git branch -D ${{ steps.version_info.outputs.branch_name }} 2>/dev/null || true
-
-          # Create fresh branch from current main (which is synced with upstream)
-          git checkout -b ${{ steps.version_info.outputs.branch_name }}
+          # Create or reset branch from current main (which is synced with upstream)
+          git checkout -B ${{ steps.version_info.outputs.branch_name }}
 
           # Add and commit only the documentation changes
           git add content/en/docs/collector/components/*.md
@@ -220,12 +217,9 @@ jobs:
           git remote remove fork 2>/dev/null || true
           git remote add fork https://x-access-token:${GH_TOKEN}@github.com/${FORK_OWNER}/opentelemetry.io.git
 
-          # Delete remote branch if it exists (to ensure clean state)
+          # Push branch to fork (force push to update if exists)
           BRANCH="${{ steps.version_info.outputs.branch_name }}"
-          git push fork --delete "$BRANCH" 2>/dev/null || echo "Branch doesn't exist on remote, skipping delete"
-
-          # Push fresh branch to fork
-          git push fork "$BRANCH"
+          git push -f fork "$BRANCH"
 
           # Determine PR head format (cross-repo PRs need "owner:branch" format)
           if [ "${TARGET_OWNER}" = "${FORK_OWNER}" ]; then
@@ -234,13 +228,7 @@ jobs:
             PR_HEAD="${FORK_OWNER}:${BRANCH}"
           fi
 
-          # Close any existing PR for this branch (prevents duplicates)
-          gh pr close "${PR_HEAD}" \
-            --repo "${TARGET_OWNER}/opentelemetry.io" \
-            --delete-branch \
-            --comment "Closing to create fresh PR with updated changes" 2>/dev/null || echo "No existing PR to close"
-
-          # Create PR to target owner
+          # Create PR (or update if already exists by pushing to same branch)
           gh pr create \
             --repo "${TARGET_OWNER}/opentelemetry.io" \
             --head "${PR_HEAD}" \

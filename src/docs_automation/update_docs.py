@@ -290,8 +290,8 @@ def main():
         print("  Open http://localhost:1313/docs/collector/components/")
     else:
         print("\n⚠️  No pages were updated. Make sure the pages have the correct markers:")
-        print("  <!-- BEGIN GENERATED: {component-type}-table -->")
-        print("  <!-- END GENERATED: {component-type}-table -->")
+        print("  <!-- BEGIN GENERATED: {component-type}-table SOURCE: collector-watcher -->")
+        print("  <!-- END GENERATED: {component-type}-table SOURCE: collector-watcher -->")
 
 
 if __name__ == "__main__":

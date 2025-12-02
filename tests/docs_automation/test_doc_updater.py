@@ -39,11 +39,49 @@ class TestUpdateSection:
         )
 
         assert was_updated
-        assert "<!-- BEGIN GENERATED: test-section -->" in updated
+        # New markers include SOURCE metadata
+        assert "<!-- BEGIN GENERATED: test-section SOURCE: collector-watcher -->" in updated
         assert "New generated content" in updated
         assert "Old generated content here" not in updated
         assert "This is some manual content." in updated
         assert "More manual content below." in updated
+
+    def test_update_section_with_source_metadata(self, doc_updater):
+        """Test updating content that already has SOURCE metadata."""
+        content = """# Test Page
+
+<!-- BEGIN GENERATED: test-section SOURCE: collector-watcher -->
+Old content with source
+<!-- END GENERATED: test-section SOURCE: collector-watcher -->
+
+More content.
+"""
+        new_content = "New content"
+        updated, was_updated = doc_updater.update_section(content, "test-section", new_content)
+
+        assert was_updated
+        assert "<!-- BEGIN GENERATED: test-section SOURCE: collector-watcher -->" in updated
+        assert "New content" in updated
+        assert "Old content with source" not in updated
+
+    def test_update_section_backward_compatibility(self, doc_updater):
+        """Test that old markers (without SOURCE) are still matched and replaced with new format."""
+        old_content = """# Test Page
+
+<!-- BEGIN GENERATED: old-section -->
+Old format without source
+<!-- END GENERATED: old-section -->
+
+More content.
+"""
+        new_content = "Updated with new format"
+        updated, was_updated = doc_updater.update_section(old_content, "old-section", new_content)
+
+        assert was_updated
+        # Old markers should be replaced with new format
+        assert "<!-- BEGIN GENERATED: old-section SOURCE: collector-watcher -->" in updated
+        assert "Updated with new format" in updated
+        assert "Old format without source" not in updated
 
     def test_update_section_markers_not_found(self, doc_updater):
         content = "# Simple Page\n\nNo markers here."
@@ -96,8 +134,8 @@ Footer"""
         updated, was_updated = doc_updater.update_section(sample_content, "test-section", "")
 
         assert was_updated
-        assert "<!-- BEGIN GENERATED: test-section -->" in updated
-        assert "<!-- END GENERATED: test-section -->" in updated
+        assert "<!-- BEGIN GENERATED: test-section SOURCE: collector-watcher -->" in updated
+        assert "<!-- END GENERATED: test-section SOURCE: collector-watcher -->" in updated
         assert "Old generated content here" not in updated
 
 

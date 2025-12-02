@@ -7,14 +7,16 @@ from pathlib import Path
 class DocUpdater:
     """Updates markdown files by replacing content between marker comments."""
 
-    def __init__(self, marker_prefix: str = "GENERATED"):
+    def __init__(self, marker_prefix: str = "GENERATED", source: str = "collector-watcher"):
         """
         Initialize the doc updater.
 
         Args:
             marker_prefix: Prefix for marker comments (default: "GENERATED")
+            source: Source identifier for the markers (default: "collector-watcher")
         """
         self.marker_prefix = marker_prefix
+        self.source = source
 
     def get_marker_pattern(self, marker_id: str) -> tuple[str, str]:
         """
@@ -26,13 +28,15 @@ class DocUpdater:
         Returns:
             Tuple of (begin_marker, end_marker)
         """
-        begin = f"<!-- BEGIN {self.marker_prefix}: {marker_id} -->"
-        end = f"<!-- END {self.marker_prefix}: {marker_id} -->"
+        begin = f"<!-- BEGIN {self.marker_prefix}: {marker_id} SOURCE: {self.source} -->"
+        end = f"<!-- END {self.marker_prefix}: {marker_id} SOURCE: {self.source} -->"
         return begin, end
 
     def update_section(self, content: str, marker_id: str, new_content: str) -> tuple[str, bool]:
         """
         Update a section of content between markers.
+
+        Supports both old format (without SOURCE) and new format (with SOURCE) for backward compatibility.
 
         Args:
             content: Original markdown content
@@ -45,7 +49,21 @@ class DocUpdater:
         """
         begin_marker, end_marker = self.get_marker_pattern(marker_id)
 
-        pattern = re.escape(begin_marker) + r".*?" + re.escape(end_marker)
+        # Try to match both old format (without SOURCE) and new format (with SOURCE)
+        # Old format: <!-- BEGIN GENERATED: marker-id -->
+        # New format: <!-- BEGIN GENERATED: marker-id SOURCE: collector-watcher -->
+        begin_pattern = (
+            re.escape(f"<!-- BEGIN {self.marker_prefix}: {marker_id}")
+            + r"(?:\s+SOURCE:\s+[\w-]+)?"
+            + re.escape(" -->")
+        )
+        end_pattern = (
+            re.escape(f"<!-- END {self.marker_prefix}: {marker_id}")
+            + r"(?:\s+SOURCE:\s+[\w-]+)?"
+            + re.escape(" -->")
+        )
+
+        pattern = begin_pattern + r".*?" + end_pattern
         regex = re.compile(pattern, re.DOTALL)
 
         if not regex.search(content):

@@ -190,16 +190,15 @@ jobs:
         run: |
           cd opentelemetry.io
 
-          # Ensure we're on main and it's clean
+          # Ensure we're on main
           git checkout main
-          git reset --hard HEAD
 
           # Create or reset branch from current main (which is synced with upstream)
           git checkout -B ${{ steps.version_info.outputs.branch_name }}
 
           # Add and commit only the documentation changes
           git add content/en/docs/collector/components/*.md
-          git commit -m "Update Collector component tables for ${{ steps.version_info.outputs.version }}"
+          git commit -m "Update Collector component tables for ${{ steps.version_info.outputs.version }}" || echo "No changes to commit"
 
       - name: Push to fork and create PR
         if: steps.check_changes.outputs.has_changes == 'true'

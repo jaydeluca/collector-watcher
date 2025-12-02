@@ -233,6 +233,11 @@ def main():
                 changelog_gen = ChangelogGenerator()
                 changelog_summary = changelog_gen.generate_summary(prev_merged, merged_inventory)
                 print(changelog_summary)
+
+                # Save changelog to file for GitHub workflow to use in PR body
+                changelog_file = Path("changelog_summary.md")
+                changelog_file.write_text(changelog_summary)
+                print(f"\n✅ Changelog saved to {changelog_file}")
     except Exception as e:
         print(f"⚠️  Could not generate changelog: {e}")
 
@@ -290,8 +295,8 @@ def main():
         print("  Open http://localhost:1313/docs/collector/components/")
     else:
         print("\n⚠️  No pages were updated. Make sure the pages have the correct markers:")
-        print("  <!-- BEGIN GENERATED: {component-type}-table -->")
-        print("  <!-- END GENERATED: {component-type}-table -->")
+        print("  <!-- BEGIN GENERATED: {component-type}-table SOURCE: collector-watcher -->")
+        print("  <!-- END GENERATED: {component-type}-table SOURCE: collector-watcher -->")
 
 
 if __name__ == "__main__":

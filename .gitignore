@@ -49,6 +49,9 @@ tmp_repos/
 opentelemetry-collector-contrib/
 opentelemetry-collector/
 
+# Generated files
+changelog_summary.md
+
 .claude
 
 CLAUDE.md

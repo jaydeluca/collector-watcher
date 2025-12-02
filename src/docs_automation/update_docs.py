@@ -233,6 +233,11 @@ def main():
                 changelog_gen = ChangelogGenerator()
                 changelog_summary = changelog_gen.generate_summary(prev_merged, merged_inventory)
                 print(changelog_summary)
+
+                # Save changelog to file for GitHub workflow to use in PR body
+                changelog_file = Path("changelog_summary.md")
+                changelog_file.write_text(changelog_summary)
+                print(f"\n✅ Changelog saved to {changelog_file}")
     except Exception as e:
         print(f"⚠️  Could not generate changelog: {e}")
 

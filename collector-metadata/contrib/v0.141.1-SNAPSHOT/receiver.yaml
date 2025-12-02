@@ -18912,6 +18912,22 @@ components:
       codeowners:
         active:
         - atoulme
+    resource_attributes:
+      cisco.device_type:
+        description: Cisco device type (e.g., "IOS-XE", "NX-OS", "IOS-XR")
+        type: string
+      cisco.encoding_path:
+        description: YANG model path for the telemetry data
+        type: string
+      cisco.node_id:
+        description: Cisco device node identifier from telemetry message
+        type: string
+      cisco.subscription_id:
+        description: Cisco telemetry subscription identifier
+        type: string
+      cisco.yang_module:
+        description: Discovered YANG module name
+        type: string
 - name: zipkinreceiver
   metadata:
     type: zipkin

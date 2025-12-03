@@ -480,13 +480,14 @@ class TestGenerateAllComponentTables:
 
         tables = doc_generator.generate_all_component_tables(inventory)
 
-        # Should return dict with all component types
-        assert len(tables) == 5
+        # Should return dict with all component types plus extension-footnotes
+        assert len(tables) == 6
         assert "receiver" in tables
         assert "processor" in tables
         assert "exporter" in tables
         assert "connector" in tables
         assert "extension" in tables
+        assert "extension-footnotes" in tables
 
         # Check receiver table content
         receiver_table = tables["receiver"]
@@ -512,20 +513,337 @@ class TestGenerateAllComponentTables:
 
         tables = doc_generator.generate_all_component_tables(inventory)
 
-        # Should still return all component types with empty tables
-        assert len(tables) == 5
+        # Should still return all component types with empty tables plus extension-footnotes
+        assert len(tables) == 6
         assert "receiver" in tables
         assert "processor" in tables
         assert "exporter" in tables
         assert "connector" in tables
         assert "extension" in tables
+        assert "extension-footnotes" in tables
 
         # Each table should have structure but no components
-        for component_type, table in tables.items():
-            assert "| Name |" in table
-            assert "[^1]:" in table
-            # Connectors don't have stability footnote
-            if component_type != "connector":
+        for table_key, table in tables.items():
+            # extension-footnotes doesn't have table structure
+            if table_key == "extension-footnotes":
+                assert "[^1]:" in table
                 assert "[^2]:" in table
+            # extension tables don't have footnotes (footnotes are separate)
+            elif table_key.startswith("extension"):
+                assert "| Name |" in table
+                assert "[^1]:" not in table
             else:
-                assert "[^2]:" not in table
+                assert "| Name |" in table
+                assert "[^1]:" in table
+                # Connectors don't have stability footnote
+                if table_key != "connector":
+                    assert "[^2]:" in table
+                else:
+                    assert "[^2]:" not in table
+
+
+class TestExtensionSubtypes:
+    """Tests for extension subtype handling (encoding, observer, storage)."""
+
+    def test_filter_by_subtype_returns_only_matching(self, doc_generator):
+        """Test filtering components by subtype."""
+        components = [
+            {"name": "healthcheckextension", "metadata": {}},
+            {"name": "otlpencodingextension", "subtype": "encoding", "metadata": {}},
+            {"name": "jsonlogencodingextension", "subtype": "encoding", "metadata": {}},
+            {"name": "hostobserver", "subtype": "observer", "metadata": {}},
+        ]
+
+        encoding = doc_generator._filter_by_subtype(components, "encoding")
+        assert len(encoding) == 2
+        assert all(c["subtype"] == "encoding" for c in encoding)
+
+        observer = doc_generator._filter_by_subtype(components, "observer")
+        assert len(observer) == 1
+        assert observer[0]["name"] == "hostobserver"
+
+    def test_filter_by_subtype_none_returns_components_without_subtype(self, doc_generator):
+        """Test filtering for components without subtype."""
+        components = [
+            {"name": "healthcheckextension", "metadata": {}},
+            {"name": "pprofextension", "metadata": {}},
+            {"name": "otlpencodingextension", "subtype": "encoding", "metadata": {}},
+        ]
+
+        regular = doc_generator._filter_by_subtype(components, None)
+        assert len(regular) == 2
+        assert all(c.get("subtype") is None for c in regular)
+
+    def test_generate_component_table_with_subtype_correct_path(self, doc_generator):
+        """Test that subtype tables generate correct nested paths."""
+        components = [
+            {
+                "name": "otlpencodingextension",
+                "subtype": "encoding",
+                "metadata": {
+                    "status": {"stability": {"beta": ["extension"]}, "distributions": ["contrib"]}
+                },
+            }
+        ]
+
+        table = doc_generator.generate_component_table("extension", components, subtype="encoding")
+
+        # Should have nested path: extension/encoding/otlpencodingextension
+        assert (
+            "https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/encoding/otlpencodingextension"
+            in table
+        )
+
+    def test_generate_component_table_without_subtype_regular_path(self, doc_generator):
+        """Test that regular extensions have non-nested paths."""
+        components = [
+            {
+                "name": "healthcheckextension",
+                "metadata": {
+                    "status": {"stability": {"beta": ["extension"]}, "distributions": ["contrib"]}
+                },
+            }
+        ]
+
+        table = doc_generator.generate_component_table("extension", components, subtype=None)
+
+        # Should have regular path: extension/healthcheckextension
+        assert (
+            "https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/healthcheckextension"
+            in table
+        )
+        # Should NOT have nested path
+        assert "/extension/encoding/" not in table
+        assert "/extension/observer/" not in table
+        assert "/extension/storage/" not in table
+
+    def test_generate_all_component_tables_includes_subtypes(self, doc_generator):
+        """Test that generate_all_component_tables includes subtype tables."""
+        inventory = {
+            "components": {
+                "receiver": [],
+                "processor": [],
+                "exporter": [],
+                "connector": [],
+                "extension": [
+                    {
+                        "name": "healthcheckextension",
+                        "metadata": {
+                            "status": {
+                                "stability": {"beta": ["extension"]},
+                                "distributions": ["contrib"],
+                            }
+                        },
+                    },
+                    {
+                        "name": "otlpencodingextension",
+                        "subtype": "encoding",
+                        "metadata": {
+                            "status": {
+                                "stability": {"beta": ["extension"]},
+                                "distributions": ["contrib"],
+                            }
+                        },
+                    },
+                    {
+                        "name": "hostobserver",
+                        "subtype": "observer",
+                        "metadata": {
+                            "status": {
+                                "stability": {"alpha": ["extension"]},
+                                "distributions": ["contrib"],
+                            }
+                        },
+                    },
+                    {
+                        "name": "filestorage",
+                        "subtype": "storage",
+                        "metadata": {
+                            "status": {
+                                "stability": {"beta": ["extension"]},
+                                "distributions": ["contrib"],
+                            }
+                        },
+                    },
+                ],
+            }
+        }
+
+        tables = doc_generator.generate_all_component_tables(inventory)
+
+        # Should have all standard tables plus subtype tables
+        assert "receiver" in tables
+        assert "processor" in tables
+        assert "exporter" in tables
+        assert "connector" in tables
+        assert "extension" in tables  # Main extensions
+        assert "extension-encoding" in tables
+        assert "extension-observer" in tables
+        assert "extension-storage" in tables
+
+        # Main extension table should only have healthcheckextension
+        assert "healthcheckextension" in tables["extension"]
+        assert "otlpencodingextension" not in tables["extension"]
+        assert "hostobserver" not in tables["extension"]
+        assert "filestorage" not in tables["extension"]
+
+        # Encoding table should have otlpencodingextension with nested path
+        assert "otlpencodingextension" in tables["extension-encoding"]
+        assert "/extension/encoding/otlpencodingextension" in tables["extension-encoding"]
+
+        # Observer table should have hostobserver
+        assert "hostobserver" in tables["extension-observer"]
+        assert "/extension/observer/hostobserver" in tables["extension-observer"]
+
+        # Storage table should have filestorage
+        assert "filestorage" in tables["extension-storage"]
+        assert "/extension/storage/filestorage" in tables["extension-storage"]
+
+    def test_generate_all_component_tables_skips_empty_subtypes(self, doc_generator):
+        """Test that empty subtype tables are still included but empty."""
+        inventory = {
+            "components": {
+                "receiver": [],
+                "processor": [],
+                "exporter": [],
+                "connector": [],
+                "extension": [
+                    {
+                        "name": "healthcheckextension",
+                        "metadata": {
+                            "status": {
+                                "stability": {"beta": ["extension"]},
+                                "distributions": ["contrib"],
+                            }
+                        },
+                    },
+                    # No encoding/observer/storage extensions
+                ],
+            }
+        }
+
+        tables = doc_generator.generate_all_component_tables(inventory)
+
+        # Should still have main extension table
+        assert "extension" in tables
+        assert "healthcheckextension" in tables["extension"]
+
+        # Subtype tables should not be created if no components have that subtype
+        assert "extension-encoding" not in tables
+        assert "extension-observer" not in tables
+        assert "extension-storage" not in tables
+
+    def test_subtype_tables_have_no_footnotes(self, doc_generator):
+        """Test that subtype tables don't include footnotes (footnotes are separate)."""
+        inventory = {
+            "components": {
+                "receiver": [],
+                "processor": [],
+                "exporter": [],
+                "connector": [],
+                "extension": [
+                    {
+                        "name": "healthcheckextension",
+                        "metadata": {
+                            "status": {
+                                "stability": {"beta": ["extension"]},
+                                "distributions": ["contrib"],
+                            }
+                        },
+                    },
+                    {
+                        "name": "otlpencodingextension",
+                        "subtype": "encoding",
+                        "metadata": {
+                            "status": {
+                                "stability": {"beta": ["extension"]},
+                                "distributions": ["contrib"],
+                            }
+                        },
+                    },
+                ],
+            }
+        }
+
+        tables = doc_generator.generate_all_component_tables(inventory)
+
+        # Main extension table should NOT have footnotes (they're separate now)
+        assert "[^1]: Shows which [distributions]" not in tables["extension"]
+        assert "[^2]: For details about component stability levels" not in tables["extension"]
+
+        # Encoding subtype table should NOT have footnotes
+        assert "[^1]: Shows which [distributions]" not in tables["extension-encoding"]
+        assert (
+            "[^2]: For details about component stability levels" not in tables["extension-encoding"]
+        )
+
+        # Footnotes should be in the separate extension-footnotes section
+        assert "[^1]: Shows which [distributions]" in tables["extension-footnotes"]
+        assert "[^2]: For details about component stability levels" in tables["extension-footnotes"]
+
+    def test_include_footnotes_parameter(self, doc_generator):
+        """Test that include_footnotes parameter controls footnote generation."""
+        components = [
+            {
+                "name": "testextension",
+                "metadata": {
+                    "status": {"stability": {"beta": ["extension"]}, "distributions": ["contrib"]}
+                },
+            }
+        ]
+
+        # With footnotes (default)
+        with_footnotes = doc_generator.generate_component_table("extension", components)
+        assert "[^1]: Shows which [distributions]" in with_footnotes
+        assert "[^2]: For details about component stability levels" in with_footnotes
+        # No unmaintained note since no components are unmaintained
+        assert "⚠️ **Note:**" not in with_footnotes
+
+        # Without footnotes
+        without_footnotes = doc_generator.generate_component_table(
+            "extension", components, include_footnotes=False
+        )
+        assert "[^1]: Shows which [distributions]" not in without_footnotes
+        assert "[^2]: For details about component stability levels" not in without_footnotes
+        assert "⚠️ **Note:**" not in without_footnotes
+
+        # Both should still have the table content
+        assert "testextension" in with_footnotes
+        assert "testextension" in without_footnotes
+
+    def test_unmaintained_note_only_when_unmaintained_exists(self, doc_generator):
+        """Test that unmaintained note only appears when there are unmaintained components."""
+        # Components without any unmaintained
+        maintained_components = [
+            {
+                "name": "activeextension",
+                "metadata": {
+                    "status": {"stability": {"beta": ["extension"]}, "distributions": ["contrib"]}
+                },
+            }
+        ]
+
+        # Components with unmaintained
+        unmaintained_components = [
+            {
+                "name": "oldextension",
+                "metadata": {
+                    "status": {
+                        "stability": {"unmaintained": ["extension"]},
+                        "distributions": ["contrib"],
+                    }
+                },
+            }
+        ]
+
+        # No unmaintained note when all components are maintained
+        table_maintained = doc_generator.generate_component_table(
+            "extension", maintained_components
+        )
+        assert "⚠️ **Note:**" not in table_maintained
+
+        # Unmaintained note appears when there are unmaintained components
+        table_unmaintained = doc_generator.generate_component_table(
+            "extension", unmaintained_components
+        )
+        assert "⚠️ **Note:**" in table_unmaintained

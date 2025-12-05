@@ -177,18 +177,16 @@ class DocGenerator:
                     f"| {name_link} | {distributions_str} | {traces} | {metrics} | {logs} |\n"
                 )
 
-        table_content += "\n"
-        stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
+        # Add unmaintained note for non-connector components (since connectors don't show stability)
+        if component_type != "connector" and any(self._is_unmaintained(c) for c in components):
+            table_content += "\n⚠️ **Note:** Components marked with ⚠️ are unmaintained and have no active\ncodeowners. They may not receive regular updates or bug fixes.\n"
 
-        # Only add unmaintained note for non-connector components (since connectors don't show stability)
+        table_content += "\n[^1]:\n    Shows which [distributions](/docs/collector/distributions/) (core, contrib,\n    K8s, etc.) include this component.\n"
+
+        # Add stability footnote for non-connector components
         if component_type != "connector":
-            table_content += "⚠️ **Note:** Components marked with ⚠️ are unmaintained and have no active codeowners. They may not receive regular updates or bug fixes.\n\n"
-
-        table_content += "[^1]: Shows which [distributions](/docs/collector/distributions/) (core, contrib, K8s, etc.) include this component.\n"
-
-        # Only add stability footnote for non-connector components
-        if component_type != "connector":
-            table_content += f"[^2]: For details about component stability levels, see the [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
+            stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
+            table_content += f"\n[^2]:\n    For details about component stability levels, see the\n    [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
 
         return table_content
 

@@ -17507,6 +17507,8 @@ components:
       distributions:
       - contrib
       codeowners:
+        active:
+        - ishaish103
         emeritus:
         - nslaughter
     attributes:

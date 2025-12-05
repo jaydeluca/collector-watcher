@@ -66,6 +66,7 @@ components:
         - dineshg13
         - ankitpatel96
         - jade-guiton-dd
+        emeritus:
         - jackgopack4
 - name: deltatocumulativeprocessor
   metadata:

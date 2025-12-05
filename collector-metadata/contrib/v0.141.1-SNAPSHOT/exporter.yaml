@@ -255,9 +255,9 @@ components:
         - ankitpatel96
         - jade-guiton-dd
         - IbraheemA
-        - jackgopack4
         emeritus:
         - gbbr
+        - jackgopack4
 - name: datasetexporter
   metadata:
     type: dataset
@@ -502,6 +502,9 @@ components:
       partition:
         description: The Kafka topic partition.
         type: int
+      server.address:
+        description: The Kafka node address.
+        type: string
       topic:
         description: The Kafka topic.
         type: string
@@ -792,14 +795,16 @@ components:
       codeowners:
         active:
         - rnishtala-sumo
-        - chan-tim-sumo
-        - amdprophet
+        - pankaj101A
+        - jagan2221
         emeritus:
         - aboguszewski-sumo
         - kasia-kujawa
         - mat-rumian
         - sumo-drosiek
+        - chan-tim-sumo
         - echlebek
+        - amdprophet
 - name: syslogexporter
   metadata:
     type: syslog

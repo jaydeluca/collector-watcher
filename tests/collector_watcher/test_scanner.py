@@ -116,3 +116,124 @@ def test_scan_all_components(mock_repo):
     assert len(components["receiver"]) == 2
     assert len(components["processor"]) == 1
     assert len(components["exporter"]) == 1
+
+
+@pytest.fixture
+def mock_repo_with_nested():
+    """Create a temporary mock repository with nested extension directories."""
+    temp_dir = tempfile.mkdtemp()
+    repo_path = Path(temp_dir)
+
+    # Create a regular extension
+    regular_ext = repo_path / "extension" / "healthcheckextension"
+    regular_ext.mkdir(parents=True)
+    (regular_ext / "go.mod").touch()
+    (regular_ext / "metadata.yaml").write_text("type: health_check")
+
+    # Create encoding extensions (nested)
+    encoding_dir = repo_path / "extension" / "encoding"
+    encoding_dir.mkdir(parents=True)
+    (encoding_dir / "encoding.go").touch()  # Parent has .go file but no go.mod
+
+    encoding_ext1 = encoding_dir / "otlpencodingextension"
+    encoding_ext1.mkdir(parents=True)
+    (encoding_ext1 / "go.mod").touch()
+    (encoding_ext1 / "metadata.yaml").write_text("type: otlp_encoding")
+
+    encoding_ext2 = encoding_dir / "jsonlogencodingextension"
+    encoding_ext2.mkdir(parents=True)
+    (encoding_ext2 / "go.mod").touch()
+    (encoding_ext2 / "metadata.yaml").write_text("type: jsonlog_encoding")
+
+    # Create observer extensions (nested)
+    observer_dir = repo_path / "extension" / "observer"
+    observer_dir.mkdir(parents=True)
+
+    observer_ext = observer_dir / "hostobserver"
+    observer_ext.mkdir(parents=True)
+    (observer_ext / "go.mod").touch()
+    (observer_ext / "metadata.yaml").write_text("type: host_observer")
+
+    # Create storage extensions (nested)
+    storage_dir = repo_path / "extension" / "storage"
+    storage_dir.mkdir(parents=True)
+
+    storage_ext = storage_dir / "filestorage"
+    storage_ext.mkdir(parents=True)
+    (storage_ext / "go.mod").touch()
+    (storage_ext / "metadata.yaml").write_text("type: file_storage")
+
+    # Create internal directory inside nested (should be ignored)
+    internal_dir = encoding_dir / "internal"
+    internal_dir.mkdir(parents=True)
+    (internal_dir / "go.mod").touch()
+
+    yield repo_path
+
+    # Cleanup
+    shutil.rmtree(temp_dir)
+
+
+def test_scan_nested_encoding_extensions(mock_repo_with_nested):
+    """Test scanning nested encoding extensions."""
+    scanner = ComponentScanner(str(mock_repo_with_nested))
+    extensions = scanner.scan_component_type("extension")
+
+    # Should find 5 extensions total
+    assert len(extensions) == 5
+
+    # Find encoding extensions
+    encoding_exts = [e for e in extensions if e.get("subtype") == "encoding"]
+    assert len(encoding_exts) == 2
+    assert any(e["name"] == "otlpencodingextension" for e in encoding_exts)
+    assert any(e["name"] == "jsonlogencodingextension" for e in encoding_exts)
+
+
+def test_scan_nested_observer_extensions(mock_repo_with_nested):
+    """Test scanning nested observer extensions."""
+    scanner = ComponentScanner(str(mock_repo_with_nested))
+    extensions = scanner.scan_component_type("extension")
+
+    observer_exts = [e for e in extensions if e.get("subtype") == "observer"]
+    assert len(observer_exts) == 1
+    assert observer_exts[0]["name"] == "hostobserver"
+
+
+def test_scan_nested_storage_extensions(mock_repo_with_nested):
+    """Test scanning nested storage extensions."""
+    scanner = ComponentScanner(str(mock_repo_with_nested))
+    extensions = scanner.scan_component_type("extension")
+
+    storage_exts = [e for e in extensions if e.get("subtype") == "storage"]
+    assert len(storage_exts) == 1
+    assert storage_exts[0]["name"] == "filestorage"
+
+
+def test_scan_regular_extensions_no_subtype(mock_repo_with_nested):
+    """Test that regular extensions don't have a subtype field."""
+    scanner = ComponentScanner(str(mock_repo_with_nested))
+    extensions = scanner.scan_component_type("extension")
+
+    regular_exts = [e for e in extensions if e.get("subtype") is None]
+    assert len(regular_exts) == 1
+    assert regular_exts[0]["name"] == "healthcheckextension"
+
+
+def test_nested_excludes_internal_directories(mock_repo_with_nested):
+    """Test that internal directories inside nested dirs are excluded."""
+    scanner = ComponentScanner(str(mock_repo_with_nested))
+    extensions = scanner.scan_component_type("extension")
+
+    # Should not find internal directory
+    names = [e["name"] for e in extensions]
+    assert "internal" not in names
+
+
+def test_subtype_field_in_component_info(mock_repo_with_nested):
+    """Test that subtype field is included in component info."""
+    scanner = ComponentScanner(str(mock_repo_with_nested))
+    extensions = scanner.scan_component_type("extension")
+
+    encoding_ext = next(e for e in extensions if e["name"] == "otlpencodingextension")
+    assert encoding_ext["subtype"] == "encoding"
+    assert "metadata" in encoding_ext

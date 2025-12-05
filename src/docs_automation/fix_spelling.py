@@ -83,30 +83,25 @@ def load_component_names(inventory_path: Path) -> set[str]:
 
     component_names = set()
 
-    # Find all component YAML files (use the latest version)
+    # Find all component YAML files from all versions (to catch all component names)
     for dist_dir in inventory_path.iterdir():
         if not dist_dir.is_dir():
             continue
 
-        # Get latest version directory (excluding snapshots)
-        versions = sorted(
-            [v for v in dist_dir.iterdir() if v.is_dir() and "SNAPSHOT" not in v.name],
-            reverse=True,
-        )
-        if not versions:
-            continue
+        # Process all version directories to collect all component names
+        for version_dir in dist_dir.iterdir():
+            if not version_dir.is_dir():
+                continue
 
-        latest_version = versions[0]
-
-        # Read all component files
-        for component_file in latest_version.glob("*.yaml"):
-            with open(component_file) as f:
-                data = yaml.safe_load(f)
-                components = data.get("components", [])
-                for comp in components:
-                    name = comp.get("name")
-                    if name:
-                        component_names.add(name)
+            # Read all component files
+            for component_file in version_dir.glob("*.yaml"):
+                with open(component_file, encoding="utf-8") as f:
+                    data = yaml.safe_load(f)
+                    components = data.get("components", [])
+                    for comp in components:
+                        name = comp.get("name")
+                        if name:
+                            component_names.add(name)
 
     return component_names
 

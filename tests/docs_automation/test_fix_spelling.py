@@ -77,17 +77,17 @@ def test_load_component_names(temp_inventory):
     """Test loading component names from inventory."""
     component_names = load_component_names(temp_inventory)
 
-    # Should load from latest non-snapshot version
+    # Should load from all versions (including snapshots)
     assert "awslambdareceiver" in component_names
     assert "googlecloudpubsubreceiver" in component_names
     assert "kafkareceiver" in component_names
     assert "kafkaexporter" in component_names
     assert "prometheusexporter" in component_names
 
-    # Should not include snapshot components
-    assert "snapshotreceiver" not in component_names
+    # Should also include snapshot components (to catch new component names)
+    assert "snapshotreceiver" in component_names
 
-    assert len(component_names) == 5
+    assert len(component_names) == 6
 
 
 def test_update_frontmatter_with_existing_cspell_line(tmp_path):

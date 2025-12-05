@@ -119,13 +119,13 @@ class DocUpdater:
         if not file_path.exists():
             raise FileNotFoundError(f"File not found: {file_path}")
 
-        original_content = file_path.read_text()
+        original_content = file_path.read_text(encoding="utf-8")
         updated_content, was_updated = self.update_section(original_content, marker_id, new_content)
 
         if not was_updated:
             return False
 
-        file_path.write_text(updated_content)
+        file_path.write_text(updated_content, encoding="utf-8")
         return True
 
     def update_file_multiple(
@@ -149,10 +149,10 @@ class DocUpdater:
         if not file_path.exists():
             raise FileNotFoundError(f"File not found: {file_path}")
 
-        original_content = file_path.read_text()
+        original_content = file_path.read_text(encoding="utf-8")
         updated_content, results = self.update_multiple_sections(original_content, updates)
 
         if any(results.values()):
-            file_path.write_text(updated_content)
+            file_path.write_text(updated_content, encoding="utf-8")
 
         return results

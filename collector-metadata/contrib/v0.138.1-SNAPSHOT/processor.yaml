@@ -1,5 +1,5 @@
 distribution: contrib
-version: v0.141.1-SNAPSHOT
+version: v0.138.1-SNAPSHOT
 repository: opentelemetry-collector-contrib
 component_type: processor
 components:
@@ -167,9 +167,8 @@ components:
       codeowners:
         active:
         - rnishtala-sumo
-        - amdprophet
-        emeritus:
         - echlebek
+        - amdprophet
 - name: groupbytraceprocessor
   metadata:
     type: groupbytrace
@@ -384,7 +383,7 @@ components:
     status:
       class: processor
       stability:
-        beta:
+        alpha:
         - metrics
       distributions:
       - contrib
@@ -485,7 +484,6 @@ components:
         active:
         - Aneurysm9
         - dashpole
-        seeking_new: true
 - name: resourceprocessor
   metadata:
     type: resource
@@ -551,13 +549,13 @@ components:
         active:
         - rnishtala-sumo
         - chan-tim-sumo
+        - echlebek
         - amdprophet
         emeritus:
         - aboguszewski-sumo
         - kasia-kujawa
         - mat-rumian
         - sumo-drosiek
-        - echlebek
 - name: tailsamplingprocessor
   metadata:
     type: tail_sampling

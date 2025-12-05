@@ -1,5 +1,5 @@
 distribution: contrib
-version: v0.141.1-SNAPSHOT
+version: v0.138.1-SNAPSHOT
 repository: opentelemetry-collector-contrib
 component_type: exporter
 components:
@@ -179,6 +179,21 @@ components:
         - bertysentry
         - NassimBtk
         - MovieStoreGuy
+- name: carbonexporter
+  metadata:
+    type: carbon
+    status:
+      class: exporter
+      stability:
+        unmaintained:
+        - metrics
+      distributions:
+      - contrib
+      codeowners:
+        active: []
+        emeritus:
+        - aboguszewski-sumo
+        seeking_new: true
 - name: cassandraexporter
   metadata:
     type: cassandra
@@ -412,10 +427,8 @@ components:
     status:
       class: exporter
       stability:
-        alpha:
+        development:
         - logs
-      distributions:
-      - contrib
       codeowners:
         active:
         - constanca-m
@@ -793,13 +806,13 @@ components:
         active:
         - rnishtala-sumo
         - chan-tim-sumo
+        - echlebek
         - amdprophet
         emeritus:
         - aboguszewski-sumo
         - kasia-kujawa
         - mat-rumian
         - sumo-drosiek
-        - echlebek
 - name: syslogexporter
   metadata:
     type: syslog

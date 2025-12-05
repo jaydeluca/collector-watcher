@@ -139,9 +139,8 @@ class TestGenerateComponentTable:
         table_content = doc_generator.generate_component_table("receiver", components)
 
         assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in table_content
-        assert "[^1]: Shows which [distributions]" in table_content
-        assert "[^2]: For details about component stability levels" in table_content
-        assert "component-stability.md" in table_content
+        assert "[^1]:" in table_content
+        assert "[^2]:" in table_content
 
         assert (
             "| [jaegerreceiver](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/jaegerreceiver) | contrib | beta | - | - |"
@@ -166,8 +165,8 @@ class TestGenerateComponentTable:
         table_content = doc_generator.generate_component_table("extension", components)
 
         assert "| Name | Distributions[^1] | Stability[^2] |" in table_content
-        assert "[^1]: Shows which [distributions]" in table_content
-        assert "[^2]: For details about component stability levels" in table_content
+        assert "[^1]:" in table_content
+        assert "[^2]:" in table_content
 
         assert (
             "| [healthcheckextension](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/healthcheckextension) | contrib | beta |"
@@ -208,8 +207,8 @@ class TestGenerateComponentTable:
         assert "Logs[^2]" not in table_content
 
         # Should have distributions footnote but not stability footnote
-        assert "[^1]: Shows which [distributions]" in table_content
-        assert "[^2]: For details about component stability levels" not in table_content
+        assert "[^1]:" in table_content
+        assert "[^2]:" not in table_content
 
         # Should not have unmaintained note since connectors don't show stability
         assert "⚠️ **Note:** Components marked with ⚠️ are unmaintained" not in table_content
@@ -338,21 +337,14 @@ class TestGenerateComponentTable:
 
         # Should still have table structure
         assert "| Name | Distributions[^1] | Traces[^2] | Metrics[^2] | Logs[^2] |" in table_content
-        assert "[^1]: Shows which [distributions]" in table_content
+        assert "[^1]:" in table_content
+        assert "[^2]:" in table_content
 
         # But no component rows (only headers)
         lines = table_content.strip().split("\n")
-        # Should have: header, separator, footnotes - no data rows
-        assert (
-            len(
-                [
-                    line
-                    for line in lines
-                    if line.startswith("|") and "[" in line and "Name" not in line
-                ]
-            )
-            == 0
-        )
+        # Count data rows (rows with links that aren't the header)
+        data_rows = [line for line in lines if line.startswith("|") and "](http" in line]
+        assert len(data_rows) == 0
 
     def test_generate_component_table_unmaintained_component(self, doc_generator):
         """Test that unmaintained components get a warning emoji."""

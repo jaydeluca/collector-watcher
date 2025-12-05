@@ -6,6 +6,9 @@ from typing import Any
 class DocGenerator:
     """Generates component tables for marker-based documentation updates."""
 
+    # Subtypes that should be rendered as separate tables
+    EXTENSION_SUBTYPES = ["encoding", "observer", "storage"]
+
     def __init__(self, version: str | None = None):
         """
         Initialize the documentation generator.
@@ -113,8 +116,31 @@ class DocGenerator:
         # Check if "unmaintained" is one of the stability levels
         return "unmaintained" in stability
 
+    def _filter_by_subtype(
+        self, components: list[dict[str, Any]], subtype: str | None
+    ) -> list[dict[str, Any]]:
+        """
+        Filter components by subtype.
+
+        Args:
+            components: List of components
+            subtype: Subtype to filter by (None means components without subtype)
+
+        Returns:
+            Filtered list of components
+        """
+        if subtype is None:
+            # Return components without a subtype
+            return [c for c in components if c.get("subtype") is None]
+        else:
+            return [c for c in components if c.get("subtype") == subtype]
+
     def _generate_component_table(
-        self, component_type: str, components: list[dict[str, Any]]
+        self,
+        component_type: str,
+        components: list[dict[str, Any]],
+        subtype: str | None = None,
+        include_footnotes: bool = True,
     ) -> str:
         """
         Generate a table of components with distributions column.
@@ -122,6 +148,9 @@ class DocGenerator:
         Args:
             component_type: Type of component (receiver, processor, etc.)
             components: List of components to include in table
+            subtype: Optional subtype for nested components (e.g., "encoding")
+            include_footnotes: Whether to include footnote definitions (default True).
+                              Set to False for subtype tables to avoid duplicate footnotes.
 
         Returns:
             Markdown table content
@@ -154,7 +183,13 @@ class DocGenerator:
                 repo_name = "opentelemetry-collector-contrib"
 
             repo_url = f"https://github.com/open-telemetry/{repo_name}"
-            component_path = f"{component_type}/{name}"
+
+            # Build component path - include subtype directory for nested components
+            if subtype:
+                component_path = f"{component_type}/{subtype}/{name}"
+            else:
+                component_path = f"{component_type}/{name}"
+
             readme_link = f"{repo_url}/tree/main/{component_path}"
             name_link = f"[{name}]({readme_link})"
 
@@ -177,21 +212,34 @@ class DocGenerator:
                     f"| {name_link} | {distributions_str} | {traces} | {metrics} | {logs} |\n"
                 )
 
-        # Add unmaintained note for non-connector components (since connectors don't show stability)
-        if component_type != "connector" and any(self._is_unmaintained(c) for c in components):
-            table_content += "\n⚠️ **Note:** Components marked with ⚠️ are unmaintained and have no active\ncodeowners. They may not receive regular updates or bug fixes.\n"
+        # Only include footnotes and notes if requested (avoids duplicates on pages with multiple tables)
+        if not include_footnotes:
+            return table_content
 
-        table_content += "\n[^1]:\n    Shows which [distributions](/docs/collector/distributions/) (core, contrib,\n    K8s, etc.) include this component.\n"
+        # Check if any components are unmaintained
+        has_unmaintained = any(self._is_unmaintained(c) for c in components)
 
-        # Add stability footnote for non-connector components
+        table_content += "\n"
+        stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
+
+        # Only add unmaintained note if there are unmaintained components
+        if component_type != "connector" and has_unmaintained:
+            table_content += "⚠️ **Note:** Components marked with ⚠️ are unmaintained and have no active codeowners. They may not receive regular updates or bug fixes.\n\n"
+
+        table_content += "[^1]: Shows which [distributions](/docs/collector/distributions/) (core, contrib, K8s, etc.) include this component.\n"
+
+        # Only add stability footnote for non-connector components
         if component_type != "connector":
-            stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
-            table_content += f"\n[^2]:\n    For details about component stability levels, see the\n    [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
+            table_content += f"[^2]: For details about component stability levels, see the [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
 
         return table_content
 
     def generate_component_table(
-        self, component_type: str, components: list[dict[str, Any]]
+        self,
+        component_type: str,
+        components: list[dict[str, Any]],
+        subtype: str | None = None,
+        include_footnotes: bool = True,
     ) -> str:
         """
         Generate table content for a component type (for marker-based updates).
@@ -199,12 +247,48 @@ class DocGenerator:
         Args:
             component_type: Type of component (receiver, processor, etc.)
             components: List of components of this type
+            subtype: Optional subtype to filter by (e.g., "encoding")
+            include_footnotes: Whether to include footnote definitions (default True)
 
         Returns:
             Markdown table content (no front matter or headers)
         """
-        sorted_components = sorted(components, key=lambda c: c.get("name", ""))
-        return self._generate_component_table(component_type, sorted_components)
+        # Filter by subtype if specified
+        filtered = self._filter_by_subtype(components, subtype)
+        sorted_components = sorted(filtered, key=lambda c: c.get("name", ""))
+        return self._generate_component_table(
+            component_type, sorted_components, subtype=subtype, include_footnotes=include_footnotes
+        )
+
+    def generate_footnotes(self, component_type: str, components: list[dict[str, Any]]) -> str:
+        """
+        Generate footnotes section for a component type.
+
+        Args:
+            component_type: Type of component (receiver, processor, etc.)
+            components: List of components to check for unmaintained status
+
+        Returns:
+            Markdown footnotes content
+        """
+        stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
+
+        # Check if any components are unmaintained
+        has_unmaintained = any(self._is_unmaintained(c) for c in components)
+
+        footnotes = ""
+
+        # Only add unmaintained note if there are unmaintained components
+        if component_type != "connector" and has_unmaintained:
+            footnotes += "⚠️ **Note:** Components marked with ⚠️ are unmaintained and have no active codeowners. They may not receive regular updates or bug fixes.\n\n"
+
+        footnotes += "[^1]: Shows which [distributions](/docs/collector/distributions/) (core, contrib, K8s, etc.) include this component.\n"
+
+        # Only add stability footnote for non-connector components
+        if component_type != "connector":
+            footnotes += f"[^2]: For details about component stability levels, see the [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
+
+        return footnotes
 
     def generate_all_component_tables(self, inventory: dict[str, Any]) -> dict[str, str]:
         """
@@ -214,13 +298,43 @@ class DocGenerator:
             inventory: Complete inventory data
 
         Returns:
-            Dictionary mapping component_type to table content
+            Dictionary mapping marker_id to table content.
+            For extensions with subtypes, includes separate tables like:
+            - "extension" - main extensions (no subtype, no footnotes)
+            - "extension-encoding" - encoding extensions (no footnotes)
+            - "extension-observer" - observer extensions (no footnotes)
+            - "extension-storage" - storage extensions (no footnotes)
+            - "extension-footnotes" - shared footnotes for all extension tables
+
+            Extension footnotes are generated separately so they can be placed
+            at the bottom of the page.
         """
         tables = {}
         components = inventory.get("components", {})
 
-        for component_type in ["receiver", "processor", "exporter", "connector", "extension"]:
+        for component_type in ["receiver", "processor", "exporter", "connector"]:
             component_list = components.get(component_type, [])
             tables[component_type] = self.generate_component_table(component_type, component_list)
+
+        # Handle extensions specially - separate main extensions from subtypes
+        extension_list = components.get("extension", [])
+
+        # Main extensions table (components without subtype) - NO footnotes
+        tables["extension"] = self.generate_component_table(
+            "extension", extension_list, subtype=None, include_footnotes=False
+        )
+
+        # Subtype tables for extensions - no footnotes
+        for subtype in self.EXTENSION_SUBTYPES:
+            subtype_components = self._filter_by_subtype(extension_list, subtype)
+            if subtype_components:
+                # Use marker_id like "extension-encoding"
+                marker_id = f"extension-{subtype}"
+                tables[marker_id] = self.generate_component_table(
+                    "extension", extension_list, subtype=subtype, include_footnotes=False
+                )
+
+        # Generate shared footnotes for extension page (at the bottom)
+        tables["extension-footnotes"] = self.generate_footnotes("extension", extension_list)
 
         return tables

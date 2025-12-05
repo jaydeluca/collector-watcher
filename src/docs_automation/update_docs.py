@@ -270,22 +270,33 @@ def main():
     print(f"\nUpdating pages in {components_dir}...")
     updated_count = 0
 
-    for component_type, table_content in tables.items():
-        page_path = components_dir / f"{component_type}.md"
+    for table_key, table_content in tables.items():
+        # Determine the file and marker for this table
+        # table_key can be "receiver", "extension", "extension-encoding", etc.
+        if "-" in table_key and table_key.startswith("extension-"):
+            # This is a subtype table (e.g., "extension-encoding")
+            # Goes in extension.md with marker "extension-encoding-table"
+            page_name = "extension"
+            marker_id = f"{table_key}-table"
+        else:
+            # Regular component type table
+            page_name = table_key
+            marker_id = f"{table_key}-table"
+
+        page_path = components_dir / f"{page_name}.md"
 
         if not page_path.exists():
-            print(f"  ⚠️  {component_type}.md not found, skipping")
+            print(f"  ⚠️  {page_name}.md not found, skipping")
             continue
 
         # Update the table section
-        marker_id = f"{component_type}-table"
         success = updater.update_file(page_path, marker_id, table_content)
 
         if success:
-            print(f"  ✓ {component_type}.md")
+            print(f"  ✓ {page_name}.md ({marker_id})")
             updated_count += 1
         else:
-            print(f"  ⚠️  {component_type}.md - markers not found")
+            print(f"  ⚠️  {page_name}.md - marker '{marker_id}' not found")
 
     if updated_count > 0:
         print(f"\n✅ Done! Updated {updated_count} page(s)")

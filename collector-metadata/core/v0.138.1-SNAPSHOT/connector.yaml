@@ -1,5 +1,5 @@
 distribution: core
-version: v0.141.1-SNAPSHOT
+version: v0.138.1-SNAPSHOT
 repository: opentelemetry-collector
 component_type: connector
 components:
@@ -13,8 +13,6 @@ components:
         - logs_to_logs
         - metrics_to_metrics
         - traces_to_traces
-        development:
-        - profiles_to_profiles
       distributions:
       - contrib
       - core

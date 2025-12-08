@@ -125,10 +125,14 @@ components:
       - contrib
       codeowners:
         active:
-        - jackgopack4
+        - ankitpatel96
         - dineshg13
+        - IbraheemA
+        - jade-guiton-dd
         - mx-psi
         - songy23
+        emeritus:
+        - jackgopack4
 - name: avrologencodingextension
   subtype: encoding
   metadata:
@@ -663,11 +667,13 @@ components:
       codeowners:
         active:
         - rnishtala-sumo
-        - chan-tim-sumo
-        - amdprophet
+        - pankaj101A
+        - jagan2221
         emeritus:
         - aboguszewski-sumo
         - kasia-kujawa
         - mat-rumian
         - sumo-drosiek
+        - chan-tim-sumo
         - echlebek
+        - amdprophet

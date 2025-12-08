@@ -1,5 +1,5 @@
 distribution: contrib
-version: v0.138.1-SNAPSHOT
+version: v0.141.1-SNAPSHOT
 repository: opentelemetry-collector-contrib
 component_type: receiver
 components:
@@ -1681,6 +1681,22 @@ components:
         active:
         - Aneurysm9
         - axw
+- name: awslambdareceiver
+  metadata:
+    type: awslambda
+    status:
+      class: receiver
+      stability:
+        development:
+        - logs
+        - metrics
+      distributions: []
+      codeowners:
+        active:
+        - MichaelKatsoulis
+        - Kavindu-Dodan
+        - axw
+        - pjanotti
 - name: awss3receiver
   metadata:
     type: awss3
@@ -1758,9 +1774,10 @@ components:
       - contrib
       codeowners:
         active:
-        - nslaughter
         - celian-garcia
         - ishleenk17
+        emeritus:
+        - nslaughter
     resource_attributes:
       azuremonitor.subscription:
         description: Azure subscription name
@@ -2236,11 +2253,11 @@ components:
           level: development
 - name: ciscoosreceiver
   metadata:
-    type: ciscoosreceiver
+    type: ciscoos
     status:
       class: receiver
       stability:
-        development:
+        alpha:
         - metrics
       distributions: []
       codeowners:
@@ -2434,6 +2451,7 @@ components:
       class: receiver
       stability:
         alpha:
+        - logs
         - metrics
         - traces
       distributions:
@@ -4090,6 +4108,8 @@ components:
           aggregation_temporality: cumulative
           value_type: int
         attributes: []
+        stability:
+          level: development
       elasticsearch.node.operations.completed:
         description: The number of operations completed by a node.
         unit: '{operations}'
@@ -5625,6 +5645,25 @@ components:
         - TylerHelmuth
         emeritus:
         - abhishek-at-cloudwerx
+- name: googlecloudpubsubpushreceiver
+  metadata:
+    type: googlecloudpubsubpush
+    status:
+      class: receiver
+      stability:
+        development:
+        - logs
+      codeowners:
+        active:
+        - axw
+        - constanca-m
+    attributes:
+      gcp.gcs.bucket.name:
+        description: Bucket name.
+        type: string
+      http.response.status_code:
+        description: HTTP response status code.
+        type: int
 - name: googlecloudpubsubreceiver
   metadata:
     type: googlecloudpubsub
@@ -7235,12 +7274,13 @@ components:
     status:
       class: receiver
       stability:
-        development:
+        unmaintained:
         - logs
       codeowners:
-        active:
+        emeritus:
         - h0cheung
         - TylerHelmuth
+        seeking_new: true
 - name: k8sobjectsreceiver
   metadata:
     type: k8sobjects
@@ -8171,6 +8211,20 @@ components:
       codeowners:
         active:
         - mar4uk
+- name: macosunifiedloggingreceiver
+  metadata:
+    type: macosunifiedlogging
+    status:
+      class: receiver
+      stability:
+        development:
+        - logs
+      codeowners:
+        active:
+        - Caleb-Hurshman
+      unsupported_platforms:
+      - linux
+      - windows
 - name: memcachedreceiver
   metadata:
     type: memcached
@@ -11754,8 +11808,9 @@ components:
         - logs
       codeowners:
         active:
-        - nslaughter
         - smithclay
+        emeritus:
+        - nslaughter
 - name: otelarrowreceiver
   metadata:
     type: otelarrow
@@ -11949,6 +12004,7 @@ components:
         active:
         - antonblock
         - ishleenk17
+        - Caleb-Hurshman
         seeking_new: true
         emeritus:
         - djaglowski
@@ -13510,6 +13566,9 @@ components:
       fan.name:
         description: Fan name.
         type: string
+      fan.reading_units:
+        description: Fan reading units.
+        type: string
       system.asset_tag:
         description: System asset tag.
         type: string
@@ -13566,7 +13625,7 @@ components:
       chassis.status.health:
         description: Measures the health of a chassis (-1 unknown, 0 critical, 1 ok,
           2 warning).
-        unit: '{health}'
+        unit: '{statushealth}'
         enabled: true
         gauge:
           value_type: int
@@ -13585,7 +13644,7 @@ components:
           level: development
       chassis.status.state:
         description: Measures the state of a chassis (-1 unknown, 0 disabled, 1 enabled).
-        unit: '{state}'
+        unit: '{statusstate}'
         enabled: true
         gauge:
           value_type: int
@@ -13604,7 +13663,7 @@ components:
           level: development
       fan.reading:
         description: Measures the reading of a chassis fan.
-        unit: '{%}'
+        unit: '{}'
         enabled: true
         gauge:
           value_type: int
@@ -13612,13 +13671,14 @@ components:
         - base_url
         - chassis.id
         - fan.name
+        - fan.reading_units
         - system.host_name
         stability:
           level: development
       fan.status.health:
         description: Measures the health of a chassis fan (-1 unknown, 0 critical,
           1 ok, 2 warning).
-        unit: '{health}'
+        unit: '{statushealth}'
         enabled: true
         gauge:
           value_type: int
@@ -13632,7 +13692,7 @@ components:
       fan.status.state:
         description: Measures the state of a chassis fan (-1 unknown, 0 disabled,
           1 enabled).
-        unit: '{state}'
+        unit: '{statusstate}'
         enabled: true
         gauge:
           value_type: int
@@ -13666,7 +13726,7 @@ components:
       system.status.health:
         description: Measures the health of a system (-1 unknown, 0 critical, 1 ok,
           2 warning).
-        unit: '{health}'
+        unit: '{statushealth}'
         enabled: true
         gauge:
           value_type: int
@@ -13686,7 +13746,7 @@ components:
           level: development
       system.status.state:
         description: Measures the state of a system (-1 unknown, 0 disabled, 1 enabled).
-        unit: '{state}'
+        unit: '{statusstate}'
         enabled: true
         gauge:
           value_type: int
@@ -13706,21 +13766,21 @@ components:
           level: development
       temperature.reading:
         description: Measures the reading of a chassis temperature.
-        unit: '{%}'
+        unit: °C
         enabled: true
         gauge:
           value_type: int
         attributes:
         - base_url
         - chassis.id
-        - fan.name
         - system.host_name
+        - temperature.name
         stability:
           level: development
       temperature.status.health:
         description: Measures the health of a chassis temperature (-1 unknown, 0 critical,
           1 ok, 2 warning).
-        unit: '{health}'
+        unit: '{statushealth}'
         enabled: true
         gauge:
           value_type: int
@@ -13734,7 +13794,7 @@ components:
       temperature.status.state:
         description: Measures the state of a chassis temperature (-1 unknown, 0 disabled,
           1 enabled).
-        unit: '{state}'
+        unit: '{statusstate}'
         enabled: true
         gauge:
           value_type: int
@@ -13773,6 +13833,13 @@ components:
       db:
         description: Redis database identifier
         type: string
+      mode:
+        description: Redis server mode
+        type: string
+        enum:
+        - cluster
+        - sentinel
+        - standalone
       percentile:
         description: Percentile
         type: string
@@ -13829,6 +13896,14 @@ components:
         description: Longest output list among current client connections
         unit: By
         enabled: true
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.cluster.cluster_enabled:
+        description: Indicate Redis cluster is enabled
+        unit: '1'
+        enabled: false
         gauge:
           value_type: int
         stability:
@@ -14151,6 +14226,37 @@ components:
           value_type: int
         stability:
           level: development
+      redis.memory.used_memory_overhead:
+        description: The sum in bytes of all overheads that the server allocated for
+          managing its internal data structures
+        unit: By
+        enabled: false
+        sum:
+          value_type: int
+          monotonic: false
+          aggregation_temporality: cumulative
+        stability:
+          level: development
+      redis.memory.used_memory_startup:
+        description: Initial amount of memory consumed by Redis at startup in bytes
+        unit: By
+        enabled: false
+        sum:
+          value_type: int
+          monotonic: false
+          aggregation_temporality: cumulative
+        stability:
+          level: development
+      redis.mode:
+        description: Redis server mode
+        unit: '{mode}'
+        enabled: false
+        gauge:
+          value_type: int
+        attributes:
+        - mode
+        stability:
+          level: development
       redis.net.input:
         description: The total number of bytes read from the network
         unit: By
@@ -14217,10 +14323,70 @@ components:
         - role
         stability:
           level: development
+      redis.sentinel.masters:
+        description: Number of masters monitored by Sentinel.
+        unit: '{master}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.sentinel.running_scripts:
+        description: Number of running Sentinel scripts.
+        unit: '{script}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.sentinel.scripts_queue_length:
+        description: Length of Sentinel scripts queue.
+        unit: '{script}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.sentinel.simulate_failure_flags:
+        description: Simulated failure flags bitmask.
+        unit: '{flag}'
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.sentinel.tilt_since_seconds:
+        description: Duration in seconds of current TILT, or -1 if not in TILT mode.
+        unit: s
+        enabled: false
+        gauge:
+          value_type: int
+        stability:
+          level: development
+      redis.sentinel.total_tilt:
+        description: Total TILT occurrences since start.
+        unit: '{event}'
+        enabled: false
+        sum:
+          value_type: int
+          monotonic: true
+          aggregation_temporality: cumulative
+        stability:
+          level: development
       redis.slaves.connected:
         description: Number of connected replicas
         unit: '{replica}'
         enabled: true
+        sum:
+          value_type: int
+          monotonic: false
+          aggregation_temporality: cumulative
+        stability:
+          level: development
+      redis.tracking_total_keys:
+        description: Number of keys being tracked by the server
+        unit: '{key}'
+        enabled: false
         sum:
           value_type: int
           monotonic: false
@@ -16190,6 +16356,8 @@ components:
         - splunk.license.type
         - splunk.splunkd.build
         - splunk.splunkd.version
+        stability:
+          level: development
       splunk.license.index.usage:
         description: Gauge tracking the indexed license usage per index
         unit: By
@@ -17340,6 +17508,8 @@ components:
       - contrib
       codeowners:
         active:
+        - ishaish103
+        emeritus:
         - nslaughter
     attributes:
       error.message:
@@ -17464,14 +17634,67 @@ components:
     status:
       class: receiver
       stability:
-        development:
+        alpha:
         - metrics
-      distributions: []
+      distributions:
+      - contrib
       codeowners:
         active:
         - atoulme
         emeritus:
         - Hemansh31
+      unsupported_platforms:
+      - darwin
+      - windows
+    attributes:
+      cpu.mode:
+        description: Breakdown of CPU usage by type.
+        type: string
+        enum:
+        - system
+        - user
+      systemd.unit.active_state:
+        description: The active state of the unit (https://www.freedesktop.org/software/systemd/man/latest/systemd.html#Units)
+        type: string
+        enum:
+        - activating
+        - active
+        - deactivating
+        - failed
+        - inactive
+        - maintenance
+        - refreshing
+        - reloading
+    metrics:
+      systemd.unit.cpu.time:
+        description: Total CPU time spent by this unit.
+        unit: us
+        enabled: true
+        sum:
+          value_type: int
+          aggregation_temporality: cumulative
+          monotonic: true
+        attributes:
+        - cpu.mode
+        stability:
+          level: development
+      systemd.unit.state:
+        description: 1 if the check resulted in active_state matching the current
+          state, otherwise 0.
+        unit: '1'
+        enabled: true
+        sum:
+          value_type: int
+          aggregation_temporality: cumulative
+          monotonic: false
+        attributes:
+        - systemd.unit.active_state
+        stability:
+          level: alpha
+    resource_attributes:
+      systemd.unit.name:
+        description: Name of the systemd unit
+        type: string
 - name: tcpcheckreceiver
   metadata:
     type: tcpcheck
@@ -18679,6 +18902,18 @@ components:
         - startup_mode
         stability:
           level: development
+- name: yanggrpcreceiver
+  metadata:
+    type: yanggrpc
+    status:
+      class: receiver
+      stability:
+        development:
+        - metrics
+      distributions: []
+      codeowners:
+        active:
+        - atoulme
 - name: zipkinreceiver
   metadata:
     type: zipkin

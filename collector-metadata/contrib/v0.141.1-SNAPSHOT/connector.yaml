@@ -1,5 +1,5 @@
 distribution: contrib
-version: v0.138.1-SNAPSHOT
+version: v0.141.1-SNAPSHOT
 repository: opentelemetry-collector-contrib
 component_type: connector
 components:
@@ -92,6 +92,18 @@ components:
         - jcreixell
         emeritus: []
         seeking_new: false
+- name: metricsaslogsconnector
+  metadata:
+    type: metricsaslogs
+    status:
+      class: connector
+      stability:
+        development:
+        - metrics_to_logs
+      distributions: []
+      codeowners:
+        active:
+        - atoulme
 - name: otlpjsonconnector
   metadata:
     type: otlpjson

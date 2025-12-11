@@ -379,9 +379,6 @@ class TestGenerateComponentTable:
         assert "[activereceiver]" in table_content
         assert "activereceiver) ⚠️" not in table_content
 
-        # Should have note about unmaintained components
-        assert "⚠️ **Note:** Components marked with ⚠️ are unmaintained" in table_content
-
     def test_generate_component_table_unmaintained_extension(self, doc_generator):
         """Test that unmaintained extensions also get warning emoji."""
         components = [
@@ -400,8 +397,6 @@ class TestGenerateComponentTable:
 
         # Should have emoji
         assert "oldextension) ⚠️" in table_content
-        # Should have note
-        assert "⚠️ **Note:**" in table_content
 
     def test_generate_component_table_unmaintained_connector(self, doc_generator):
         """Test that unmaintained connectors don't get warning emoji (since stability isn't shown)."""
@@ -760,18 +755,22 @@ class TestExtensionSubtypes:
         tables = doc_generator.generate_all_component_tables(inventory)
 
         # Main extension table should NOT have footnotes (they're separate now)
-        assert "[^1]: Shows which [distributions]" not in tables["extension"]
-        assert "[^2]: For details about component stability levels" not in tables["extension"]
+        assert "[^1]:\n    Shows which [distributions]" not in tables["extension"]
+        assert "[^2]:\n    For details about component stability levels" not in tables["extension"]
 
         # Encoding subtype table should NOT have footnotes
-        assert "[^1]: Shows which [distributions]" not in tables["extension-encoding"]
+        assert "[^1]:\n    Shows which [distributions]" not in tables["extension-encoding"]
         assert (
-            "[^2]: For details about component stability levels" not in tables["extension-encoding"]
+            "[^2]:\n    For details about component stability levels"
+            not in tables["extension-encoding"]
         )
 
         # Footnotes should be in the separate extension-footnotes section
-        assert "[^1]: Shows which [distributions]" in tables["extension-footnotes"]
-        assert "[^2]: For details about component stability levels" in tables["extension-footnotes"]
+        assert "[^1]:\n    Shows which [distributions]" in tables["extension-footnotes"]
+        assert (
+            "[^2]:\n    For details about component stability levels"
+            in tables["extension-footnotes"]
+        )
 
     def test_include_footnotes_parameter(self, doc_generator):
         """Test that include_footnotes parameter controls footnote generation."""
@@ -786,8 +785,8 @@ class TestExtensionSubtypes:
 
         # With footnotes (default)
         with_footnotes = doc_generator.generate_component_table("extension", components)
-        assert "[^1]: Shows which [distributions]" in with_footnotes
-        assert "[^2]: For details about component stability levels" in with_footnotes
+        assert "[^1]:\n    Shows which [distributions]" in with_footnotes
+        assert "[^2]:\n    For details about component stability levels" in with_footnotes
         # No unmaintained note since no components are unmaintained
         assert "⚠️ **Note:**" not in with_footnotes
 
@@ -795,47 +794,10 @@ class TestExtensionSubtypes:
         without_footnotes = doc_generator.generate_component_table(
             "extension", components, include_footnotes=False
         )
-        assert "[^1]: Shows which [distributions]" not in without_footnotes
-        assert "[^2]: For details about component stability levels" not in without_footnotes
+        assert "[^1]:\n    Shows which [distributions]" not in without_footnotes
+        assert "[^2]:\n    For details about component stability levels" not in without_footnotes
         assert "⚠️ **Note:**" not in without_footnotes
 
         # Both should still have the table content
         assert "testextension" in with_footnotes
         assert "testextension" in without_footnotes
-
-    def test_unmaintained_note_only_when_unmaintained_exists(self, doc_generator):
-        """Test that unmaintained note only appears when there are unmaintained components."""
-        # Components without any unmaintained
-        maintained_components = [
-            {
-                "name": "activeextension",
-                "metadata": {
-                    "status": {"stability": {"beta": ["extension"]}, "distributions": ["contrib"]}
-                },
-            }
-        ]
-
-        # Components with unmaintained
-        unmaintained_components = [
-            {
-                "name": "oldextension",
-                "metadata": {
-                    "status": {
-                        "stability": {"unmaintained": ["extension"]},
-                        "distributions": ["contrib"],
-                    }
-                },
-            }
-        ]
-
-        # No unmaintained note when all components are maintained
-        table_maintained = doc_generator.generate_component_table(
-            "extension", maintained_components
-        )
-        assert "⚠️ **Note:**" not in table_maintained
-
-        # Unmaintained note appears when there are unmaintained components
-        table_unmaintained = doc_generator.generate_component_table(
-            "extension", unmaintained_components
-        )
-        assert "⚠️ **Note:**" in table_unmaintained

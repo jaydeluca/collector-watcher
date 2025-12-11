@@ -212,25 +212,25 @@ class DocGenerator:
                     f"| {name_link} | {distributions_str} | {traces} | {metrics} | {logs} |\n"
                 )
 
-        # Only include footnotes and notes if requested (avoids duplicates on pages with multiple tables)
+        # Only include footnotes if requested (avoids duplicates on pages with multiple tables)
         if not include_footnotes:
             return table_content
-
-        # Check if any components are unmaintained
-        has_unmaintained = any(self._is_unmaintained(c) for c in components)
 
         table_content += "\n"
         stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
 
-        # Only add unmaintained note if there are unmaintained components
-        if component_type != "connector" and has_unmaintained:
-            table_content += "⚠️ **Note:** Components marked with ⚠️ are unmaintained and have no active codeowners. They may not receive regular updates or bug fixes.\n\n"
-
-        table_content += "[^1]: Shows which [distributions](/docs/collector/distributions/) (core, contrib, K8s, etc.) include this component.\n"
+        # Footnotes use multi-line indented format to match existing docs
+        table_content += "[^1]:\n"
+        table_content += (
+            "    Shows which [distributions](/docs/collector/distributions/) (core, contrib,\n"
+        )
+        table_content += "    K8s, etc.) include this component.\n"
 
         # Only add stability footnote for non-connector components
         if component_type != "connector":
-            table_content += f"[^2]: For details about component stability levels, see the [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
+            table_content += "\n[^2]:\n"
+            table_content += "    For details about component stability levels, see the\n"
+            table_content += f"    [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
 
         return table_content
 
@@ -266,27 +266,25 @@ class DocGenerator:
 
         Args:
             component_type: Type of component (receiver, processor, etc.)
-            components: List of components to check for unmaintained status
+            components: List of components (unused, kept for API compatibility)
 
         Returns:
             Markdown footnotes content
         """
         stability_link = "https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/component-stability.md"
 
-        # Check if any components are unmaintained
-        has_unmaintained = any(self._is_unmaintained(c) for c in components)
-
-        footnotes = ""
-
-        # Only add unmaintained note if there are unmaintained components
-        if component_type != "connector" and has_unmaintained:
-            footnotes += "⚠️ **Note:** Components marked with ⚠️ are unmaintained and have no active codeowners. They may not receive regular updates or bug fixes.\n\n"
-
-        footnotes += "[^1]: Shows which [distributions](/docs/collector/distributions/) (core, contrib, K8s, etc.) include this component.\n"
+        # Footnotes use multi-line indented format to match existing docs
+        footnotes = "[^1]:\n"
+        footnotes += (
+            "    Shows which [distributions](/docs/collector/distributions/) (core, contrib,\n"
+        )
+        footnotes += "    K8s, etc.) include this component.\n"
 
         # Only add stability footnote for non-connector components
         if component_type != "connector":
-            footnotes += f"[^2]: For details about component stability levels, see the [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
+            footnotes += "\n[^2]:\n"
+            footnotes += "    For details about component stability levels, see the\n"
+            footnotes += f"    [OpenTelemetry Collector component stability definitions]({stability_link}).\n"
 
         return footnotes
 

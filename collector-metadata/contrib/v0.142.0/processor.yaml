@@ -1,5 +1,5 @@
 distribution: contrib
-version: v0.141.1-SNAPSHOT
+version: v0.142.0
 repository: opentelemetry-collector-contrib
 component_type: processor
 components:
@@ -240,6 +240,7 @@ components:
         - fatsheep9146
         - TylerHelmuth
         - ChrsMark
+        - odubajDT
         emeritus:
         - rmfitzpatrick
     resource_attributes:

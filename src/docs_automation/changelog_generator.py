@@ -35,6 +35,19 @@ class ChangelogGenerator:
         distributions = status.get("distributions", [])
         return set(distributions) if distributions else set()
 
+    def _get_subtype(self, component: dict[str, Any]) -> str | None:
+        """Get the subtype of a component, if any."""
+        return component.get("subtype")
+
+    def _get_subtypes_in_list(self, components: list[dict[str, Any]]) -> set[str]:
+        """Get the set of all subtypes present in a list of components."""
+        subtypes = set()
+        for comp in components:
+            subtype = self._get_subtype(comp)
+            if subtype:
+                subtypes.add(subtype)
+        return subtypes
+
     def compare_component_type(
         self,
         component_type: str,
@@ -63,9 +76,29 @@ class ChangelogGenerator:
         old_keys = set(old_map.keys())
         new_keys = set(new_map.keys())
 
+        # Get subtypes present in the old inventory to detect scanner capability changes
+        old_subtypes = self._get_subtypes_in_list(old_components)
+
         # Find additions and removals
-        added = sorted(new_keys - old_keys)
+        potentially_added = new_keys - old_keys
         removed = sorted(old_keys - new_keys)
+
+        # Filter out false positives: components that appear "new" only because
+        # the scanner capability changed (i.e., the old inventory didn't scan
+        # that subtype at all)
+        added = []
+        for name in sorted(potentially_added):
+            comp = new_map[name]
+            subtype = self._get_subtype(comp)
+
+            # If the component has a subtype and the old inventory had no
+            # components with that subtype, it's likely a scanner improvement,
+            # not an actual new component
+            if subtype and subtype not in old_subtypes:
+                # Skip this - it's a false positive from scanner capability change
+                continue
+
+            added.append(name)
 
         # Find changes in existing components
         stability_changed = []

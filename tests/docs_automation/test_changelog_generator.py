@@ -368,3 +368,102 @@ def test_connector_stability_skipped():
 
     # Connectors should skip stability comparison
     assert changes["stability_changed"] == []
+
+
+def test_scanner_capability_change_filters_false_positives():
+    """Test that components from new scanner capabilities are filtered out.
+
+    When the old inventory didn't scan a subtype (e.g., encoding) at all,
+    new components with that subtype should not be reported as "added"
+    since they're false positives from scanner capability changes.
+    """
+    gen = ChangelogGenerator()
+
+    # Old inventory has no encoding extensions (scanner didn't support them)
+    old_components = [
+        {"name": "healthcheckextension", "metadata": {}},
+        {"name": "pprofextension", "metadata": {}},
+    ]
+
+    # New inventory has encoding extensions (scanner now supports them)
+    new_components = [
+        {"name": "healthcheckextension", "metadata": {}},
+        {"name": "pprofextension", "metadata": {}},
+        {"name": "newextension", "metadata": {}},  # Actually new
+        {"name": "jsonencodingextension", "subtype": "encoding", "metadata": {}},
+        {"name": "avroencondingextension", "subtype": "encoding", "metadata": {}},
+    ]
+
+    changes = gen.compare_component_type("extension", old_components, new_components)
+
+    # Only "newextension" should be reported as added
+    # Encoding extensions should be filtered out as scanner capability changes
+    assert changes["added"] == ["newextension"]
+
+
+def test_scanner_capability_change_preserves_real_additions_with_existing_subtype():
+    """Test that when a subtype already existed, new components with that subtype are reported.
+
+    If the old inventory already had some components with a subtype (e.g., observer),
+    then new components with that same subtype should be reported as added.
+    """
+    gen = ChangelogGenerator()
+
+    # Old inventory has some observer extensions
+    old_components = [
+        {"name": "healthcheckextension", "metadata": {}},
+        {"name": "dockerobserver", "subtype": "observer", "metadata": {}},
+    ]
+
+    # New inventory has a new observer extension
+    new_components = [
+        {"name": "healthcheckextension", "metadata": {}},
+        {"name": "dockerobserver", "subtype": "observer", "metadata": {}},
+        {"name": "k8sobserver", "subtype": "observer", "metadata": {}},  # New observer
+    ]
+
+    changes = gen.compare_component_type("extension", old_components, new_components)
+
+    # k8sobserver should be reported as added since observer subtype existed before
+    assert changes["added"] == ["k8sobserver"]
+
+
+def test_get_subtype():
+    """Test extracting subtype from a component."""
+    gen = ChangelogGenerator()
+
+    component_with_subtype = {"name": "test", "subtype": "encoding", "metadata": {}}
+    component_without_subtype = {"name": "test", "metadata": {}}
+
+    assert gen._get_subtype(component_with_subtype) == "encoding"
+    assert gen._get_subtype(component_without_subtype) is None
+
+
+def test_get_subtypes_in_list():
+    """Test extracting all subtypes from a list of components."""
+    gen = ChangelogGenerator()
+
+    components = [
+        {"name": "comp1", "metadata": {}},
+        {"name": "comp2", "subtype": "encoding", "metadata": {}},
+        {"name": "comp3", "subtype": "observer", "metadata": {}},
+        {"name": "comp4", "subtype": "encoding", "metadata": {}},
+    ]
+
+    subtypes = gen._get_subtypes_in_list(components)
+
+    assert subtypes == {"encoding", "observer"}
+
+
+def test_get_subtypes_in_list_empty():
+    """Test extracting subtypes from components with no subtypes."""
+    gen = ChangelogGenerator()
+
+    components = [
+        {"name": "comp1", "metadata": {}},
+        {"name": "comp2", "metadata": {}},
+    ]
+
+    subtypes = gen._get_subtypes_in_list(components)
+
+    assert subtypes == set()

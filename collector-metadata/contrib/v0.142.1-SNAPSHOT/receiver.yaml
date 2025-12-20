@@ -17669,8 +17669,8 @@ components:
         - refreshing
         - reloading
     metrics:
-      systemd.unit.cpu.time:
-        description: Total CPU time spent by this unit.
+      systemd.service.cpu.time:
+        description: Total CPU time spent by this service.
         unit: us
         enabled: true
         sum:
@@ -17679,6 +17679,16 @@ components:
           monotonic: true
         attributes:
         - cpu.mode
+        stability:
+          level: development
+      systemd.service.restarts:
+        description: Number of automatic restarts for the service.
+        unit: '{restarts}'
+        enabled: false
+        sum:
+          value_type: int
+          aggregation_temporality: cumulative
+          monotonic: true
         stability:
           level: development
       systemd.unit.state:

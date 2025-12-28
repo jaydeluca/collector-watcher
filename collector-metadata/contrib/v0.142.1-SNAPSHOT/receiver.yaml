@@ -12576,6 +12576,11 @@ components:
       postgresql.table.name:
         description: The table name.
         type: string
+      service.instance.id:
+        description: A unique identifier of the PostgreSQL instance in the format
+          host:port (defaults to 'unknown:5432' in case of error in generating this
+          value).
+        type: string
 - name: pprofreceiver
   metadata:
     type: pprof
@@ -17669,8 +17674,8 @@ components:
         - refreshing
         - reloading
     metrics:
-      systemd.unit.cpu.time:
-        description: Total CPU time spent by this unit.
+      systemd.service.cpu.time:
+        description: Total CPU time spent by this service.
         unit: us
         enabled: true
         sum:
@@ -17679,6 +17684,16 @@ components:
           monotonic: true
         attributes:
         - cpu.mode
+        stability:
+          level: development
+      systemd.service.restarts:
+        description: Number of automatic restarts for the service.
+        unit: '{restarts}'
+        enabled: false
+        sum:
+          value_type: int
+          aggregation_temporality: cumulative
+          monotonic: true
         stability:
           level: development
       systemd.unit.state:

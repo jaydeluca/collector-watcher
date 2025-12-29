@@ -135,6 +135,7 @@ components:
         - boostchicken
         - evan-bradley
         - edmocosta
+        - bogdandrutu
 - name: geoipprocessor
   metadata:
     type: geoip
@@ -613,10 +614,10 @@ components:
         - TylerHelmuth
         - evan-bradley
         - edmocosta
+        - bogdandrutu
         emeritus:
         - anuraaga
         - kentquirk
-        - bogdandrutu
         seeking_new: true
 - name: unrollprocessor
   metadata:

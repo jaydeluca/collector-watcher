@@ -32,6 +32,8 @@ components:
         - logs
         - metrics
         - traces
+        development:
+        - profiles
       distributions:
       - contrib
       - core

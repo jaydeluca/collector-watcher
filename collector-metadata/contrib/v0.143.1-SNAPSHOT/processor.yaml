@@ -367,6 +367,20 @@ components:
       codeowners:
         active:
         - dehaansa
+- name: lookupprocessor
+  metadata:
+    type: lookup
+    status:
+      class: processor
+      stability:
+        development:
+        - logs
+      distributions: []
+      codeowners:
+        active:
+        - jsvd
+        - dehaansa
+        - VihasMakwana
 - name: metricsgenerationprocessor
   metadata:
     type: metricsgeneration

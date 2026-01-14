@@ -60,7 +60,7 @@ components:
       - otlp
 - name: otlphttpexporter
   metadata:
-    type: otlphttp
+    type: otlp_http
     status:
       class: exporter
       stability:

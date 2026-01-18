@@ -15,19 +15,15 @@ def mock_repo():
     temp_dir = tempfile.mkdtemp()
     repo_path = Path(temp_dir)
 
-    # Create component directories with various scenarios
-    # Receiver with metadata
     receiver_with_meta = repo_path / "receiver" / "otlpreceiver"
     receiver_with_meta.mkdir(parents=True)
     (receiver_with_meta / "go.mod").touch()
     (receiver_with_meta / "metadata.yaml").write_text("type: otlp")
 
-    # Receiver without metadata
     receiver_no_meta = repo_path / "receiver" / "customreceiver"
     receiver_no_meta.mkdir(parents=True)
     (receiver_no_meta / "go.mod").touch()
 
-    # Processor with metadata
     processor_with_meta = repo_path / "processor" / "batchprocessor"
     processor_with_meta.mkdir(parents=True)
     (processor_with_meta / "go.mod").touch()
@@ -56,7 +52,6 @@ def mock_repo():
 
     yield repo_path
 
-    # Cleanup
     shutil.rmtree(temp_dir)
 
 

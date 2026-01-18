@@ -11,21 +11,18 @@ from collector_watcher.parser import MetadataParser
 
 @pytest.fixture
 def temp_component_dir():
-    """Create a temporary component directory."""
     temp_dir = tempfile.mkdtemp()
     yield Path(temp_dir)
     shutil.rmtree(temp_dir)
 
 
 def create_metadata_file(component_dir: Path, content: str):
-    """Helper to create a metadata.yaml file."""
     metadata_path = component_dir / "metadata.yaml"
     metadata_path.write_text(content)
     return metadata_path
 
 
 def test_parse_type_field(temp_component_dir):
-    """Test parsing the type field."""
     create_metadata_file(temp_component_dir, "type: otlp")
     parser = MetadataParser(temp_component_dir)
     metadata = parser.parse()
@@ -35,7 +32,6 @@ def test_parse_type_field(temp_component_dir):
 
 
 def test_parse_status_basic(temp_component_dir):
-    """Test parsing basic status fields."""
     content = """
 type: test
 status:
@@ -51,7 +47,6 @@ status:
 
 
 def test_parse_status_stability(temp_component_dir):
-    """Test parsing stability levels."""
     content = """
 type: test
 status:
@@ -75,7 +70,6 @@ status:
 
 
 def test_parse_status_unsupported_platforms(temp_component_dir):
-    """Test parsing unsupported platforms with sorting."""
     content = """
 type: test
 status:
@@ -150,7 +144,6 @@ metrics:
 
 
 def test_parse_resource_attributes(temp_component_dir):
-    """Test parsing resource attributes."""
     content = """
 type: test
 resource_attributes:
@@ -170,7 +163,6 @@ resource_attributes:
 
 
 def test_parse_malformed_yaml(temp_component_dir):
-    """Test handling malformed YAML."""
     content = """
 type: test
 status:
@@ -186,7 +178,6 @@ status:
 
 
 def test_parse_empty_file(temp_component_dir):
-    """Test handling empty metadata file."""
     create_metadata_file(temp_component_dir, "")
     parser = MetadataParser(temp_component_dir)
     metadata = parser.parse()
@@ -195,7 +186,6 @@ def test_parse_empty_file(temp_component_dir):
 
 
 def test_parse_missing_file(temp_component_dir):
-    """Test parsing when file doesn't exist."""
     parser = MetadataParser(temp_component_dir)
     metadata = parser.parse()
 
@@ -203,7 +193,6 @@ def test_parse_missing_file(temp_component_dir):
 
 
 def test_parse_complete_metadata(temp_component_dir):
-    """Test parsing a complete metadata file with all sections."""
     content = """
 type: active_directory_ds
 status:
@@ -245,7 +234,6 @@ metrics:
 
 
 def test_deterministic_output(temp_component_dir):
-    """Test that parsing the same file twice produces identical output."""
     content = """
 type: test
 status:
@@ -268,3 +256,20 @@ attributes:
     assert metadata1 == metadata2
     # Keys should be in the same order
     assert list(metadata1["attributes"].keys()) == list(metadata2["attributes"].keys())
+
+
+def test_parse_display_name(temp_component_dir):
+    content = """
+display_name: Test Receiver
+type: test
+status:
+  class: receiver
+  distributions: [contrib, custom]
+"""
+    create_metadata_file(temp_component_dir, content)
+    parser = MetadataParser(temp_component_dir)
+    metadata = parser.parse()
+
+    assert metadata["display_name"] == "Test Receiver"
+    assert metadata["status"]["class"] == "receiver"
+    assert metadata["status"]["distributions"] == ["contrib", "custom"]

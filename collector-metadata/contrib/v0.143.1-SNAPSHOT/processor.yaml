@@ -590,6 +590,7 @@ components:
         active:
         - portertech
         - Logiraptor
+        - jmacd
         emeritus:
         - jpkrohling
         seeking_new: true

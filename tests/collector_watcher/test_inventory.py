@@ -43,18 +43,15 @@ def sample_components():
 
 @pytest.fixture
 def sample_version():
-    """Sample version for testing."""
     return Version(0, 112, 0)
 
 
 @pytest.fixture
 def sample_snapshot_version():
-    """Sample snapshot version for testing."""
     return Version(0, 113, 0, is_snapshot=True)
 
 
 def test_save_versioned_inventory(temp_inventory_dir, sample_components, sample_version):
-    """Test saving versioned inventory."""
     manager = InventoryManager(str(temp_inventory_dir))
 
     manager.save_versioned_inventory(
@@ -64,13 +61,11 @@ def test_save_versioned_inventory(temp_inventory_dir, sample_components, sample_
         repository="opentelemetry-collector-contrib",
     )
 
-    # Verify directory structure
     version_dir = temp_inventory_dir / "contrib" / "v0.112.0"
     assert version_dir.exists()
     assert (version_dir / "receiver.yaml").exists()
     assert (version_dir / "processor.yaml").exists()
 
-    # Verify file contents
     with open(version_dir / "receiver.yaml") as f:
         loaded = yaml.safe_load(f)
 

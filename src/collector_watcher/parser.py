@@ -48,9 +48,11 @@ class MetadataParser:
             # Extract and structure key fields with deterministic ordering
             parsed = {}
 
-            # Type field
             if "type" in raw_metadata:
                 parsed["type"] = raw_metadata["type"]
+
+            if "display_name" in raw_metadata:
+                parsed["display_name"] = raw_metadata["display_name"]
 
             # Status field (with nested structure)
             if "status" in raw_metadata:

@@ -6,6 +6,7 @@ components:
 - name: forwardconnector
   metadata:
     type: forward
+    display_name: Forward Connector
     status:
       class: connector
       stability:

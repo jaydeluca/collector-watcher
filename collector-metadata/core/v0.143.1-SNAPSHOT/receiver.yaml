@@ -6,6 +6,7 @@ components:
 - name: nopreceiver
   metadata:
     type: nop
+    display_name: No-op Receiver
     status:
       class: receiver
       stability:
@@ -24,6 +25,7 @@ components:
 - name: otlpreceiver
   metadata:
     type: otlp
+    display_name: OTLP Receiver
     status:
       class: receiver
       stability:

@@ -6,6 +6,7 @@ components:
 - name: batchprocessor
   metadata:
     type: batch
+    display_name: Batch Processor
     status:
       class: processor
       stability:
@@ -20,6 +21,7 @@ components:
 - name: memorylimiterprocessor
   metadata:
     type: memory_limiter
+    display_name: Memory Limiter Processor
     status:
       class: processor
       stability:

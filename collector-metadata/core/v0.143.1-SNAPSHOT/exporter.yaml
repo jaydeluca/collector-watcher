@@ -6,6 +6,7 @@ components:
 - name: debugexporter
   metadata:
     type: debug
+    display_name: Debug Exporter
     status:
       class: exporter
       stability:
@@ -25,6 +26,7 @@ components:
 - name: nopexporter
   metadata:
     type: nop
+    display_name: No-op Exporter
     status:
       class: exporter
       stability:
@@ -43,7 +45,8 @@ components:
         - evan-bradley
 - name: otlpexporter
   metadata:
-    type: otlp
+    type: otlp_grpc
+    display_name: OTLP gRPC Exporter
     status:
       class: exporter
       stability:
@@ -61,6 +64,7 @@ components:
 - name: otlphttpexporter
   metadata:
     type: otlp_http
+    display_name: OTLP HTTP Exporter
     status:
       class: exporter
       stability:

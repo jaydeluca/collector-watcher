@@ -6,6 +6,7 @@ components:
 - name: memorylimiterextension
   metadata:
     type: memory_limiter
+    display_name: Memory Limiter Extension
     status:
       class: extension
       stability:
@@ -24,6 +25,7 @@ components:
 - name: zpagesextension
   metadata:
     type: zpages
+    display_name: zPages Extension
     status:
       class: extension
       stability:

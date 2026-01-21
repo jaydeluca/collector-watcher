@@ -2,6 +2,7 @@
 
 from typing import Any
 
+from .github_release_detector import GithubReleaseDetector
 from .inventory import DistributionName, InventoryManager
 from .scanner import ComponentScanner
 from .version_detector import Version, VersionDetector
@@ -24,6 +25,7 @@ class VersionedScanner:
         self,
         repos: DistributionConfig,
         inventory_manager: InventoryManager,
+        github_token: str | None = None,
     ):
         """
         Initialize the versioned scanner.
@@ -32,10 +34,33 @@ class VersionedScanner:
             repos: Dict mapping distribution name to local repo path
                    e.g., {"core": "/path/to/collector", "contrib": "/path/to/collector-contrib"}
             inventory_manager: InventoryManager instance for saving results
+            github_token: Optional GitHub token for API access (avoids git fetch --tags)
         """
         self.repos = repos
         self.inventory_manager = inventory_manager
-        self.version_detectors = {dist: VersionDetector(path) for dist, path in repos.items()}
+
+        # Try to fetch latest versions from GitHub API (fast, no git operations)
+        api_versions: dict[DistributionName, Version | None] = {}
+        if github_token:
+            print("Fetching latest release versions from GitHub API...")
+            try:
+                github_detector = GithubReleaseDetector(github_token)
+                for dist in repos.keys():
+                    try:
+                        api_versions[dist] = github_detector.get_latest_release(dist)
+                        if api_versions[dist]:
+                            print(f"  {dist}: {api_versions[dist]} (via API)")
+                    except Exception as e:
+                        print(f"  Warning: Failed to fetch {dist} version via API: {e}")
+                        api_versions[dist] = None
+            except Exception as e:
+                print(f"Warning: GitHub API not available: {e}")
+
+        # Create version detectors with optional API-based versions
+        self.version_detectors = {
+            dist: VersionDetector(path, api_latest_version=api_versions.get(dist))
+            for dist, path in repos.items()
+        }
 
     def get_repository_name(self, distribution: DistributionName) -> str:
         """

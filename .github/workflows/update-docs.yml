@@ -110,6 +110,8 @@ jobs:
         working-directory: collector-watcher
 
       - name: Scan collector repositories for updates
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN || github.token }}
         run: |
           uv run collector-scan \
             ../opentelemetry-collector-contrib \

@@ -1,5 +1,6 @@
 """Main runner for collector watcher workflow."""
 
+import os
 import sys
 from pathlib import Path
 
@@ -21,6 +22,7 @@ def main():
         print("  --mode=MODE                Scan mode: nightly, release, snapshot, specific")
         print("                             (default: nightly)")
         print("  --version=VERSION          Version for 'specific' mode (e.g., v0.112.0)")
+        print("  --github-token=TOKEN       GitHub token for API access (or set GITHUB_TOKEN env)")
         print("  --force                    Force rescan even if version exists")
         print("\nExamples:")
         print("  # Nightly scan (default) - check releases and update snapshots")
@@ -42,6 +44,7 @@ def main():
     core_repo_path = None
     scan_mode = "nightly"
     specific_version = None
+    github_token = None
     force = False
 
     # Parse arguments
@@ -54,8 +57,14 @@ def main():
             scan_mode = arg.split("=", 1)[1]
         elif arg.startswith("--version="):
             specific_version = arg.split("=", 1)[1]
+        elif arg.startswith("--github-token="):
+            github_token = arg.split("=", 1)[1]
         elif arg == "--force":
             force = True
+
+    # Try to get GitHub token from environment if not provided
+    if not github_token:
+        github_token = os.environ.get("GITHUB_TOKEN")
 
     # Require core-repo
     if not core_repo_path:
@@ -89,6 +98,7 @@ def main():
         versioned_scanner = VersionedScanner(
             repos=dist_config,
             inventory_manager=inventory_manager,
+            github_token=github_token,
         )
 
         # Run appropriate scan mode

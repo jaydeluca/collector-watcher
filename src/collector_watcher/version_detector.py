@@ -101,26 +101,35 @@ DistributionName = Literal["core", "contrib"]
 class VersionDetector:
     """Detects versions in OpenTelemetry Collector repositories."""
 
-    def __init__(self, repo_path: str | Path):
+    def __init__(self, repo_path: str | Path, api_latest_version: Version | None = None):
         """
         Initialize the version detector.
 
         Args:
             repo_path: Path to the git repository
+            api_latest_version: Optional pre-fetched latest version from API
         """
         self.repo_path = Path(repo_path)
         if not self.repo_path.exists():
             raise ValueError(f"Repository path does not exist: {repo_path}")
 
         self.repo = git.Repo(str(self.repo_path))
+        self.api_latest_version = api_latest_version
 
     def get_latest_release_tag(self) -> Version | None:
         """
         Get the latest release tag from the repository.
 
+        If an API-based version was provided during initialization, returns that.
+        Otherwise, reads from git tags (requires tags to be fetched).
+
         Returns:
             Latest version tag, or None if no valid tags found
         """
+        if self.api_latest_version is not None:
+            return self.api_latest_version
+
+        # Fallback to reading from git tags
         tags = self.repo.tags
         version_tags = []
 
@@ -161,6 +170,8 @@ class VersionDetector:
         """
         Checkout a specific version tag.
 
+        Fetches the specific tag from remote if not available locally.
+
         Args:
             version: Version to checkout
 
@@ -169,9 +180,16 @@ class VersionDetector:
         """
         tag_name = str(version)
         try:
+            # Try to checkout the tag directly first
             self.repo.git.checkout(tag_name)
-        except git.exc.GitCommandError as e:
-            raise ValueError(f"Failed to checkout {tag_name}: {e}") from e
+        except git.exc.GitCommandError:
+            # Tag doesn't exist locally, fetch it from remote
+            try:
+                # Fetch only the specific tag (much faster than fetching all tags)
+                self.repo.git.fetch("origin", f"refs/tags/{tag_name}:refs/tags/{tag_name}")
+                self.repo.git.checkout(tag_name)
+            except git.exc.GitCommandError as e:
+                raise ValueError(f"Failed to checkout {tag_name}: {e}") from e
 
     def checkout_main(self) -> None:
         """Checkout the main branch (tries master as fallback)."""

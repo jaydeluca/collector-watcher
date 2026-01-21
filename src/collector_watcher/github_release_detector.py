@@ -4,6 +4,7 @@ import os
 from typing import Literal
 
 from github import Auth, Github, GithubException
+from github.GitRelease import GitRelease
 
 from .version_detector import Version
 
@@ -33,6 +34,31 @@ class GithubReleaseDetector:
         else:
             self.github = Github()
 
+    def get_latest_release_object(self, distribution: DistributionName) -> GitRelease | None:
+        """
+        Get the latest release object from GitHub API.
+
+        Args:
+            distribution: Distribution name ("core" or "contrib")
+
+        Returns:
+            Latest release object, or None if no releases found
+
+        Raises:
+            GithubException: If API call fails
+        """
+        repo_name = self.REPO_NAMES[distribution]
+
+        try:
+            repo = self.github.get_repo(repo_name)
+            return repo.get_latest_release()
+
+        except GithubException as e:
+            if e.status == 404:
+                # No releases found
+                return None
+            raise
+
     def get_latest_release(self, distribution: DistributionName) -> Version | None:
         """
         Get the latest release version from GitHub API.
@@ -46,21 +72,12 @@ class GithubReleaseDetector:
         Raises:
             GithubException: If API call fails
         """
-        repo_name = self.REPO_NAMES[distribution]
+        release = self.get_latest_release_object(distribution)
+        if release is None:
+            return None
 
-        try:
-            repo = self.github.get_repo(repo_name)
-            latest_release = repo.get_latest_release()
-
-            # Parse version from tag name
-            tag_name = latest_release.tag_name
-            return Version.from_string(tag_name)
-
-        except GithubException as e:
-            if e.status == 404:
-                # No releases found
-                return None
-            raise
+        # Parse version from tag name
+        return Version.from_string(release.tag_name)
 
     def get_all_releases(
         self, distribution: DistributionName, max_count: int = 100

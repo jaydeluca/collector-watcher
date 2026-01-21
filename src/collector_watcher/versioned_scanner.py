@@ -2,9 +2,12 @@
 
 from typing import Any
 
+from github.GitRelease import GitRelease
+
 from .github_release_detector import GithubReleaseDetector
 from .inventory import DistributionName, InventoryManager
 from .scanner import ComponentScanner
+from .tarball_utils import cleanup_extracted_release, download_and_extract_release
 from .version_detector import Version, VersionDetector
 
 DistributionConfig = dict[DistributionName, str]
@@ -38,20 +41,29 @@ class VersionedScanner:
         """
         self.repos = repos
         self.inventory_manager = inventory_manager
+        self.github_token = github_token
 
-        # Try to fetch latest versions from GitHub API (fast, no git operations)
+        # Try to fetch latest releases from GitHub API (fast, no git operations)
         api_versions: dict[DistributionName, Version | None] = {}
+        self.release_objects: dict[DistributionName, GitRelease | None] = {}
+
         if github_token:
             print("Fetching latest release versions from GitHub API...")
             try:
                 github_detector = GithubReleaseDetector(github_token)
                 for dist in repos.keys():
                     try:
-                        api_versions[dist] = github_detector.get_latest_release(dist)
-                        if api_versions[dist]:
+                        release = github_detector.get_latest_release_object(dist)
+                        if release:
+                            self.release_objects[dist] = release
+                            api_versions[dist] = Version.from_string(release.tag_name)
                             print(f"  {dist}: {api_versions[dist]} (via API)")
+                        else:
+                            self.release_objects[dist] = None
+                            api_versions[dist] = None
                     except Exception as e:
                         print(f"  Warning: Failed to fetch {dist} version via API: {e}")
+                        self.release_objects[dist] = None
                         api_versions[dist] = None
             except Exception as e:
                 print(f"Warning: GitHub API not available: {e}")
@@ -88,6 +100,9 @@ class VersionedScanner:
         """
         Scan a specific version of a distribution.
 
+        For releases: Downloads tarball from GitHub (no git operations)
+        For snapshots: Uses git checkout to main branch
+
         Args:
             distribution: Distribution name
             version: Version to scan
@@ -98,22 +113,42 @@ class VersionedScanner:
         """
         repo_path = self.repos[distribution]
         detector = self.version_detectors[distribution]
+        temp_path = None
 
-        if checkout and not version.is_snapshot:
-            print(f"  Checking out {distribution} {version}...")
-            detector.checkout_version(version)
-        elif checkout and version.is_snapshot:
-            print(f"  Checking out {distribution} main branch...")
-            detector.checkout_main()
+        try:
+            # Check if we have a Release object for this version (avoids git operations)
+            release = self.release_objects.get(distribution)
+            if (
+                checkout
+                and not version.is_snapshot
+                and release
+                and release.tag_name == str(version)
+            ):
+                # Download and extract tarball instead of git checkout
+                print(f"  Downloading {distribution} {version} from GitHub...")
+                temp_path = download_and_extract_release(release, self.github_token)
+                repo_path = temp_path
+            elif checkout and not version.is_snapshot:
+                # Fallback to git checkout if no Release object
+                print(f"  Checking out {distribution} {version}...")
+                detector.checkout_version(version)
+            elif checkout and version.is_snapshot:
+                print(f"  Checking out {distribution} main branch...")
+                detector.checkout_main()
 
-        print(f"  Scanning {distribution} {version}...")
-        scanner = ComponentScanner(repo_path)
-        components = scanner.scan_all_components()
+            print(f"  Scanning {distribution} {version}...")
+            scanner = ComponentScanner(repo_path)
+            components = scanner.scan_all_components()
 
-        total = sum(len(comps) for comps in components.values())
-        print(f"    Found {total} components")
+            total = sum(len(comps) for comps in components.values())
+            print(f"    Found {total} components")
 
-        return components
+            return components
+
+        finally:
+            # Clean up temporary directory if we downloaded a tarball
+            if temp_path:
+                cleanup_extracted_release(temp_path)
 
     def save_version(
         self,

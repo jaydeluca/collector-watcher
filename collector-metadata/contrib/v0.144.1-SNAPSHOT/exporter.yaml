@@ -6,6 +6,7 @@ components:
 - name: alertmanagerexporter
   metadata:
     type: alertmanager
+    display_name: Alertmanager Exporter
     status:
       class: exporter
       stability:
@@ -19,6 +20,7 @@ components:
 - name: alibabacloudlogserviceexporter
   metadata:
     type: alibabacloud_logservice
+    display_name: AlibabaCloud LogService Exporter
     status:
       class: exporter
       stability:
@@ -36,6 +38,7 @@ components:
 - name: awscloudwatchlogsexporter
   metadata:
     type: awscloudwatchlogs
+    display_name: AWS CloudWatch Logs Exporter
     status:
       class: exporter
       stability:
@@ -54,6 +57,7 @@ components:
 - name: awsemfexporter
   metadata:
     type: awsemf
+    display_name: AWS CloudWatch EMF Exporter
     status:
       class: exporter
       stability:
@@ -71,6 +75,7 @@ components:
 - name: awskinesisexporter
   metadata:
     type: awskinesis
+    display_name: AWS Kinesis Exporter
     status:
       class: exporter
       stability:
@@ -87,6 +92,7 @@ components:
 - name: awss3exporter
   metadata:
     type: awss3
+    display_name: AWS S3 Exporter
     status:
       class: exporter
       stability:
@@ -104,6 +110,7 @@ components:
 - name: awsxrayexporter
   metadata:
     type: awsxray
+    display_name: AWS X-Ray Tracing Exporter
     status:
       class: exporter
       stability:
@@ -118,6 +125,7 @@ components:
 - name: azureblobexporter
   metadata:
     type: azureblob
+    display_name: Azure Blob Storage Exporter
     status:
       class: exporter
       stability:
@@ -134,6 +142,7 @@ components:
 - name: azuredataexplorerexporter
   metadata:
     type: azuredataexplorer
+    display_name: Azure Data Explorer Exporter
     status:
       class: exporter
       stability:
@@ -151,6 +160,7 @@ components:
 - name: azuremonitorexporter
   metadata:
     type: azuremonitor
+    display_name: Azure Monitor Exporter
     status:
       class: exporter
       stability:
@@ -167,6 +177,7 @@ components:
 - name: bmchelixexporter
   metadata:
     type: bmchelix
+    display_name: BMC Helix Exporter
     status:
       class: exporter
       stability:
@@ -182,6 +193,7 @@ components:
 - name: cassandraexporter
   metadata:
     type: cassandra
+    display_name: Cassandra Exporter
     status:
       class: exporter
       stability:
@@ -197,6 +209,7 @@ components:
 - name: clickhouseexporter
   metadata:
     type: clickhouse
+    display_name: ClickHouse Exporter
     status:
       class: exporter
       stability:
@@ -217,6 +230,7 @@ components:
 - name: coralogixexporter
   metadata:
     type: coralogix
+    display_name: Coralogix Exporter
     status:
       class: exporter
       stability:
@@ -236,6 +250,7 @@ components:
 - name: datadogexporter
   metadata:
     type: datadog
+    display_name: Datadog Exporter
     status:
       class: exporter
       stability:
@@ -261,6 +276,7 @@ components:
 - name: datasetexporter
   metadata:
     type: dataset
+    display_name: DataSet Exporter
     status:
       class: exporter
       stability:
@@ -278,6 +294,7 @@ components:
 - name: dorisexporter
   metadata:
     type: doris
+    display_name: Apache Doris Exporter
     status:
       class: exporter
       stability:
@@ -294,6 +311,7 @@ components:
 - name: elasticsearchexporter
   metadata:
     type: elasticsearch
+    display_name: Elasticsearch Exporter
     status:
       class: exporter
       stability:
@@ -339,6 +357,7 @@ components:
 - name: faroexporter
   metadata:
     type: faro
+    display_name: Faro Exporter
     status:
       class: exporter
       stability:
@@ -355,6 +374,7 @@ components:
 - name: fileexporter
   metadata:
     type: file
+    display_name: File Exporter
     status:
       class: exporter
       stability:
@@ -374,6 +394,7 @@ components:
 - name: googlecloudexporter
   metadata:
     type: googlecloud
+    display_name: Google Cloud Exporter
     status:
       class: exporter
       stability:
@@ -394,6 +415,7 @@ components:
 - name: googlecloudpubsubexporter
   metadata:
     type: googlecloudpubsub
+    display_name: Google Cloud Pub/Sub Exporter
     status:
       class: exporter
       stability:
@@ -409,6 +431,7 @@ components:
 - name: googlecloudstorageexporter
   metadata:
     type: googlecloudstorage
+    display_name: Google Cloud Storage Exporter
     status:
       class: exporter
       stability:
@@ -424,6 +447,7 @@ components:
 - name: googlemanagedprometheusexporter
   metadata:
     type: googlemanagedprometheus
+    display_name: Google Cloud Managed Prometheus Exporter
     status:
       class: exporter
       stability:
@@ -442,6 +466,7 @@ components:
 - name: honeycombmarkerexporter
   metadata:
     type: honeycombmarker
+    display_name: Honeycomb Marker Exporter
     status:
       class: exporter
       stability:
@@ -456,6 +481,7 @@ components:
 - name: influxdbexporter
   metadata:
     type: influxdb
+    display_name: InfluxDB Exporter
     status:
       class: exporter
       stability:
@@ -471,6 +497,7 @@ components:
 - name: kafkaexporter
   metadata:
     type: kafka
+    display_name: Kafka Exporter
     status:
       class: exporter
       stability:
@@ -511,6 +538,7 @@ components:
 - name: loadbalancingexporter
   metadata:
     type: loadbalancing
+    display_name: Load Balancing Exporter
     status:
       class: exporter
       stability:
@@ -546,6 +574,7 @@ components:
 - name: logicmonitorexporter
   metadata:
     type: logicmonitor
+    display_name: LogicMonitor Exporter
     status:
       class: exporter
       stability:
@@ -562,6 +591,7 @@ components:
 - name: logzioexporter
   metadata:
     type: logzio
+    display_name: Logz.io Exporter
     status:
       class: exporter
       stability:
@@ -576,6 +606,7 @@ components:
 - name: mezmoexporter
   metadata:
     type: mezmo
+    display_name: Mezmo Exporter
     status:
       class: exporter
       stability:
@@ -591,6 +622,7 @@ components:
 - name: opensearchexporter
   metadata:
     type: opensearch
+    display_name: OpenSearch Exporter
     status:
       class: exporter
       stability:
@@ -611,6 +643,7 @@ components:
 - name: otelarrowexporter
   metadata:
     type: otelarrow
+    display_name: OpenTelemetry Arrow Exporter
     status:
       class: exporter
       stability:
@@ -629,6 +662,7 @@ components:
 - name: prometheusexporter
   metadata:
     type: prometheus
+    display_name: Prometheus Exporter
     status:
       class: exporter
       stability:
@@ -645,6 +679,7 @@ components:
 - name: prometheusremotewriteexporter
   metadata:
     type: prometheusremotewrite
+    display_name: Prometheus Remote Write Exporter
     status:
       class: exporter
       stability:
@@ -663,6 +698,7 @@ components:
 - name: pulsarexporter
   metadata:
     type: pulsar
+    display_name: Pulsar Exporter
     status:
       class: exporter
       stability:
@@ -680,6 +716,7 @@ components:
 - name: rabbitmqexporter
   metadata:
     type: rabbitmq
+    display_name: RabbitMQ Exporter
     status:
       class: exporter
       stability:
@@ -697,6 +734,7 @@ components:
 - name: sapmexporter
   metadata:
     type: sapm
+    display_name: SAPM Exporter
     status:
       class: exporter
       stability:
@@ -711,6 +749,7 @@ components:
 - name: sematextexporter
   metadata:
     type: sematext
+    display_name: Sematext Exporter
     status:
       class: exporter
       stability:
@@ -724,6 +763,7 @@ components:
 - name: sentryexporter
   metadata:
     type: sentry
+    display_name: Sentry Exporter
     status:
       class: exporter
       stability:
@@ -737,6 +777,7 @@ components:
 - name: signalfxexporter
   metadata:
     type: signalfx
+    display_name: SignalFx Exporter
     status:
       class: exporter
       stability:
@@ -753,6 +794,7 @@ components:
 - name: splunkhecexporter
   metadata:
     type: splunk_hec
+    display_name: Splunk HTTP Event Collector (HEC) Exporter
     status:
       class: exporter
       stability:
@@ -769,6 +811,7 @@ components:
 - name: stefexporter
   metadata:
     type: stef
+    display_name: STEF Exporter
     status:
       class: exporter
       stability:
@@ -783,6 +826,7 @@ components:
 - name: sumologicexporter
   metadata:
     type: sumologic
+    display_name: Sumo Logic Exporter
     status:
       class: exporter
       stability:
@@ -808,6 +852,7 @@ components:
 - name: syslogexporter
   metadata:
     type: syslog
+    display_name: Syslog Exporter
     status:
       class: exporter
       stability:
@@ -823,6 +868,7 @@ components:
 - name: tencentcloudlogserviceexporter
   metadata:
     type: tencentcloud_logservice
+    display_name: TencentCloud LogService Exporter
     status:
       class: exporter
       stability:
@@ -838,6 +884,7 @@ components:
 - name: tinybirdexporter
   metadata:
     type: tinybird
+    display_name: Tinybird Exporter
     status:
       class: exporter
       stability:
@@ -855,6 +902,7 @@ components:
 - name: zipkinexporter
   metadata:
     type: zipkin
+    display_name: Zipkin Exporter
     status:
       class: exporter
       stability:

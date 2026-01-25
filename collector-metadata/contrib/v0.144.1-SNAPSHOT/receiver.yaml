@@ -8417,6 +8417,7 @@ components:
       codeowners:
         active:
         - justinianvoss22
+        - dyl10s
         seeking_new: true
     attributes:
       assert_type:
@@ -9287,6 +9288,7 @@ components:
       codeowners:
         active:
         - justinianvoss22
+        - dyl10s
         seeking_new: true
     attributes:
       collection:

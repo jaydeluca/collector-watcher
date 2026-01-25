@@ -437,6 +437,8 @@ components:
       stability:
         alpha:
         - logs
+        development:
+        - traces
       distributions:
       - contrib
       codeowners:

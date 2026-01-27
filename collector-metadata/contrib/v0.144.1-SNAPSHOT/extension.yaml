@@ -6,6 +6,7 @@ components:
 - name: ackextension
   metadata:
     type: ack
+    display_name: ACK Extension
     status:
       class: extension
       stability:
@@ -22,6 +23,7 @@ components:
 - name: asapauthextension
   metadata:
     type: asapclient
+    display_name: ASAP Client Authentication Extension
     status:
       class: extension
       stability:
@@ -36,6 +38,7 @@ components:
 - name: awsproxy
   metadata:
     type: awsproxy
+    display_name: AWS Proxy Extension
     status:
       class: extension
       stability:
@@ -50,6 +53,7 @@ components:
 - name: azureauthextension
   metadata:
     type: azureauth
+    display_name: Azure Authenticator Extension
     status:
       class: extension
       stability:
@@ -63,6 +67,7 @@ components:
 - name: basicauthextension
   metadata:
     type: basicauth
+    display_name: Basic Auth Authenticator Extension
     status:
       class: extension
       stability:
@@ -81,6 +86,7 @@ components:
 - name: bearertokenauthextension
   metadata:
     type: bearertokenauth
+    display_name: Bearer Token Authenticator Extension
     status:
       class: extension
       stability:
@@ -99,6 +105,7 @@ components:
 - name: cgroupruntimeextension
   metadata:
     type: cgroupruntime
+    display_name: Cgroup Go Runtime Extension
     status:
       class: extension
       stability:
@@ -116,6 +123,7 @@ components:
 - name: datadogextension
   metadata:
     type: datadog
+    display_name: Datadog Extension
     status:
       class: extension
       stability:
@@ -297,6 +305,7 @@ components:
 - name: googleclientauthextension
   metadata:
     type: googleclientauth
+    display_name: Google Client Auth Extension
     status:
       class: extension
       stability:
@@ -315,6 +324,7 @@ components:
 - name: headerssetterextension
   metadata:
     type: headers_setter
+    display_name: Headers Setter Extension
     status:
       class: extension
       stability:
@@ -330,6 +340,7 @@ components:
 - name: healthcheckextension
   metadata:
     type: health_check
+    display_name: Health Check Extension
     status:
       class: extension
       stability:
@@ -346,6 +357,7 @@ components:
 - name: healthcheckv2extension
   metadata:
     type: healthcheckv2
+    display_name: Health Check Extension V2
     status:
       class: extension
       stability:
@@ -362,6 +374,7 @@ components:
 - name: httpforwarderextension
   metadata:
     type: http_forwarder
+    display_name: HTTP Forwarder Extension
     status:
       class: extension
       stability:
@@ -379,6 +392,7 @@ components:
 - name: jaegerremotesampling
   metadata:
     type: jaegerremotesampling
+    display_name: Jaeger Remote Sampling Extension
     status:
       class: extension
       stability:
@@ -393,6 +407,7 @@ components:
 - name: k8sleaderelector
   metadata:
     type: k8s_leader_elector
+    display_name: Kubernetes Leader Elector Extension
     status:
       class: extension
       stability:
@@ -408,6 +423,7 @@ components:
 - name: oauth2clientauthextension
   metadata:
     type: oauth2client
+    display_name: OAuth2 Client Credentials Authenticator Extension
     status:
       class: extension
       stability:
@@ -521,6 +537,7 @@ components:
 - name: oidcauthextension
   metadata:
     type: oidc
+    display_name: OIDC Authenticator Extension
     status:
       class: extension
       stability:
@@ -538,6 +555,7 @@ components:
 - name: opampextension
   metadata:
     type: opamp
+    display_name: OpAMP Agent Extension
     status:
       class: extension
       stability:
@@ -554,6 +572,7 @@ components:
 - name: pprofextension
   metadata:
     type: pprof
+    display_name: Performance Profiler Extension
     status:
       class: extension
       stability:
@@ -569,6 +588,7 @@ components:
 - name: remotetapextension
   metadata:
     type: remotetap
+    display_name: Remote Tap Extension
     status:
       class: extension
       stability:
@@ -582,6 +602,7 @@ components:
 - name: sigv4authextension
   metadata:
     type: sigv4auth
+    display_name: SigV4 Authenticator Extension
     status:
       class: extension
       stability:
@@ -596,6 +617,7 @@ components:
 - name: solarwindsapmsettingsextension
   metadata:
     type: solarwindsapmsettings
+    display_name: Solarwinds APM Settings extension
     status:
       class: extension
       stability:
@@ -658,6 +680,7 @@ components:
 - name: sumologicextension
   metadata:
     type: sumologic
+    display_name: Sumo Logic Extension
     status:
       class: extension
       stability:

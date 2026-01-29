@@ -145,6 +145,7 @@ components:
   subtype: encoding
   metadata:
     type: avro_log_encoding
+    display_name: AVRO Log Encoding Extension
     status:
       class: extension
       stability:
@@ -158,6 +159,7 @@ components:
   subtype: encoding
   metadata:
     type: awscloudwatchmetricstreams_encoding
+    display_name: AWS CloudWatch Metric Streams Encoding Extension
     status:
       class: extension
       stability:
@@ -173,6 +175,7 @@ components:
   subtype: encoding
   metadata:
     type: awslogs_encoding
+    display_name: AWS Logs Encoding Extension
     status:
       class: extension
       stability:
@@ -188,6 +191,7 @@ components:
   subtype: encoding
   metadata:
     type: azure_encoding
+    display_name: Azure Logs/Traces/Metrics Encoding Extension
     status:
       class: extension
       stability:
@@ -201,6 +205,7 @@ components:
   subtype: encoding
   metadata:
     type: googlecloudlogentry_encoding
+    display_name: Google Cloud LogEntry Encoding Extension
     status:
       class: extension
       stability:
@@ -217,6 +222,7 @@ components:
   subtype: encoding
   metadata:
     type: jaeger_encoding
+    display_name: Jaeger Encoding Extension
     status:
       class: extension
       stability:
@@ -232,6 +238,7 @@ components:
   subtype: encoding
   metadata:
     type: json_log_encoding
+    display_name: JSON Log Encoding Extension
     status:
       class: extension
       stability:
@@ -247,6 +254,7 @@ components:
   subtype: encoding
   metadata:
     type: otlp_encoding
+    display_name: OTLP Encoding Extension
     status:
       class: extension
       stability:
@@ -276,6 +284,7 @@ components:
   subtype: encoding
   metadata:
     type: text_encoding
+    display_name: Text Encoding Extension
     status:
       class: extension
       stability:
@@ -291,6 +300,7 @@ components:
   subtype: encoding
   metadata:
     type: zipkin_encoding
+    display_name: Zipkin Encoding Extension
     status:
       class: extension
       stability:

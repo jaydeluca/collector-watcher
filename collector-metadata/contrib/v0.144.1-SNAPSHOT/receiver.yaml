@@ -8405,7 +8405,7 @@ components:
           level: development
 - name: mongodbatlasreceiver
   metadata:
-    type: mongodbatlas
+    type: mongodb_atlas
     status:
       class: receiver
       stability:

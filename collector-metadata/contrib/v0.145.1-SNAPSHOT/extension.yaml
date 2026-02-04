@@ -1,0 +1,712 @@
+distribution: contrib
+version: v0.145.1-SNAPSHOT
+repository: opentelemetry-collector-contrib
+component_type: extension
+components:
+- name: ackextension
+  metadata:
+    type: ack
+    display_name: ACK Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - splunkericl
+        emeritus:
+        - zpzhuSplunk
+- name: asapauthextension
+  metadata:
+    type: asapclient
+    display_name: ASAP Client Authentication Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - jamesmoessis
+        - MovieStoreGuy
+- name: awsproxy
+  metadata:
+    type: awsproxy
+    display_name: AWS Proxy Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - Aneurysm9
+        - mxiamxia
+- name: azureauthextension
+  metadata:
+    type: azureauth
+    display_name: Azure Authenticator Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - constanca-m
+- name: basicauthextension
+  metadata:
+    type: basicauth
+    display_name: Basic Auth Authenticator Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - frzifus
+        emeritus:
+        - jpkrohling
+        - svrakitin
+        seeking_new: true
+- name: bearertokenauthextension
+  metadata:
+    type: bearertokenauth
+    display_name: Bearer Token Authenticator Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - frzifus
+        emeritus:
+        - jpkrohling
+        - pavankrish123
+        seeking_new: true
+- name: cgroupruntimeextension
+  metadata:
+    type: cgroupruntime
+    display_name: Cgroup Go Runtime Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - mx-psi
+        - rogercoll
+      unsupported_platforms:
+      - darwin
+      - windows
+- name: datadogextension
+  metadata:
+    type: datadog
+    display_name: Datadog Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - ankitpatel96
+        - dineshg13
+        - IbraheemA
+        - jade-guiton-dd
+        - mx-psi
+        - songy23
+        emeritus:
+        - jackgopack4
+- name: avrologencodingextension
+  subtype: encoding
+  metadata:
+    type: avro_log_encoding
+    display_name: AVRO Log Encoding Extension
+    status:
+      class: extension
+      stability:
+        development:
+        - extension
+      distributions: []
+      codeowners:
+        active:
+        - thmshmm
+- name: awscloudwatchmetricstreamsencodingextension
+  subtype: encoding
+  metadata:
+    type: awscloudwatchmetricstreams_encoding
+    display_name: AWS CloudWatch Metric Streams Encoding Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - axw
+        - constanca-m
+- name: awslogsencodingextension
+  subtype: encoding
+  metadata:
+    type: awslogs_encoding
+    display_name: AWS Logs Encoding Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - axw
+        - constanca-m
+- name: azureencodingextension
+  subtype: encoding
+  metadata:
+    type: azure_encoding
+    display_name: Azure Logs/Traces/Metrics Encoding Extension
+    status:
+      class: extension
+      stability:
+        development:
+        - extension
+      codeowners:
+        active:
+        - axw
+        - constanca-m
+- name: googlecloudlogentryencodingextension
+  subtype: encoding
+  metadata:
+    type: googlecloudlogentry_encoding
+    display_name: Google Cloud LogEntry Encoding Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - constanca-m
+        emeritus:
+        - alexvanboxel
+- name: jaegerencodingextension
+  subtype: encoding
+  metadata:
+    type: jaeger_encoding
+    display_name: Jaeger Encoding Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - MovieStoreGuy
+        - atoulme
+- name: jsonlogencodingextension
+  subtype: encoding
+  metadata:
+    type: json_log_encoding
+    display_name: JSON Log Encoding Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - VihasMakwana
+        - atoulme
+- name: otlpencodingextension
+  subtype: encoding
+  metadata:
+    type: otlp_encoding
+    display_name: OTLP Encoding Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - dao-jun
+        - VihasMakwana
+- name: skywalkingencodingextension
+  subtype: encoding
+  metadata:
+    type: skywalking_encoding
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - JaredTan95
+- name: textencodingextension
+  subtype: encoding
+  metadata:
+    type: text_encoding
+    display_name: Text Encoding Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - MovieStoreGuy
+        - atoulme
+- name: zipkinencodingextension
+  subtype: encoding
+  metadata:
+    type: zipkin_encoding
+    display_name: Zipkin Encoding Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - MovieStoreGuy
+        - dao-jun
+- name: googleclientauthextension
+  metadata:
+    type: googleclientauth
+    display_name: Google Client Auth Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - dashpole
+        - aabmass
+        - braydonk
+        - jsuereth
+        - psx95
+        - ridwanmsharif
+- name: headerssetterextension
+  metadata:
+    type: headers_setter
+    display_name: Headers Setter Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - VihasMakwana
+        seeking_new: true
+- name: healthcheckextension
+  metadata:
+    type: health_check
+    display_name: Health Check Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      - core
+      - k8s
+      codeowners:
+        active:
+        - evan-bradley
+        seeking_new: true
+- name: healthcheckv2extension
+  metadata:
+    type: healthcheckv2
+    display_name: Health Check Extension V2
+    status:
+      class: extension
+      stability:
+        development:
+        - extension
+      distributions: []
+      codeowners:
+        active:
+        - mwear
+        - evan-bradley
+        emeritus:
+        - jpkrohling
+        seeking_new: true
+- name: httpforwarderextension
+  metadata:
+    type: http_forwarder
+    display_name: HTTP Forwarder Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - atoulme
+        emeritus:
+        - rmfitzpatrick
+        seeking_new: true
+- name: jaegerremotesampling
+  metadata:
+    type: jaegerremotesampling
+    display_name: Jaeger Remote Sampling Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - yurishkuro
+        - frzifus
+- name: k8sleaderelector
+  metadata:
+    type: k8s_leader_elector
+    display_name: Kubernetes Leader Elector Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - dmitryax
+        - rakesh-garimella
+- name: oauth2clientauthextension
+  metadata:
+    type: oauth2client
+    display_name: OAuth2 Client Credentials Authenticator Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - pavankrish123
+        emeritus:
+        - jpkrohling
+        seeking_new: true
+- name: cfgardenobserver
+  subtype: observer
+  metadata:
+    type: cfgarden_observer
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      codeowners:
+        active:
+        - crobert-1
+        - jriguera
+        emeritus:
+        - m1rp
+        - cemdk
+- name: dockerobserver
+  subtype: observer
+  metadata:
+    type: docker_observer
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - MovieStoreGuy
+- name: ecsobserver
+  subtype: observer
+  metadata:
+    type: ecs_observer
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - dmitryax
+        emeritus:
+        - rmfitzpatrick
+- name: endpointswatcher
+  subtype: observer
+  has_metadata: false
+- name: hostobserver
+  subtype: observer
+  metadata:
+    type: host_observer
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - MovieStoreGuy
+- name: k8sobserver
+  subtype: observer
+  metadata:
+    type: k8s_observer
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - dmitryax
+        - ChrsMark
+        emeritus:
+        - rmfitzpatrick
+- name: kafkatopicsobserver
+  subtype: observer
+  metadata:
+    type: kafkatopics_observer
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - MovieStoreGuy
+- name: oidcauthextension
+  metadata:
+    type: oidc
+    display_name: OIDC Authenticator Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        seeking_new: true
+        active:
+        - asweet-confluent
+        emeritus:
+        - jpkrohling
+- name: opampextension
+  metadata:
+    type: opamp
+    display_name: OpAMP Agent Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - portertech
+        - evan-bradley
+        - tigrannajaryan
+- name: pprofextension
+  metadata:
+    type: pprof
+    display_name: Performance Profiler Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      - core
+      - k8s
+      codeowners:
+        active:
+        - MovieStoreGuy
+- name: remotetapextension
+  metadata:
+    type: remotetap
+    display_name: Remote Tap Extension
+    status:
+      class: extension
+      stability:
+        development:
+        - extension
+      distributions: []
+      codeowners:
+        active:
+        - atoulme
+        seeking_new: true
+- name: sigv4authextension
+  metadata:
+    type: sigv4auth
+    display_name: SigV4 Authenticator Extension
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - Aneurysm9
+        - erichsueh3
+- name: solarwindsapmsettingsextension
+  metadata:
+    type: solarwindsapmsettings
+    display_name: Solarwinds APM Settings extension
+    status:
+      class: extension
+      stability:
+        development:
+        - extension
+      distributions: []
+      codeowners:
+        active:
+        - jerrytfleung
+        - cheempz
+- name: dbstorage
+  subtype: storage
+  metadata:
+    type: db_storage
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - dmitryax
+        - atoulme
+- name: filestorage
+  subtype: storage
+  metadata:
+    type: file_storage
+    status:
+      class: extension
+      stability:
+        beta:
+        - extension
+      distributions:
+      - contrib
+      - k8s
+      codeowners:
+        active:
+        - swiatekm
+        - VihasMakwana
+        emeritus:
+        - djaglowski
+        seeking_new: true
+- name: redisstorageextension
+  subtype: storage
+  metadata:
+    type: redis_storage
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions:
+      - contrib
+      codeowners:
+        active:
+        - atoulme
+        seeking_new: true
+- name: sumologicextension
+  metadata:
+    type: sumologic
+    display_name: Sumo Logic Extension
+    status:
+      class: extension
+      stability:
+        alpha:
+        - extension
+      distributions: []
+      codeowners:
+        active:
+        - rnishtala-sumo
+        - pankaj101A
+        - jagan2221
+        emeritus:
+        - aboguszewski-sumo
+        - kasia-kujawa
+        - mat-rumian
+        - sumo-drosiek
+        - chan-tim-sumo
+        - echlebek
+        - amdprophet

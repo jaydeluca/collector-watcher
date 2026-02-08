@@ -376,10 +376,10 @@ components:
       distributions: []
       codeowners:
         active:
-        - mwear
         - evan-bradley
         emeritus:
         - jpkrohling
+        - mwear
         seeking_new: true
 - name: httpforwarderextension
   metadata:
@@ -648,6 +648,7 @@ components:
   subtype: storage
   metadata:
     type: db_storage
+    display_name: Database Storage Extension
     status:
       class: extension
       stability:
@@ -663,6 +664,7 @@ components:
   subtype: storage
   metadata:
     type: file_storage
+    display_name: File Storage Extension
     status:
       class: extension
       stability:
@@ -682,6 +684,7 @@ components:
   subtype: storage
   metadata:
     type: redis_storage
+    display_name: Redis Storage Extension
     status:
       class: extension
       stability:

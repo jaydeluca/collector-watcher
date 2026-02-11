@@ -6,6 +6,7 @@ components:
 - name: attributesprocessor
   metadata:
     type: attributes
+    display_name: Attributes Processor
     status:
       class: processor
       stability:
@@ -23,6 +24,7 @@ components:
 - name: coralogixprocessor
   metadata:
     type: coralogix
+    display_name: Coralogix Processor
     status:
       class: processor
       stability:
@@ -37,6 +39,7 @@ components:
 - name: cumulativetodeltaprocessor
   metadata:
     type: cumulativetodelta
+    display_name: Cumulative to Delta Processor
     status:
       class: processor
       stability:
@@ -51,6 +54,7 @@ components:
 - name: datadogsemanticsprocessor
   metadata:
     type: datadogsemantics
+    display_name: Datadog Semantics Processor
     status:
       class: processor
       stability:
@@ -64,13 +68,14 @@ components:
         - IbraheemA
         - mx-psi
         - dineshg13
-        - ankitpatel96
         - jade-guiton-dd
         emeritus:
         - jackgopack4
+        - ankitpatel96
 - name: deltatocumulativeprocessor
   metadata:
     type: deltatocumulative
+    display_name: Delta to Cumulative Processor
     status:
       class: processor
       stability:
@@ -87,6 +92,7 @@ components:
 - name: deltatorateprocessor
   metadata:
     type: deltatorate
+    display_name: Delta to Rate Processor
     status:
       class: processor
       stability:
@@ -116,6 +122,7 @@ components:
 - name: filterprocessor
   metadata:
     type: filter
+    display_name: Filter Processor
     status:
       class: processor
       stability:
@@ -140,6 +147,7 @@ components:
 - name: geoipprocessor
   metadata:
     type: geoip
+    display_name: GeoIP Processor
     status:
       class: processor
       stability:
@@ -157,6 +165,7 @@ components:
 - name: groupbyattrsprocessor
   metadata:
     type: groupbyattrs
+    display_name: Group by Attributes Processor
     status:
       class: processor
       stability:
@@ -176,6 +185,7 @@ components:
 - name: groupbytraceprocessor
   metadata:
     type: groupbytrace
+    display_name: Group by Trace Processor
     status:
       class: processor
       stability:
@@ -193,6 +203,7 @@ components:
 - name: intervalprocessor
   metadata:
     type: interval
+    display_name: Interval Processor
     status:
       class: processor
       stability:
@@ -209,6 +220,7 @@ components:
 - name: isolationforestprocessor
   metadata:
     type: isolationforest
+    display_name: Isolation Forest Processor
     status:
       class: processor
       stability:
@@ -591,14 +603,16 @@ components:
       codeowners:
         active:
         - rnishtala-sumo
-        - chan-tim-sumo
-        - amdprophet
+        - pankaj101A
+        - jagan2221
         emeritus:
         - aboguszewski-sumo
         - kasia-kujawa
         - mat-rumian
         - sumo-drosiek
         - echlebek
+        - chan-tim-sumo
+        - amdprophet
 - name: tailsamplingprocessor
   metadata:
     type: tail_sampling

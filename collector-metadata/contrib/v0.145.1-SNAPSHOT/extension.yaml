@@ -133,7 +133,6 @@ components:
       - contrib
       codeowners:
         active:
-        - ankitpatel96
         - dineshg13
         - IbraheemA
         - jade-guiton-dd
@@ -141,6 +140,7 @@ components:
         - songy23
         emeritus:
         - jackgopack4
+        - ankitpatel96
 - name: avrologencodingextension
   subtype: encoding
   metadata:
@@ -270,6 +270,7 @@ components:
   subtype: encoding
   metadata:
     type: skywalking_encoding
+    display_name: Skywalking Encoding Extension
     status:
       class: extension
       stability:

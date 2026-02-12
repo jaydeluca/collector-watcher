@@ -236,6 +236,7 @@ components:
 - name: k8sattributesprocessor
   metadata:
     type: k8s_attributes
+    display_name: Kubernetes Attributes Processor
     status:
       class: processor
       stability:
@@ -377,6 +378,7 @@ components:
 - name: logdedupprocessor
   metadata:
     type: logdedup
+    display_name: Log DeDuplication Processor
     status:
       class: processor
       stability:
@@ -393,6 +395,7 @@ components:
 - name: logstransformprocessor
   metadata:
     type: logstransform
+    display_name: Logs Transform Processor
     status:
       class: processor
       stability:
@@ -405,6 +408,7 @@ components:
 - name: lookupprocessor
   metadata:
     type: lookup
+    display_name: Lookup Processor
     status:
       class: processor
       stability:
@@ -419,6 +423,7 @@ components:
 - name: metricsgenerationprocessor
   metadata:
     type: metricsgeneration
+    display_name: Metrics Generation Processor
     status:
       class: processor
       stability:
@@ -433,6 +438,7 @@ components:
 - name: metricstarttimeprocessor
   metadata:
     type: metricstarttime
+    display_name: Metric Start Time Processor
     status:
       class: processor
       stability:
@@ -447,6 +453,7 @@ components:
 - name: metricstransformprocessor
   metadata:
     type: metricstransform
+    display_name: Metrics Transform Processor
     status:
       class: processor
       stability:
@@ -461,6 +468,7 @@ components:
 - name: probabilisticsamplerprocessor
   metadata:
     type: probabilistic_sampler
+    display_name: Probabilistic Sampling Processor
     status:
       class: processor
       stability:
@@ -481,6 +489,7 @@ components:
 - name: redactionprocessor
   metadata:
     type: redaction
+    display_name: Redaction Processor
     status:
       class: processor
       stability:
@@ -503,6 +512,7 @@ components:
 - name: remotetapprocessor
   metadata:
     type: remotetap
+    display_name: Remote Tap Processor
     status:
       class: processor
       stability:
@@ -522,6 +532,7 @@ components:
 - name: resourcedetectionprocessor
   metadata:
     type: resourcedetection
+    display_name: Resource Detection Processor
     status:
       class: processor
       stability:
@@ -542,6 +553,7 @@ components:
 - name: resourceprocessor
   metadata:
     type: resource
+    display_name: Resource Processor
     status:
       class: processor
       stability:
@@ -561,6 +573,7 @@ components:
 - name: schemaprocessor
   metadata:
     type: schema
+    display_name: Schema Processor
     status:
       class: processor
       stability:
@@ -577,6 +590,7 @@ components:
 - name: spanprocessor
   metadata:
     type: span
+    display_name: Span Processor
     status:
       class: processor
       stability:
@@ -591,6 +605,7 @@ components:
 - name: sumologicprocessor
   metadata:
     type: sumologic
+    display_name: Sumo Logic Processor
     status:
       class: processor
       stability:
@@ -616,6 +631,7 @@ components:
 - name: tailsamplingprocessor
   metadata:
     type: tail_sampling
+    display_name: Tail Sampling Processor
     status:
       class: processor
       stability:
@@ -650,6 +666,7 @@ components:
 - name: transformprocessor
   metadata:
     type: transform
+    display_name: Transform Processor
     status:
       class: processor
       stability:
@@ -675,6 +692,7 @@ components:
 - name: unrollprocessor
   metadata:
     type: unroll
+    display_name: Unroll Processor
     status:
       class: processor
       stability:

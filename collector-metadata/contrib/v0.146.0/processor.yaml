@@ -1,5 +1,5 @@
 distribution: contrib
-version: v0.145.1-SNAPSHOT
+version: v0.146.0
 repository: opentelemetry-collector-contrib
 component_type: processor
 components:
@@ -58,10 +58,9 @@ components:
     status:
       class: processor
       stability:
-        development:
+        deprecated:
         - traces
-      distributions:
-      - contrib
+      distributions: []
       codeowners:
         active:
         - songy23
@@ -107,6 +106,7 @@ components:
 - name: dnslookupprocessor
   metadata:
     type: dnslookup
+    display_name: DNS Lookup Processor
     status:
       class: processor
       stability:

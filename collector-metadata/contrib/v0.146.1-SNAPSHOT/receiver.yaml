@@ -12376,6 +12376,7 @@ components:
       codeowners:
         active:
         - steven-freed
+        - khushijain21
     attributes:
       chassis.asset_tag:
         description: Chassis asset tag.
